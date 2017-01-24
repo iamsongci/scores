@@ -57,12 +57,11 @@
 		<div class="col-md-12">
 			<!-- start: GENERAL PANEL -->
 			<div class="panel-body">
-				<form id="condition" class="form-horizontal"
-					action="./${sessionScope.pathCode}/upMyInfo.do" method="post">
+				<form id="condition" class="form-horizontal" action="./${sessionScope.pathCode}/upMyInfo.do" method="post" >
 
 					<div class="form-group">
 						<label
-							class="col-sm-2 control-label" for="stuStudentId">教工号 </label>
+							class="col-sm-2 control-label" for="stuStudentId">学号 </label>
 						<div class="col-sm-5">
 							<input type="text" value="${user.noid}"
 								name="noid" id="noid" class="form-control"
@@ -102,7 +101,8 @@
 						</label>
 						<div class="col-sm-5">
 							<input type="text" value="${user.phone }"
-								id="phone" name="phone" class="form-control">
+								id="phone" name="phone" class="form-control"
+								placeholder="phone">
 						</div>
 						<span class="help-inline col-sm-4"> <i
 							class="fa fa-info-circle"></i><font color="red"> 此项为必填项 此项为空将不能执行任何操作</font> </span>
@@ -154,5 +154,8 @@
 			FormElements.init();
 		});
 	</script>
+	
+	
+	
 </body>
 </html>

@@ -6,8 +6,11 @@ import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import cn.edu.zzti.soft.scores.entity.Identity;
 import cn.edu.zzti.soft.scores.supervisor.ConfigDo;
+import cn.edu.zzti.soft.scores.supervisor.ResultDo;
 import cn.edu.zzti.soft.scores.supervisor.ServiceFit;
 
 @Controller
@@ -17,6 +20,11 @@ public class StudentController implements ConfigDo {
 	private ServiceFit serviceFit;
 	@RequestMapping("home")
 	public String homePage(Model model,HttpSession session) {
+		Identity identity = (Identity) session.getAttribute("user");
+		if (identity.getPhone() == null || identity.getPhone().trim().equals("")) {
+			return "./student/myInfo";
+		}
+		
 		model.addAttribute("menuSelected1", ConfigDo.HOME);
 		return "./student/home";
 	}
@@ -26,4 +34,53 @@ public class StudentController implements ConfigDo {
 		model.addAttribute("menuSelected1", ConfigDo.EMPTY);
 		return "./student/empty";
 	}
+	
+	
+	// 个人信息维护页面
+	@RequestMapping("myInfo")
+	public String myInfo(Model model, HttpSession session) {
+		Identity identity = (Identity) session.getAttribute("user");
+		ResultDo resultDo = serviceFit.getLoginService().GetIdentityById(identity.getId());
+		if (resultDo.isSuccess()) {
+			Identity iden = (Identity) resultDo.getResult();
+			session.setAttribute("user", iden);
+		} else {
+			model.addAttribute("message", resultDo.getMessage());
+		}
+		model.addAttribute("menuSelected1", ConfigDo.MYINFO);
+		return "./student/myInfo";
+	}
+	
+	@RequestMapping("myScores")
+	public String myScores(Model model,HttpSession session) {
+		Identity identity = (Identity) session.getAttribute("user");
+		if (identity.getPhone() == null || identity.getPhone().trim().equals("")) {
+			return "./student/myInfo";
+		}
+		
+		
+		return "./student/myScores";
+	}
+
+	
+	// 修改个人信息
+	@RequestMapping("upMyInfo")
+	public String upMyInfo(@RequestParam("sex") boolean sex, @RequestParam("phone") String phone,
+			@RequestParam("email") String email, Model model, HttpSession session) {
+		Identity identity = (Identity) session.getAttribute("user");
+		if (phone != null) {
+			identity.setSex(sex);
+			identity.setPhone(phone);
+			identity.setEmail(email);
+			if (serviceFit.getLoginService().UpdateInfoByKey(identity)) {
+				model.addAttribute("message", "信息修改成功!");
+			} else {
+				model.addAttribute("message", "信息修改失败!!");
+			}
+		} else {
+			model.addAttribute("message", "信息修改失败!!");
+		}
+		return "redirect:./myInfo.do";
+	}
+	
 }

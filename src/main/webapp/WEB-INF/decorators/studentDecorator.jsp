@@ -112,7 +112,7 @@
 
 <script type="text/javascript">
 	function check() {
-		var userPwReal = "${sessionScope.user.studentPassword}";
+		var userPwReal = "${sessionScope.user.psw}";
 		var pwd1 = document.getElementById('apassword').value;
 		var pwd2 = document.getElementById('userPw1').value;
 		var pwd3 = document.getElementById('userPw2').value;
@@ -161,16 +161,16 @@
 				<!-- start: TOP NAVIGATION MENU -->
 				<ul class="nav navbar-right">
 					<li class="dropdown current-user"><a class="dropdown-toggle"
-						href="./student/home.do"> <i class="clip-youtube "></i> <span class="username">系统使用说明</span>
+						href="./${sessionScope.pathCode}/home.do"> <i class="clip-youtube "></i> <span class="username">系统使用说明</span>
 					</a></li>
 					<!-- start: USER DROPDOWN -->
 					<li class="dropdown current-user"><a data-toggle="dropdown"
 						data-hover="dropdown" class="dropdown-toggle"
 						data-close-others="true" href="javascript:void(0)"><i
-							class="clip-user-3 "></i> <span class="username">${sessionScope.user.studentName }</span>
+							class="clip-user-3 "></i> <span class="username">${sessionScope.user.name }</span>
 							<i class="clip-chevron-down"></i> </a>
 						<ul class="dropdown-menu">
-							<li><a href="./${sessionScope.pathCode}/studentInfo.do">
+							<li><a href="./${sessionScope.pathCode}/home.do">
 									<i class="glyphicon glyphicon-user"></i> &nbsp;个人信息
 							</a></li>
 							<li data-toggle="modal" data-target="#AdminChoucha"><a
@@ -201,14 +201,14 @@
 				<!-- end: MAIN MENU TOGGLER BUTTON -->
 				<!-- start: MAIN NAVIGATION MENU -->
 				<ul class="main-navigation-menu">
-					<li id="index" class="active open"><a href="./student/home.do"><i
+					<li id="index" class="active open"><a href="./${sessionScope.pathCode}/home.do"><i
 							class="clip-home-3"></i> <span class="title">首页</span><span
 							class="selected"></span> </a></li>
 					<!--  <li><a href="./${sessionScope.pathCode}/notify.do"><i
 							class=" glyphicon glyphicon-bullhorn  "></i> <span class="title">通知</span></a>
 					</li>-->
 					<li id="stuSubjectInfo"><a
-						href="./${sessionScope.pathCode}/stuSubjectInfo.do"> <i
+						href="./${sessionScope.pathCode}/myScores.do"> <i
 							class="glyphicon glyphicon-file "></i> <span class="title">课题信息</span>
 							<span class="selected"></span>
 					</a></li>
@@ -224,7 +224,7 @@
 							class="selected"></span>
 					</a></li> --%>
 					<li id="stuInfo"><a
-						href="./${sessionScope.pathCode}/studentInfo.do"> <i
+						href="./${sessionScope.pathCode}/myInfo.do"> <i
 							class=" clip-user-3"></i> <span class="title">个人信息</span> <span
 							class="selected"></span>
 					</a></li>
