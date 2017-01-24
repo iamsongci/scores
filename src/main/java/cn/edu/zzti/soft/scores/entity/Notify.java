@@ -6,10 +6,10 @@ public class Notify {
 	private Integer id;
 	private String title;
 	private String content;
-	private String ownerName;
+	private String owner_name;
 	private Date time;
 	private Boolean toStudent;
-	private Integer ownerID;
+	private Integer owner_id;
 	public Integer getId() {
 		return id;
 	}
@@ -28,11 +28,11 @@ public class Notify {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public String getOwnerName() {
-		return ownerName;
+	public String getOwner_name() {
+		return owner_name;
 	}
-	public void setOwnerName(String ownerName) {
-		this.ownerName = ownerName;
+	public void setOwner_name(String owner_name) {
+		this.owner_name = owner_name;
 	}
 	public Date getTime() {
 		return time;
@@ -46,17 +46,19 @@ public class Notify {
 	public void setToStudent(Boolean toStudent) {
 		this.toStudent = toStudent;
 	}
-	public Integer getOwnerID() {
-		return ownerID;
+	public Integer getOwner_id() {
+		return owner_id;
 	}
-	public void setOwnerID(Integer ownerID) {
-		this.ownerID = ownerID;
+	public void setOwner_id(Integer owner_id) {
+		this.owner_id = owner_id;
 	}
 	@Override
 	public String toString() {
-		return "Notify [id=" + id + ", title=" + title + ", content=" + content + ", ownerName=" + ownerName + ", time="
-				+ time + ", toStudent=" + toStudent + ", ownerID=" + ownerID + "]";
+		return "Notify [id=" + id + ", title=" + title + ", content=" + content
+				+ ", owner_name=" + owner_name + ", time=" + time
+				+ ", toStudent=" + toStudent + ", owner_id=" + owner_id + "]";
 	}
+	
 	
 	
 }

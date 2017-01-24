@@ -1,53 +1,54 @@
 package cn.edu.zzti.soft.scores.entity;
 
 public class Project {
-	private Integer projectID;
-	private String projectName;
-	private String distributionName;
-	private Integer distributionID;
-	private String aggregateName;
-	private Integer aggregateID;
-	public Integer getProjectID() {
-		return projectID;
+	private Integer project_id;
+	private String project_name;
+	private String distribution_name;
+	private Integer distribution_id;
+	private String aggregate_name;
+	private Integer aggregate_id;
+	public Integer getProject_id() {
+		return project_id;
 	}
-	public void setProjectID(Integer projectID) {
-		this.projectID = projectID;
+	public void setProject_id(Integer project_id) {
+		this.project_id = project_id;
 	}
-	public String getProjectName() {
-		return projectName;
+	public String getProject_name() {
+		return project_name;
 	}
-	public void setProjectName(String projectName) {
-		this.projectName = projectName;
+	public void setProject_name(String project_name) {
+		this.project_name = project_name;
 	}
-	public String getDistributionName() {
-		return distributionName;
+	public String getDistribution_name() {
+		return distribution_name;
 	}
-	public void setDistributionName(String distributionName) {
-		this.distributionName = distributionName;
+	public void setDistribution_name(String distribution_name) {
+		this.distribution_name = distribution_name;
 	}
-	public Integer getDistributionID() {
-		return distributionID;
+	public Integer getDistribution_id() {
+		return distribution_id;
 	}
-	public void setDistributionID(Integer distributionID) {
-		this.distributionID = distributionID;
+	public void setDistribution_id(Integer distribution_id) {
+		this.distribution_id = distribution_id;
 	}
-	public String getAggregateName() {
-		return aggregateName;
+	public String getAggregate_name() {
+		return aggregate_name;
 	}
-	public void setAggregateName(String aggregateName) {
-		this.aggregateName = aggregateName;
+	public void setAggregate_name(String aggregate_name) {
+		this.aggregate_name = aggregate_name;
 	}
-	public Integer getAggregateID() {
-		return aggregateID;
+	public Integer getAggregate_id() {
+		return aggregate_id;
 	}
-	public void setAggregateID(Integer aggregateID) {
-		this.aggregateID = aggregateID;
+	public void setAggregate_id(Integer aggregate_id) {
+		this.aggregate_id = aggregate_id;
 	}
 	@Override
 	public String toString() {
-		return "Project [projectID=" + projectID + ", projectName=" + projectName + ", distributionName="
-				+ distributionName + ", distributionID=" + distributionID + ", aggregateName=" + aggregateName
-				+ ", aggregateID=" + aggregateID + "]";
+		return "Project [project_id=" + project_id + ", project_name="
+				+ project_name + ", distribution_name=" + distribution_name
+				+ ", distribution_id=" + distribution_id + ", aggregate_name="
+				+ aggregate_name + ", aggregate_id=" + aggregate_id + "]";
 	}
 	
 }

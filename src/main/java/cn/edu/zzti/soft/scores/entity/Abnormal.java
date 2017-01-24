@@ -2,28 +2,28 @@ package cn.edu.zzti.soft.scores.entity;
 
 public class Abnormal {
 	private Integer id;
-	private Integer stuID;
-	private Integer teaID;
+	private Integer stu_id;
+	private Integer tea_id;
 	private String problem;
 	private String means;
-	private String abnormalStatus;
+	private String abnormal_status;
 	public Integer getId() {
 		return id;
 	}
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	public Integer getStuID() {
-		return stuID;
+	public Integer getStu_id() {
+		return stu_id;
 	}
-	public void setStuID(Integer stuID) {
-		this.stuID = stuID;
+	public void setStu_id(Integer stu_id) {
+		this.stu_id = stu_id;
 	}
-	public Integer getTeaID() {
-		return teaID;
+	public Integer getTea_id() {
+		return tea_id;
 	}
-	public void setTeaID(Integer teaID) {
-		this.teaID = teaID;
+	public void setTea_id(Integer tea_id) {
+		this.tea_id = tea_id;
 	}
 	public String getProblem() {
 		return problem;
@@ -37,17 +37,19 @@ public class Abnormal {
 	public void setMeans(String means) {
 		this.means = means;
 	}
-	public String getAbnormalStatus() {
-		return abnormalStatus;
+	public String getAbnormal_status() {
+		return abnormal_status;
 	}
-	public void setAbnormalStatus(String abnormalStatus) {
-		this.abnormalStatus = abnormalStatus;
+	public void setAbnormal_status(String abnormal_status) {
+		this.abnormal_status = abnormal_status;
 	}
 	@Override
 	public String toString() {
-		return "Abnormal [id=" + id + ", stuID=" + stuID + ", teaID=" + teaID + ", problem=" + problem + ", means="
-				+ means + ", abnormalStatus=" + abnormalStatus + "]";
+		return "Abnormal [id=" + id + ", stu_id=" + stu_id + ", tea_id="
+				+ tea_id + ", problem=" + problem + ", means=" + means
+				+ ", abnormal_status=" + abnormal_status + "]";
 	}
+	
 	
 	
 	

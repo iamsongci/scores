@@ -2,67 +2,67 @@ package cn.edu.zzti.soft.scores.entity;
 
 public class Score {
 	private Integer id;
-	private Integer stuID;
-	private Integer teaID;
-	private Integer proID;
-	private String teaName;
-	private String proName;
-	private String myProName;
-	private Integer reportStatus;
+	private Integer stu_id;
+	private Integer tea_id;
+	private Integer pro_id;
+	private String tea_name;
+	private String pro_name;
+	private String my_pro_name;
+	private Integer report_status;
 	private String comment;
 	private String address;
-	private Integer usualScore;
-	private Integer projectScore;
-	private Integer reportScore;
-	private Integer totalScore;
-	private Integer scoresStatus;
+	private Integer usual_score;
+	private Integer project_score;
+	private Integer report_score;
+	private Integer total_score;
+	private Integer scores_status;
 	public Integer getId() {
 		return id;
 	}
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	public Integer getStuID() {
-		return stuID;
+	public Integer getStu_id() {
+		return stu_id;
 	}
-	public void setStuID(Integer stuID) {
-		this.stuID = stuID;
+	public void setStu_id(Integer stu_id) {
+		this.stu_id = stu_id;
 	}
-	public Integer getTeaID() {
-		return teaID;
+	public Integer getTea_id() {
+		return tea_id;
 	}
-	public void setTeaID(Integer teaID) {
-		this.teaID = teaID;
+	public void setTea_id(Integer tea_id) {
+		this.tea_id = tea_id;
 	}
-	public Integer getProID() {
-		return proID;
+	public Integer getPro_id() {
+		return pro_id;
 	}
-	public void setProID(Integer proID) {
-		this.proID = proID;
+	public void setPro_id(Integer pro_id) {
+		this.pro_id = pro_id;
 	}
-	public String getTeaName() {
-		return teaName;
+	public String getTea_name() {
+		return tea_name;
 	}
-	public void setTeaName(String teaName) {
-		this.teaName = teaName;
+	public void setTea_name(String tea_name) {
+		this.tea_name = tea_name;
 	}
-	public String getProName() {
-		return proName;
+	public String getPro_name() {
+		return pro_name;
 	}
-	public void setProName(String proName) {
-		this.proName = proName;
+	public void setPro_name(String pro_name) {
+		this.pro_name = pro_name;
 	}
-	public String getMyProName() {
-		return myProName;
+	public String getMy_pro_name() {
+		return my_pro_name;
 	}
-	public void setMyProName(String myProName) {
-		this.myProName = myProName;
+	public void setMy_pro_name(String my_pro_name) {
+		this.my_pro_name = my_pro_name;
 	}
-	public Integer getReportStatus() {
-		return reportStatus;
+	public Integer getReport_status() {
+		return report_status;
 	}
-	public void setReportStatus(Integer reportStatus) {
-		this.reportStatus = reportStatus;
+	public void setReport_status(Integer report_status) {
+		this.report_status = report_status;
 	}
 	public String getComment() {
 		return comment;
@@ -76,43 +76,46 @@ public class Score {
 	public void setAddress(String address) {
 		this.address = address;
 	}
-	public Integer getUsualScore() {
-		return usualScore;
+	public Integer getUsual_score() {
+		return usual_score;
 	}
-	public void setUsualScore(Integer usualScore) {
-		this.usualScore = usualScore;
+	public void setUsual_score(Integer usual_score) {
+		this.usual_score = usual_score;
 	}
-	public Integer getProjectScore() {
-		return projectScore;
+	public Integer getProject_score() {
+		return project_score;
 	}
-	public void setProjectScore(Integer projectScore) {
-		this.projectScore = projectScore;
+	public void setProject_score(Integer project_score) {
+		this.project_score = project_score;
 	}
-	public Integer getReportScore() {
-		return reportScore;
+	public Integer getReport_score() {
+		return report_score;
 	}
-	public void setReportScore(Integer reportScore) {
-		this.reportScore = reportScore;
+	public void setReport_score(Integer report_score) {
+		this.report_score = report_score;
 	}
-	public Integer getTotalScore() {
-		return totalScore;
+	public Integer getTotal_score() {
+		return total_score;
 	}
-	public void setTotalScore(Integer totalScore) {
-		this.totalScore = totalScore;
+	public void setTotal_score(Integer total_score) {
+		this.total_score = total_score;
 	}
-	public Integer getScoresStatus() {
-		return scoresStatus;
+	public Integer getScores_status() {
+		return scores_status;
 	}
-	public void setScoresStatus(Integer scoresStatus) {
-		this.scoresStatus = scoresStatus;
+	public void setScores_status(Integer scores_status) {
+		this.scores_status = scores_status;
 	}
 	@Override
 	public String toString() {
-		return "Score [id=" + id + ", stuID=" + stuID + ", teaID=" + teaID + ", proID=" + proID + ", teaName=" + teaName
-				+ ", proName=" + proName + ", myProName=" + myProName + ", reportStatus=" + reportStatus + ", comment="
-				+ comment + ", address=" + address + ", usualScore=" + usualScore + ", projectScore=" + projectScore
-				+ ", reportScore=" + reportScore + ", totalScore=" + totalScore + ", scoresStatus=" + scoresStatus
-				+ "]";
+		return "Score [id=" + id + ", stu_id=" + stu_id + ", tea_id=" + tea_id
+				+ ", pro_id=" + pro_id + ", tea_name=" + tea_name
+				+ ", pro_name=" + pro_name + ", my_pro_name=" + my_pro_name
+				+ ", report_status=" + report_status + ", comment=" + comment
+				+ ", address=" + address + ", usual_score=" + usual_score
+				+ ", project_score=" + project_score + ", report_score="
+				+ report_score + ", total_score=" + total_score
+				+ ", scores_status=" + scores_status + "]";
 	}
 	
 	

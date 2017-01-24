@@ -1,23 +1,23 @@
 package cn.edu.zzti.soft.scores.entity;
 
 public class Room {
-	private Integer roomID;
-	private Integer roomNum;
-	public Integer getRoomID() {
-		return roomID;
+	private Integer room_id;
+	private Integer room_num;
+	public Integer getRoom_id() {
+		return room_id;
 	}
-	public void setRoomID(Integer roomID) {
-		this.roomID = roomID;
+	public void setRoom_id(Integer room_id) {
+		this.room_id = room_id;
 	}
-	public Integer getRoomNum() {
-		return roomNum;
+	public Integer getRoom_num() {
+		return room_num;
 	}
-	public void setRoomNum(Integer roomNum) {
-		this.roomNum = roomNum;
+	public void setRoom_num(Integer room_num) {
+		this.room_num = room_num;
 	}
 	@Override
 	public String toString() {
-		return "Room [roomID=" + roomID + ", roomNum=" + roomNum + "]";
+		return "Room [room_id=" + room_id + ", room_num=" + room_num + "]";
 	}
-	
+    
 }

@@ -23,7 +23,6 @@ public class LoginController implements ConfigDo {
 	@RequestMapping("login")
 	public  ModelAndView login(Map<String, Object> model,@RequestParam("p") String p,@RequestParam("u") String u,HttpSession session){
 		u = u.trim();
-		p = p.trim();
 		int num=u.length();
 		String role="index";
 		ModelAndView mv=new ModelAndView();
