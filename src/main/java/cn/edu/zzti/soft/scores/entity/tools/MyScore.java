@@ -1,74 +1,37 @@
 package cn.edu.zzti.soft.scores.entity.tools;
 
-public class MyScore {
-	private Integer id;
-	private String proType;
-	private String proName;
-	private String teaName;
-	private String teaPhone;
-	private String teaEmail;
-	private String proScore;
+import cn.edu.zzti.soft.scores.entity.Score;
 
-	public Integer getId() {
-		return id;
+public class MyScore extends Score {
+	private String tea_email;
+	private String tea_phone;
+
+	public String getTea_email() {
+		return tea_email;
 	}
 
-	public void setId(Integer id) {
-		this.id = id;
+	public void setTea_email(String tea_email) {
+		this.tea_email = tea_email;
 	}
 
-	public String getProType() {
-		return proType;
+	public String getTea_phone() {
+		return tea_phone;
 	}
 
-	public void setProType(String proType) {
-		this.proType = proType;
+	public void setTea_phone(String tea_phone) {
+		this.tea_phone = tea_phone;
 	}
 
-	public String getProName() {
-		return proName;
-	}
-
-	public void setProName(String proName) {
-		this.proName = proName;
-	}
-
-	public String getTeaName() {
-		return teaName;
-	}
-
-	public void setTeaName(String teaName) {
-		this.teaName = teaName;
-	}
-
-	public String getTeaPhone() {
-		return teaPhone;
-	}
-
-	public void setTeaPhone(String teaPhone) {
-		this.teaPhone = teaPhone;
-	}
-
-	public String getTeaEmail() {
-		return teaEmail;
-	}
-
-	public void setTeaEmail(String teaEmail) {
-		this.teaEmail = teaEmail;
-	}
-
-	public String getProScore() {
-		return proScore;
-	}
-
-	public void setProScore(String proScore) {
-		this.proScore = proScore;
-	}
-
+	/*
+	 * 勿动
+	 * @see cn.edu.zzti.soft.scores.entity.Score#toString()
+	 */
 	@Override
 	public String toString() {
-		return "Scores [proType=" + proType + ", proName=" + proName + ", teaName=" + teaName + ", teaPhone=" + teaPhone
-				+ ", teaEmail=" + teaEmail + ", proScore=" + proScore + "]";
+		return "类型=" + super.getPro_name() + ", 名称=" + super.getMy_pro_name() + ", 导师=" + super.getTea_name() + ", 电话="
+				+ this.tea_phone + ", 邮箱=" + this.tea_email + ", 报告状态=" + super.getRepStatus() + ", 报告地址="
+				+ super.getAddress() + ", 平时分数=" + super.getUsual_score() + ", 课题分数=" + super.getProject_score()
+				+ ", 报告分数=" + super.getReport_score() + ", 总分数=" + super.getTotal_score() + ", 教师评语=" + super.getComment();
 	}
 
 }

@@ -10,4 +10,5 @@ public interface StudentDao {
 	
 	List<MyScore> getMyScores(int id);
 
+	Integer upProName(int id, String newName);
 }

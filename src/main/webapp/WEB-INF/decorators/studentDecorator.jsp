@@ -170,7 +170,7 @@
 							class="clip-user-3 "></i> <span class="username">${sessionScope.user.name }</span>
 							<i class="clip-chevron-down"></i> </a>
 						<ul class="dropdown-menu">
-							<li><a href="./${sessionScope.pathCode}/home.do">
+							<li><a href="./${sessionScope.pathCode}/myInfo.do">
 									<i class="glyphicon glyphicon-user"></i> &nbsp;个人信息
 							</a></li>
 							<li data-toggle="modal" data-target="#AdminChoucha"><a

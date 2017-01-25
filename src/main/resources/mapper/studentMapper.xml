@@ -2,8 +2,16 @@
 <!DOCTYPE mapper
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-	<mapper namespace="cn.edu.zzti.soft.scores.dao.StudentDao">
-	
-		
-	</mapper>  
+<mapper namespace="cn.edu.zzti.soft.scores.dao.StudentDao">
+
+
+	<update id="upProName">
+		UPDATE score SET score.`my_pro_name` = #{1} WHERE score.`id` = #{0}
+	</update>
+
+	<select id="getMyScores" resultType="MyScore">
+		SELECT score.*, identity.`phone` AS tea_phone, identity.`email` AS tea_email FROM score LEFT JOIN identity ON identity.`id` = score.`tea_id` WHERE stu_id = #{0}
+	</select>
+
+</mapper>  
        
