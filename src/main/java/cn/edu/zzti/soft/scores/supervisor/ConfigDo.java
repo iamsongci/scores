@@ -18,10 +18,14 @@ public interface ConfigDo {
     /**
      * 首页
      */
-	public static final String HOME="home";
+	public static final String HOME="index";
 	/**
 	 * 个人信息维护
 	 */
 	public static final String MYINFO="myInfo";
+	/**
+	 * 教师端-课题组长权限
+	 */
+	public static final String MYPOWER="myPower";
 
 }
