@@ -70,4 +70,11 @@ public class TeacherController implements ConfigDo {
 		}
 		return "redirect:./myInfo.do";
 	}
+	//教师所拥有的权限列表页面
+	@RequestMapping("myPower")
+	public String myPower(Model model, HttpSession session) {
+		model.addAttribute("menuSelected1", ConfigDo.MYPOWER);
+		return "./teacher/myPower";
+	}
+	
 }

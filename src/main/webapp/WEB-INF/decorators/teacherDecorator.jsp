@@ -193,23 +193,13 @@
 						</ul></li>
 
 					<c:if
-						test="${not empty user.name}">
-						<li id="tutorAssign"><a
-							href="./${sessionScope.pathCode}/tutorAssign.do">
+						test="${power ne null}">
+						<li id="myPower"><a
+							href="./${sessionScope.pathCode}/myPower.do">
 							<i class=" clip-leaf"></i>  
-							<span class="title">管理员-导师学生分配</span>
+							<span class="title">课题组长权限</span>
 							<span class="selected"></span> </a></li>
 					</c:if>
-					
-					<c:if
-						test="${not empty user.name}">
-						<li id="collectScores"><a
-							href="./${sessionScope.pathCode}/collectScores.do">
-							<i class=" clip-leaf"></i>  
-							<span class="title">管理员-学生成绩汇总</span>
-							<span class="selected"></span> </a></li>
-					</c:if>
-
 
 					<%-- <li id="teacher_file"><a
 						href="./${sessionScope.pathCode}/empty.do"><i

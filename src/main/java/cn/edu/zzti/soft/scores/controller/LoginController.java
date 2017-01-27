@@ -1,5 +1,6 @@
 package cn.edu.zzti.soft.scores.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import cn.edu.zzti.soft.scores.entity.Identity;
+import cn.edu.zzti.soft.scores.entity.Project;
 import cn.edu.zzti.soft.scores.supervisor.ConfigDo;
 import cn.edu.zzti.soft.scores.supervisor.ResultDo;
 import cn.edu.zzti.soft.scores.supervisor.ServiceFit;
@@ -34,6 +36,15 @@ public class LoginController implements ConfigDo {
 				session.setAttribute("user", identity);
 				String my_role = identity.getRole();
 				if (my_role != null || my_role != "") {
+					if("tea".equals(my_role)){
+						ResultDo<List<Project>> resultDoPro=serviceFit.getTeacherService().getPowerById(identity.getId());
+						if(resultDoPro.isSuccess()){
+							session.setAttribute("power", (List<Project>)resultDoPro.getResult());
+						}else{
+							session.setAttribute("power", null);
+						}
+						
+					}
 					session.setAttribute("pathCode", my_role);
 					role = "redirect:./" + my_role + "/home.do";
 				} else {
