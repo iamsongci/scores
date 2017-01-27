@@ -7,7 +7,9 @@ import cn.edu.zzti.soft.scores.supervisor.ResultDo;
 
 public interface StudentService {
    
+	//都得到我的课题
 	ResultDo<List<MyScore>> getMyScores(int id);
 	
+	//更新课题名
 	Boolean upProName(int id, String newName);
 }

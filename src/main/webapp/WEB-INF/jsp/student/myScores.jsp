@@ -34,21 +34,6 @@
 		code = begin + code + end;
 		$("#text").html(code);
 		
-		
-		/* 
-		var ch = 'name=';
-		var str = ch.split('=');
-		alert(str.length + '; ' + str[0] + '; ' + str[1]);
-		if(str[1] == '') {
-			alert("空字符串");
-		}
-		if(str[1] == null) {
-			alert("null");
-		}
-		*/
-		
- 		
-		
 	}
 	
 	function update() {
@@ -58,6 +43,11 @@
 			alert("课题名不能为空!");
 			return;
 		}
+		if(newProName.length > 30) {
+			alert("课题名称过长!");
+			return;
+		}
+		
 		if (confirm('确认修改?')) {
 			$.ajax({
 				type : "post",
@@ -112,6 +102,7 @@
 							<th><small>导师</small></th>
 							<th><small>联系</small></th>
 							<th><small>邮箱</small></th>
+							<th><small>报告</small></th>
 							<th><small>分数</small></th>
 							<th><small>详细</small></th>
 						</tr>
@@ -136,6 +127,23 @@
 								<td><small>${score.tea_name}</small></td>
 								<td><small>${score.tea_phone}</small></td>
 								<td><small>${score.tea_email}</small></td>
+								<td><small>
+									<c:choose>
+										<c:when test="${score.report_status == 0}">
+											未提交
+										</c:when>
+										<c:when test="${score.report_status == 1}">
+											已提交
+										</c:when>
+										<c:when test="${score.report_status == 2}">
+											通过
+										</c:when>
+										<c:otherwise>   
+											未通过
+									 	 </c:otherwise> 
+									</c:choose>
+								</small></td>
+								
 								<td><small>${score.total_score}</small></td>
 								<td><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#morInfo" onclick="initTwo('${score}', '${score.id}')" >详细信息</button></td>
 							</tr>

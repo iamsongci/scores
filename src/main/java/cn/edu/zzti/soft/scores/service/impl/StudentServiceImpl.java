@@ -14,7 +14,7 @@ import cn.edu.zzti.soft.scores.supervisor.ResultDo;
 @Service("StudentService")
 public class StudentServiceImpl implements StudentService {
 
-	private static final Integer True = 1;
+	private static final Integer FALSE = 0;
 	@Resource
 	DaoFit daoFit;
 	
@@ -34,7 +34,7 @@ public class StudentServiceImpl implements StudentService {
 
 	@Override
 	public Boolean upProName(int id, String newName) {
-		return True == daoFit.getStudentDao().upProName(id, newName);
+		return FALSE != daoFit.getStudentDao().upProName(id, newName);
 	}
 	
 }

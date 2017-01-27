@@ -13,7 +13,7 @@ import cn.edu.zzti.soft.scores.util.MDUtil;
 @Service("LoginService")
 public class LoginServiceImpl implements LoginService {
 
-	private static final Integer True = 1;
+	private static final Integer FALSE = 0;
 	
 	@Resource
 	DaoFit daoFit;
@@ -47,7 +47,7 @@ public class LoginServiceImpl implements LoginService {
 	}
 
 	public boolean UpdateInfoByKey(Identity identity) {
-		return True == daoFit.getLoginDao().UpdateInfoByKey(identity);
+		return FALSE != daoFit.getLoginDao().UpdateInfoByKey(identity);
 	}
 
 }

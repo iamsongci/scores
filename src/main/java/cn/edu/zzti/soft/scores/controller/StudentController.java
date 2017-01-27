@@ -67,7 +67,7 @@ public class StudentController implements ConfigDo {
 			model.addAttribute("scores", (List<MyScore>) resultDo.getResult());
 
 		} else {
-			model.addAttribute("message", "查询失败!");
+			model.addAttribute("message", "查询失败");
 		}
 
 		return "./student/myScores";
@@ -83,12 +83,12 @@ public class StudentController implements ConfigDo {
 			identity.setPhone(phone);
 			identity.setEmail(email);
 			if (serviceFit.getLoginService().UpdateInfoByKey(identity)) {
-				model.addAttribute("message", "信息修改成功!");
+				model.addAttribute("message", "信息修改成功");
 			} else {
-				model.addAttribute("message", "信息修改失败!!");
+				model.addAttribute("message", "信息修改失败");
 			}
 		} else {
-			model.addAttribute("message", "信息修改失败!!");
+			model.addAttribute("message", "信息修改失败");
 		}
 		return "redirect:./myInfo.do";
 	}

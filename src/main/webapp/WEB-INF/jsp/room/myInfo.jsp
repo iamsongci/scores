@@ -20,6 +20,7 @@
 				alert("请输入11位手机号!");
 				return;
 			}
+			
 			if(email != '')
 				if(! emailReg.test(email)) {
 					alert("请输入正确的邮箱!");

@@ -95,34 +95,30 @@
 	});
 </script>
 <script type="text/javascript">
- 	function check()
-	{ 
-	     var userPwReal="${sessionScope.user.tutorPassword}";
-	     var pwd1=document.getElementById('apassword').value;
-	     var pwd2=document.getElementById('userPw1').value;
-	     var pwd3=document.getElementById('userPw2').value;
-	     
-	     if(pwd1!=userPwReal)
-	     {
-	         alert("原密码不正确");
-	         return ;
-	     }
-	      
-	     if(pwd2 =="")
-	     {
-	         alert("新密码不能空");
-	         return ;
-	     }
-	     if(pwd3 != pwd2)
-	     {
-	         alert("两次输入的密码不一致");
-	         return ;
-	     }
-	     if(pwd2 == pwd1) {
-	    	 alert("新密码与旧密码不能相同!");
-	         return ;
-	     }
-	     form1.submit();
+	function check() {
+		var userPwReal = "${sessionScope.user.psw}";
+		var pwd1 = document.getElementById('apassword').value;
+		var pwd2 = document.getElementById('userPw1').value;
+		var pwd3 = document.getElementById('userPw2').value;
+
+		if (pwd1 != userPwReal) {
+			alert("原密码不正确");
+			return;
+		}
+
+		if (pwd2 == "") {
+			alert("新密码不能空");
+			return;
+		}
+		if (pwd3 != pwd2) {
+			alert("两次输入的密码不一致");
+			return;
+		}
+		if (pwd2 == pwd1) {
+			alert("新密码与旧密码不能相同!");
+			return;
+		}
+		form1.submit();
 	}
 </script>
 <sitemesh:write property='head' />
@@ -155,19 +151,17 @@
 					<li class="dropdown current-user"><a data-toggle="dropdown"
 						data-hover="dropdown" class="dropdown-toggle"
 						data-close-others="true" href="javascript:void(0)"><i
-							class="clip-user-3 "></i> <span class="username">${sessionScope.user.tutorName
+							class="clip-user-3 "></i> <span class="username">${sessionScope.user.name
 								}</span>
 							<i class="clip-chevron-down"></i> </a>
 						<ul class="dropdown-menu">
-							<li><a href="./${sessionScope.pathCode}/mrTeaInfo.do"> <i
+							<li><a href="./${sessionScope.pathCode}/myInfo.do"> <i
 									class="clip-user-2"></i> &nbsp;个人信息
 							</a></li>
-							<li data-toggle="modal" data-target="#AdminChoucha">
-								<a  data-target="#AdminChoucha"> 
-									<i class="glyphicon glyphicon-lock">
-									</i> &nbsp;修改密码 
-								</a>
-                        	</li>
+							<li data-toggle="modal" data-target="#AdminChoucha"><a
+								data-target="#AdminChoucha"> <i
+									class="glyphicon glyphicon-lock"> </i> &nbsp;修改密码
+							</a></li>
 							<li><a href="./logout.do"> <i class="clip-calendar"></i>
 									&nbsp;退出
 							</a></li>
@@ -195,23 +189,27 @@
 							class="clip-home-3"></i> <span class="title">首页</span><span
 							class="selected"></span> </a></li>
 
-					<li id="mrnotify"><a
-						href="./${sessionScope.pathCode}/notify.do"><i
-							class=" glyphicon glyphicon-bullhorn  "></i> <span class="selected">通知管理</span></a>
+					
+							
+					<li id="mrinfo">
+						<a href="./${sessionScope.pathCode}/notify.do">
+							<i class=" glyphicon glyphicon-bullhorn"></i> 
+							<span class="title">通知管理</span> 
+							<span class="selected"></span>
+						</a>
 					</li>
 
-					<li id="mrinfo"><a
-						href="./${sessionScope.pathCode}/mrInfo.do"> <i
-							class=" clip-stack-2"></i> <span class="title">机房信息维护</span> <span
+					<li id="mrinfo"><a href="./${sessionScope.pathCode}/rooms.do">
+							<i class=" clip-stack-2"></i> <span class="title">机房信息维护</span> <span
 							class="selected"></span>
 					</a></li>
 					<li id="stuInfo"><a
-						href="./${sessionScope.pathCode}/mrAssign.do"> <i
+						href="./${sessionScope.pathCode}/distribute.do"> <i
 							class=" clip-users-2"></i> <span class="title">导师机房分配</span> <span
 							class="selected"></span>
 					</a></li>
 					<li id="mrteainfo"><a
-						href="./${sessionScope.pathCode}/mrTeaInfo.do"> <i
+						href="./${sessionScope.pathCode}//myInfo.do"> <i
 							class=" clip-user-3"></i> <span class="title">个人信息</span> <span
 							class="selected"></span>
 					</a></li>
@@ -229,7 +227,7 @@
 		<!-- end: PAGE -->
 	</div>
 	<!-- end: MAIN CONTAINER -->
-	
+
 	<!-- 弹出框 -->
 	<div class="modal fade" id="AdminChoucha" tabindex="-1" role="dialog"
 		aria-labelledby="alterModalLabel">
@@ -252,8 +250,8 @@
 					</div>
 					<div class="modal-footer">
 						<script type="text/javascript">
-                   
-                </script>
+							
+						</script>
 						<button type="button" class="btn btn-default btn-primary"
 							onclick="check()">确定</button>
 						<button type="button" class="btn btn-default" data-dismiss="modal">关闭
@@ -264,8 +262,8 @@
 		</div>
 	</div>
 	<!-- 消息提示框 -->
-	
-	
+
+
 	<!-- start: FOOTER -->
 	<div class="footer clearfix">
 		<div class="footer-inner">2016 &copy; 实践课题管理系统 by 中原工学院软件学院.</div>
