@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import cn.edu.zzti.soft.scores.entity.Project;
+import cn.edu.zzti.soft.scores.entity.tools.NumOfStuWithTea;
 import cn.edu.zzti.soft.scores.service.TeacherService;
 import cn.edu.zzti.soft.scores.supervisor.DaoFit;
 import cn.edu.zzti.soft.scores.supervisor.ResultDo;
@@ -26,6 +27,19 @@ public class TeacherServiceImpl implements TeacherService {
 	        }else{
 	        	resultDo.setMessage("该人员无权限！！");
 	        }
+		}
+		return resultDo;
+	}
+	@Override
+	public ResultDo chooseTeacher() {
+		// TODO Auto-generated method stub
+		ResultDo<List<NumOfStuWithTea>> resultDo=new ResultDo<List<NumOfStuWithTea>>();
+		List<NumOfStuWithTea> list =daoFit.getTeacherDao().chooseTeacher();
+		if(list.size()>0){
+			resultDo.setResult(list);
+			resultDo.setSuccess(true);
+		}else{
+			resultDo.setMessage("无人员信息，请联系超级管理员进行导入！！");
 		}
 		return resultDo;
 	}

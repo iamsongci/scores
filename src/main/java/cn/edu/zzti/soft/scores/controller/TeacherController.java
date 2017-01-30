@@ -1,5 +1,7 @@
 package cn.edu.zzti.soft.scores.controller;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import cn.edu.zzti.soft.scores.entity.Identity;
+import cn.edu.zzti.soft.scores.entity.tools.NumOfStuWithTea;
 import cn.edu.zzti.soft.scores.supervisor.ConfigDo;
 import cn.edu.zzti.soft.scores.supervisor.ResultDo;
 import cn.edu.zzti.soft.scores.supervisor.ServiceFit;
@@ -34,6 +37,7 @@ public class TeacherController implements ConfigDo {
 	public String empty(Model model) {
 		model.addAttribute("menuSelected1", ConfigDo.EMPTY);
 		return "./teacher/empty";
+		
 	}
 
 	// 个人信息维护页面
@@ -75,6 +79,20 @@ public class TeacherController implements ConfigDo {
 	public String myPower(Model model, HttpSession session) {
 		model.addAttribute("menuSelected1", ConfigDo.MYPOWER);
 		return "./teacher/myPower";
+	}
+	//组长选择导师
+	@RequestMapping("chooseTeacher")
+	public String chooseTeacher(@RequestParam("projectId") int project_id,Model model, 
+			HttpSession session){
+		ResultDo<List<NumOfStuWithTea>> resultDo=serviceFit.getTeacherService().chooseTeacher();
+		if(resultDo.isSuccess()){
+			model.addAttribute("projectId", project_id);
+			model.addAttribute("list", resultDo.getResult());
+		}else{
+			model.addAttribute("message", resultDo.getMessage());
+		}
+		return "./teacher/chooseTeacher";
+		
 	}
 	
 }
