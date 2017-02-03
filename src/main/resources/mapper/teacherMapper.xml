@@ -15,8 +15,9 @@
          HAVING role="tea" AND status = 0
         </select>
         <select id="chooseClasses" resultType="NumOfClasses">
-        SELECT * 
-        FROM classes 
+         select classes.*,a.num
+         from classes
+         left outer join (select cla_id as c_id , count(cla_id) as num from identity group by cla_id) as a on a.c_id=classes.id;
         </select>
       </mapper>  
        
