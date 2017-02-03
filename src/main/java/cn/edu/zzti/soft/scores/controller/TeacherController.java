@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import cn.edu.zzti.soft.scores.entity.Identity;
+import cn.edu.zzti.soft.scores.entity.tools.NumOfClasses;
 import cn.edu.zzti.soft.scores.entity.tools.NumOfStuWithTea;
 import cn.edu.zzti.soft.scores.supervisor.ConfigDo;
 import cn.edu.zzti.soft.scores.supervisor.ResultDo;
@@ -94,5 +95,21 @@ public class TeacherController implements ConfigDo {
 		return "./teacher/chooseTeacher";
 		
 	}
+	//选择分配班级
+	@RequestMapping("chooseClasses")
+	public String chooseClasses(@RequestParam("projectId") int project_id,@RequestParam("teaId") int tea_id,
+			Model model, HttpSession session){
+		ResultDo<List<NumOfClasses>> resultDo=serviceFit.getTeacherService().chooseClasses();
+		if(resultDo.isSuccess()){
+			model.addAttribute("projectId", project_id);
+			model.addAttribute("teaId", tea_id);
+			model.addAttribute("list", resultDo.getResult());
+		}else{
+			model.addAttribute("message", resultDo.getMessage());
+		}
+		return "./teacher/chooseClasses";
+		
+	}
+	
 	
 }

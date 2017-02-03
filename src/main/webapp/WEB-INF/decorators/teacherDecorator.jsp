@@ -170,11 +170,11 @@
 							class="clip-home-3"></i> <span class="title">首页</span><span
 							class="selected"></span> </a></li>
 					<li id="tutNotify"><a href="./${sessionScope.pathCode}/notify.do"><i
-							class=" glyphicon glyphicon-bullhorn  "></i> <span class="selected">通知管理</span></a>
+							class=" glyphicon glyphicon-bullhorn  "></i> <span class="title">通知管理</span></a>
 					</li>
 
 							<li id="myMrInfo"><a href="./${sessionScope.pathCode}/myMrInfo.do"><i
-							class=" clip-pencil"></i> <span class="selected">机房信息</span></a>
+							class=" clip-pencil"></i> <span class="title">机房信息</span></a>
 					</li>
 							
 					<li id="myStudent"><a href="javascript:void(0)"><i

@@ -2,7 +2,7 @@ package cn.edu.zzti.soft.scores.entity;
 
 public class Classes {
 	private Integer id;
-	private Integer grede;
+	private Integer grade;
 	private String classes_name;
 	private Boolean type;  // 0：专科 1：本科
 	public Integer getId() {
@@ -11,14 +11,12 @@ public class Classes {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	
-	public Integer getGrede() {
-		return grede;
+	public Integer getGrade() {
+		return grade;
 	}
-	public void setGrede(Integer grede) {
-		this.grede = grede;
+	public void setGrade(Integer grade) {
+		this.grade = grade;
 	}
-	
 	public String getClasses_name() {
 		return classes_name;
 	}
@@ -33,7 +31,7 @@ public class Classes {
 	}
 	@Override
 	public String toString() {
-		return "Classes [id=" + id + ", grede=" + grede + ", classes_name="
+		return "Classes [id=" + id + ", grede=" + grade + ", classes_name="
 				+ classes_name + ", type=" + type + "]";
 	}
 	

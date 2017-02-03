@@ -12,7 +12,11 @@
          LEFT JOIN score 
          ON identity.id=tea_id 
          GROUP BY identity.id 
-         HAVING role="tea" AND status !=-1
+         HAVING role="tea" AND status = 0
+        </select>
+        <select id="chooseClasses" resultType="NumOfClasses">
+        SELECT * 
+        FROM classes 
         </select>
       </mapper>  
        

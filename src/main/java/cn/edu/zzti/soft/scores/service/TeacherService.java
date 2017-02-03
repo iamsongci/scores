@@ -8,4 +8,6 @@ public interface TeacherService {
 	ResultDo getPowerById(int id);
     //查看教师所带课题人数,并选择教师
 	ResultDo chooseTeacher();
+	//查看并选择班级
+	ResultDo chooseClasses();
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import cn.edu.zzti.soft.scores.entity.Project;
+import cn.edu.zzti.soft.scores.entity.tools.NumOfClasses;
 import cn.edu.zzti.soft.scores.entity.tools.NumOfStuWithTea;
 
 @Repository
@@ -13,4 +14,6 @@ public interface TeacherDao {
 	List<Project> getPowerById(int id); 
 	//查看教师所带课题人数,并选择教师
 	List<NumOfStuWithTea> chooseTeacher(); 
+	//查看班级人数
+	List<NumOfClasses> chooseClasses();
 }
