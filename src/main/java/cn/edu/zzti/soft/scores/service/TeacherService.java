@@ -10,7 +10,7 @@ public interface TeacherService {
 	////根据教师id进行分配权限获取
 	ResultDo getPowerById(int id);
     //查看教师所带课题人数,并选择教师
-	ResultDo chooseTeacher();
+	ResultDo chooseTeacher(int pro_id);
 	//查看并选择班级
 	ResultDo chooseClasses();
 	//查看教师所带学生

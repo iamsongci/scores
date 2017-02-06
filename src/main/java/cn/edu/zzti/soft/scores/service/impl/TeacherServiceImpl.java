@@ -33,10 +33,10 @@ public class TeacherServiceImpl implements TeacherService {
 		return resultDo;
 	}
 	@Override
-	public ResultDo chooseTeacher() {
+	public ResultDo chooseTeacher(int pro_id) {
 		// TODO Auto-generated method stub
 		ResultDo<List<NumOfStuWithTea>> resultDo=new ResultDo<List<NumOfStuWithTea>>();
-		List<NumOfStuWithTea> list =daoFit.getTeacherDao().chooseTeacher();
+		List<NumOfStuWithTea> list =daoFit.getTeacherDao().chooseTeacher(pro_id);
 		if(list.size()>0){
 			resultDo.setResult(list);
 			resultDo.setSuccess(true);
