@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Select;
 
 import cn.edu.zzti.soft.scores.entity.Room;
 import cn.edu.zzti.soft.scores.entity.TeaRoom;
+import cn.edu.zzti.soft.scores.entity.tools.NumOfStuWithTea;
 import cn.edu.zzti.soft.scores.supervisor.ResultDo;
 
 public interface RoomService {
@@ -33,4 +34,7 @@ public interface RoomService {
 	
 	//添加导师机房
 	boolean addTeaRoom(List<TeaRoom> tearooms);
+	
+	//获取导师及所带学生数目
+	ResultDo<List<NumOfStuWithTea>> chooseTeacher();
 }
