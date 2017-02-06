@@ -218,7 +218,7 @@ public class RoomController implements ConfigDo {
 
 	@RequestMapping("chooseTeacher")
 	public String chooseTeacher(Model model, HttpSession session){
-		ResultDo<List<NumOfStuWithTea>> resultDo=serviceFit.getTeacherService().chooseTeacher();
+		ResultDo<List<NumOfStuWithTea>> resultDo=serviceFit.getRoomService().chooseTeacher();
 		if(resultDo.isSuccess()){
 			model.addAttribute("teachers", resultDo.getResult());
 		}else{

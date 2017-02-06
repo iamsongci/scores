@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import cn.edu.zzti.soft.scores.entity.Room;
 import cn.edu.zzti.soft.scores.entity.TeaRoom;
+import cn.edu.zzti.soft.scores.entity.tools.NumOfStuWithTea;
 
 @Repository
 public interface RoomDao {
@@ -36,4 +37,8 @@ public interface RoomDao {
 	Integer delTeaRoom(List<String> IDs);
 	
 	Integer addTeaRoom(List<TeaRoom> tearooms);
+	
+	@Select("SELECT identity.id,name,noid,role,phone,status,COUNT(tea_id) as num FROM identity LEFT JOIN score ON identity.id=tea_id GROUP BY identity.id HAVING role='tea' AND status = 0")
+	List<NumOfStuWithTea> chooseTeacher();
+	
 }
