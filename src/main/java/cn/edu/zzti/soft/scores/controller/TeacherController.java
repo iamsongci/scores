@@ -86,7 +86,7 @@ public class TeacherController implements ConfigDo {
 	@RequestMapping("chooseTeacher")
 	public String chooseTeacher(@RequestParam("projectId") int project_id,Model model, 
 			HttpSession session){
-		ResultDo<List<NumOfStuWithTea>> resultDo=serviceFit.getTeacherService().chooseTeacher();
+		ResultDo<List<NumOfStuWithTea>> resultDo=serviceFit.getTeacherService().chooseTeacher(project_id);
 		if(resultDo.isSuccess()){
 			model.addAttribute("projectId", project_id);
 			model.addAttribute("list", resultDo.getResult());
@@ -117,6 +117,7 @@ public class TeacherController implements ConfigDo {
 			Model model, HttpSession session){
 		ResultDo<List<IdentityWithScores>> resultDo=serviceFit.getTeacherService().teaWithStu(tea_id, project_id);
 		if(resultDo.isSuccess()){
+			model.addAttribute("teaId", tea_id);
 			model.addAttribute("projectId", project_id);
 			model.addAttribute("list", resultDo.getResult());
 		}else{
@@ -124,6 +125,13 @@ public class TeacherController implements ConfigDo {
 		}
 		return "./teacher/teaWithStu";
 	}
+	//删除导师与学生的分配关系
+	@RequestMapping("delTeaWithStu")
+	public String teaWithStu(@RequestParam("projectId") int project_id,@RequestParam("teaId") int tea_id,
+			@RequestParam("scoreId") int score_id,Model model, HttpSession session){
+		return "redirect:./teaWithStu.do?projectId="+project_id+"&teaId="+tea_id;
+	}
+	
 	
 	
 }

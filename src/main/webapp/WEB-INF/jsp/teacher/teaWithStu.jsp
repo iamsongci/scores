@@ -20,16 +20,18 @@
 <div class="row">
     <div class="col-sm-12">
         <!-- start: PAGE TITLE & BREADCRUMB -->
-       <ol class="breadcrumb">
+        <ol class="breadcrumb">
             <li><i class="clip-home-3"></i> <a
                     href="./${sessionScope.pathCode}/home.do"> 首页 </a>
             </li>
             <li class="active"> <a
                     href="./${sessionScope.pathCode}/myPower.do"> 我的实践课题 </a></li>
-            <li class="active">选择分配教师</li>
+            <li class="active"> <a
+                    href="./${sessionScope.pathCode}/chooseTeacher.do?projectId=${projectId}">选择分配教师</a></li>
+            <li class="active">查看导师所带学生信息</li>
         </ol>
         <div class="page-header">
-            <h3>教师列表</h3>
+            <h3>学生信息列表</h3>
         </div>
         <!-- end: PAGE TITLE & BREADCRUMB -->
     </div>
@@ -46,12 +48,18 @@
                     <th >
                             <small>序号</small>
                         </th>
-                        <th ><small>姓名</small></th>
+                        <th ><small>学号</small></th>
                         <th >
-                            <small>联系方式</small>
+                            <small>姓名</small>
                         </th>
                         <th>
-                            <small>该课题所带学生人数</small>
+                            <small>性别</small>
+                        </th>
+                         <th>
+                            <small>班级</small>
+                        </th>
+                          <th>
+                            <small>手机号</small>
                         </th>
                         <th>
                             <small>操作</small>
@@ -63,17 +71,30 @@
                         <tr>
                             <td>${ status.index + 1}</td>
                             <td>
-                                <small>${list.name}</small>
+                                <small>${list.noid}</small>
                             </td>
                              <td>
+                                <small>${list.name}</small>
+                            </td>
+                            <c:if test="${list.sex eq true }">
+                            <td>
+                                <small>女</small>
+                            </td>
+                            </c:if>
+                            <c:if test="${list.sex eq false }">
+                            <td>
+                                <small>男</small>
+                            </td>
+                            </c:if>
+                            
+                             <td>
+                                <small>${list.cla_name }</small>
+                            </td>
+                            <td>
                                 <small>${list.phone }</small>
                             </td>
                             <td>
-                                <small>${list.num }</small>
-                            </td>
-                            <td>
-                                     <small><a href="./${sessionScope.pathCode}/teaWithStu.do?projectId=${projectId}&teaId=${list.id}">查看</a></small>
-                                     <small><a href="./${sessionScope.pathCode}/chooseClasses.do?projectId=${projectId}&teaId=${list.id}">选择班级</a></small>
+                                     <small><a href="./${sessionScope.pathCode}/delTeaWithStu.do?scoreId=${list.score_id}&projectId=${projectId}&teaId=${teaId}">取消分配</a></small>
                             </td>
                            </tr>
                     </c:forEach>

@@ -7,12 +7,12 @@
         SELECT * FROM project WHERE distribution_id=#{0} OR aggregate_id=#{0}
     </select>
         <select id="chooseTeacher" resultType="NumOfStuWithTea">
-         SELECT identity.id,name,noid,role,phone,status,COUNT(tea_id) as num 
+        SELECT identity.id,name,noid,role,phone,status,COUNT(tea_id) as num 
          FROM identity 
-         LEFT JOIN score 
-         ON identity.id=tea_id 
+         LEFT JOIN (select tea_id from score WHERE pro_id=#{0}) AS s
+         ON identity.id=s.tea_id 
          GROUP BY identity.id 
-         HAVING role="tea" AND status = 0
+         HAVING role="tea" AND status = 0;
         </select>
         <select id="chooseClasses" resultType="NumOfClasses">
          SELECT classes.*,a.num
