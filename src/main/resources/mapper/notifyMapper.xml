@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.zzti.soft.scores.dao.NotifyDao">
+	<insert id="addNotify" parameterType="java.util.List">
+		INSERT notify(title, content, owner_name, notify.`time`, tostudent, owner_id) 
+		VALUES
+		<foreach collection="list" item="item" index="index" separator="," >  
+			(#{item.title}, #{item.content}, #{item.owner_name}, #{item.time}, #{item.toStudent}, #{item.owner_id})  
+		</foreach> 
+	</insert>
+	
+	<delete id="delNotify" parameterType="java.util.List">
+		DELETE FROM notify WHERE  
+		<foreach collection="list" item="item" index="index" separator="or" >  
+			id = #{item }
+		</foreach> 
+	</delete>
+
+	
+</mapper>  
+       

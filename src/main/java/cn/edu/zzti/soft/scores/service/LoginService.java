@@ -10,4 +10,7 @@ public interface LoginService {
 	 ResultDo GetIdentityById(int id);
 	 //根据id对用户信息进行修改
 	 boolean UpdateInfoByKey(Identity identity);
+	 
+	 //修改密码
+	 boolean updatePsw(Integer ID, String psw);
 }

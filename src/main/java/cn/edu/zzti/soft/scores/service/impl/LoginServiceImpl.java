@@ -50,4 +50,9 @@ public class LoginServiceImpl implements LoginService {
 		return FALSE != daoFit.getLoginDao().UpdateInfoByKey(identity);
 	}
 
+	@Override
+	public boolean updatePsw(Integer ID, String psw) {
+		return FALSE != daoFit.getLoginDao().updatePsw(ID, psw);
+	}
+
 }

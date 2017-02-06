@@ -29,6 +29,16 @@ public class StudentController implements ConfigDo {
 		if (identity.getPhone() == null || identity.getPhone().trim().equals("")) {
 			return "./student/myInfo";
 		}
+		
+		ResultDo<?> resultDo = serviceFit.getNotifyService().getNotifiesByStu("" + identity.getId());
+		List<?> notifies = null;
+		if(resultDo.isSuccess()) {
+			notifies = (List<?>)resultDo.getResult();
+			model.addAttribute("notifies", notifies);
+		}
+		else {
+			model.addAttribute("message", resultDo.getMessage());
+		}
 
 		model.addAttribute("menuSelected1", ConfigDo.HOME);
 		return "./student/home";

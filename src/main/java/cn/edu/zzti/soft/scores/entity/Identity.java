@@ -103,9 +103,7 @@ public class Identity {
 
 	@Override
 	public String toString() {
-		return "Identity [id=" + id + ", noid=" + noid + ", name=" + name + ", sex=" + sex + ", psw=" + psw + ", phone="
-				+ phone + ", email=" + email + ", role=" + role + ", cla_id=" + cla_id + ", cla_name=" + cla_name
-				+ ", status=" + status + "]";
+		return noid;
 	}
 
 }

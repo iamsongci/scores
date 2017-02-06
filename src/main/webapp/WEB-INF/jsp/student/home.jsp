@@ -64,29 +64,31 @@
 							<th><small>发布时间</small></th>
 						</tr>
 					</thead>
-					<c:forEach items="${notifyList}" var="notify">
-						<tbody>
+					<tbody>
+						<c:forEach items="${notifies}" var="notify">
 							<tr>
 								<td>
 									<div class="visible-md visible-lg hidden-sm hidden-xs">
 										<a data-target="#more" data-toggle="modal"
-											onclick="init('${notify.title}', '${notify.content}')"> 
-											<small>${notify.title}</small>
+											onclick="init('${notify.title}', '${notify.content}')"> <small>${notify.title}</small>
 										</a>
 									</div>
 								</td>
-
 								<td>
-									<c:if test="${notify.owner == 'zzti'}"><small><button type="button" class="btn btn-primary">系统</button></small></c:if>
-									<c:if test="${notify.owner == '机房'}"><small><button type="button" class="btn btn-success">${notify.owner}</button></small></c:if>
-									<c:if test="${notify.owner != '机房' and notify.owner != 'zzti'}"><small><button type="button" class="btn btn-info">${notify.owner}</button></small></c:if>
+									<c:choose>
+										<c:when test="${notify.owner_name == 'super'}">
+											<span class="label label-primary">系统</span>
+										</c:when>
+										
+										<c:otherwise>
+											<span class="label label-primary">${notify.owner_name}</span>
+										</c:otherwise>
+									</c:choose>
 								</td>
 								<td><small>${notify.time}</small></td>
-
-								
 							</tr>
-						</tbody>
-					</c:forEach>
+						</c:forEach>
+					</tbody>
 				</table>
 				<div class="form-group">
 					<label class="col-sm-8 "> </label>

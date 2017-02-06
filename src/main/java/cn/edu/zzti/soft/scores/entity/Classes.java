@@ -1,10 +1,11 @@
+
 package cn.edu.zzti.soft.scores.entity;
 
 public class Classes {
 	private Integer id;
 	private Integer grade;
 	private String classes_name;
-	private Boolean type;  // 0：专科 1：本科
+	private Boolean type;  // false：专科 true：本科
 	public Integer getId() {
 		return id;
 	}
@@ -31,8 +32,7 @@ public class Classes {
 	}
 	@Override
 	public String toString() {
-		return "Classes [id=" + id + ", grede=" + grade + ", classes_name="
-				+ classes_name + ", type=" + type + "]";
+		return grade + ", " + classes_name;
 	}
 	
 

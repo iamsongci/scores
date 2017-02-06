@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import cn.edu.zzti.soft.scores.dao.AdminDao;
 import cn.edu.zzti.soft.scores.dao.LoginDao;
+import cn.edu.zzti.soft.scores.dao.NotifyDao;
 import cn.edu.zzti.soft.scores.dao.RoomDao;
 import cn.edu.zzti.soft.scores.dao.StudentDao;
 import cn.edu.zzti.soft.scores.dao.TeacherDao;
@@ -26,6 +27,15 @@ import cn.edu.zzti.soft.scores.dao.TeacherDao;
 	
 	@Resource
 	private AdminDao adminDao;
+	
+	@Resource
+	private NotifyDao notifyDao;
+	
+	
+
+	public NotifyDao getNotifyDao() {
+		return notifyDao;
+	}
 
 	public LoginDao getLoginDao() {
 		return loginDao;

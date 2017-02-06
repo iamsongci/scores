@@ -1,5 +1,6 @@
 package cn.edu.zzti.soft.scores.dao;
 
+import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
 import cn.edu.zzti.soft.scores.entity.Identity;
@@ -12,4 +13,8 @@ public interface LoginDao {
 	Identity GetIdentityById(int id);
 	//根据id修改个人信息
 	Integer UpdateInfoByKey(Identity identity);
+	
+	//修改密码
+	@Update("UPDATE identity SET identity.`psw` = #{1} WHERE id = #{0}")
+	Integer updatePsw(Integer ID, String psw);
 }
