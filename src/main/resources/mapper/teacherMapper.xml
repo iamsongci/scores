@@ -21,5 +21,11 @@
          FROM identity group by cla_id) AS a 
          ON a.c_id=classes.id;
         </select>
+        <select id="teaWithStu" resultType="IdentityWithScores">
+         SELECT * FROM identity AS i 
+         left join (select id AS score_id,stu_id,tea_id,pro_id,pro_name 
+         from score) AS c 
+         ON c.stu_id=i.id HAVING tea_id=#{0} AND pro_id=#{1} AND status =0
+        </select>
       </mapper>  
        

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import cn.edu.zzti.soft.scores.entity.Project;
+import cn.edu.zzti.soft.scores.entity.tools.IdentityWithScores;
 import cn.edu.zzti.soft.scores.entity.tools.NumOfClasses;
 import cn.edu.zzti.soft.scores.entity.tools.NumOfStuWithTea;
 
@@ -16,4 +17,6 @@ public interface TeacherDao {
 	List<NumOfStuWithTea> chooseTeacher(); 
 	//查看班级人数
 	List<NumOfClasses> chooseClasses();
+	//查看教师所带学生
+	List<IdentityWithScores> teaWithStu(int tea_id,int pro_id);
 }

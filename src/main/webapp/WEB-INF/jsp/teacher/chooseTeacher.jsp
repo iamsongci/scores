@@ -62,6 +62,7 @@
                                 <small>${list.num }</small>
                             </td>
                             <td>
+                                     <small><a href="./${sessionScope.pathCode}/teaWithStu.do?projectId=${projectId}&teaId=${list.id}">查看</a></small>
                                      <small><a href="./${sessionScope.pathCode}/chooseClasses.do?projectId=${projectId}&teaId=${list.id}">选择班级</a></small>
                             </td>
                            </tr>

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import cn.edu.zzti.soft.scores.entity.Identity;
+import cn.edu.zzti.soft.scores.entity.tools.IdentityWithScores;
 import cn.edu.zzti.soft.scores.entity.tools.NumOfClasses;
 import cn.edu.zzti.soft.scores.entity.tools.NumOfStuWithTea;
 import cn.edu.zzti.soft.scores.supervisor.ConfigDo;
@@ -109,6 +110,19 @@ public class TeacherController implements ConfigDo {
 		}
 		return "./teacher/chooseClasses";
 		
+	}
+	//查看导师所带学生信息
+	@RequestMapping("teaWithStu")
+	public String teaWithStu(@RequestParam("projectId") int project_id,@RequestParam("teaId") int tea_id,
+			Model model, HttpSession session){
+		ResultDo<List<IdentityWithScores>> resultDo=serviceFit.getTeacherService().teaWithStu(tea_id, project_id);
+		if(resultDo.isSuccess()){
+			model.addAttribute("projectId", project_id);
+			model.addAttribute("list", resultDo.getResult());
+		}else{
+			model.addAttribute("message", resultDo.getMessage());
+		}
+		return "./teacher/teaWithStu";
 	}
 	
 	
