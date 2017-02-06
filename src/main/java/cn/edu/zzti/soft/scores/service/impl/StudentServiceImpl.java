@@ -20,7 +20,7 @@ public class StudentServiceImpl implements StudentService {
 	
 	@Override
 	public ResultDo<List<MyScore>> getMyScores(int id) {
-		ResultDo<List<MyScore>> resultDo = new ResultDo<>();
+		ResultDo<List<MyScore>> resultDo = new ResultDo<List<MyScore>>();
 		List<MyScore> myscore = daoFit.getStudentDao().getMyScores(id);
 		if(myscore != null) {
 			resultDo.setResult(myscore);

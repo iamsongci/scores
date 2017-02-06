@@ -21,7 +21,7 @@ public class RoomServiceImpl implements RoomService {
 	
 	@Override
 	public ResultDo<List<Room>> getRooms() {
-		ResultDo<List<Room>> resultDo = new ResultDo<>();
+		ResultDo<List<Room>> resultDo = new ResultDo<List<Room>>();
 		List<Room> rooms = daoFit.getRoomDao().getRooms();
 		if(rooms != null) {
 			resultDo.setResult(rooms);
