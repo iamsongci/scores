@@ -157,7 +157,7 @@ public class RoomController implements ConfigDo {
 		Notify notify = new Notify();
 		notify.setTitle(title);
 		notify.setContent(content);
-		notify.setOwner_name(identity.getName());
+		notify.setOwner_name("机房");
 		notify.setTime(new Date(new java.util.Date().getTime()));
 		notify.setToStudent(toStudent);
 		notify.setOwner_id(identity.getId());

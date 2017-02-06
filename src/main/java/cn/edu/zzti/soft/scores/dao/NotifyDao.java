@@ -22,7 +22,7 @@ public interface NotifyDao {
 	
 	Integer delNotify(List<String> IDs);
 
-	@Select("SELECT notify.* FROM notify WHERE (owner_id IN (SELECT score.`tea_id` FROM score WHERE stu_id = #{0}) OR owner_id = '0') AND tostudent = b'1' ORDER BY id DESC")
+	@Select("SELECT notify.* FROM notify WHERE (owner_id IN (SELECT score.`tea_id` FROM score WHERE stu_id = #{0}) OR owner_id = '0' OR owner_name = '机房') AND tostudent = b'1' ORDER BY id DESC")
 	List<Notify> getNotifiesByStu(String stuID);
 	
 	

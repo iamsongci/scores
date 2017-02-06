@@ -209,7 +209,7 @@
 					<h4 class="modal-title" id="title" name="title"></h4>
 				</div>
 				<div class="modal-body">
-					<div id="content" name="content"></div>
+					<div id="content" name="content" style="word-break:break-all"></div>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>

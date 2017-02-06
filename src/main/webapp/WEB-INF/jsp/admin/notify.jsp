@@ -111,7 +111,7 @@
 					<tbody>
 						<c:forEach items="${notifies}" var="notify">
 							<tr>
-								<td>
+								<td width="200px">
 									<div class="visible-md visible-lg hidden-sm hidden-xs">
 										<a data-target="#more" data-toggle="modal"
 											onclick="init('${notify.title}', '${notify.content}')"> <small>${notify.title}</small>
@@ -207,7 +207,8 @@
 					<h4 class="modal-title" id="title" name="title"></h4>
 				</div>
 				<div class="modal-body">
-					<div id="content" name="content"></div>
+					<div id="content" name="content" style="word-break:break-all">
+					</div>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
