@@ -10,6 +10,7 @@ import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
 import cn.edu.zzti.soft.scores.entity.Room;
+import cn.edu.zzti.soft.scores.entity.TeaRoom;
 
 @Repository
 public interface RoomDao {
@@ -29,4 +30,10 @@ public interface RoomDao {
 	@Delete("DELETE FROM room")
 	Integer delAll();
 	
+	@Select("SELECT * FROM tea_room")
+	List<TeaRoom> getDisInfo();
+	
+	Integer delTeaRoom(List<String> IDs);
+	
+	Integer addTeaRoom(List<TeaRoom> tearooms);
 }

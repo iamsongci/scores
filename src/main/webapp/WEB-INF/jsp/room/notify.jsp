@@ -9,12 +9,11 @@
 
 <script type="text/javascript">
 	function init(title, content) {
-		//向模态框中传值  
 		document.getElementById("title").innerHTML = "标题: " + title;
 		document.getElementById("content").innerHTML = content;
 	}
 
-	function subm() {
+	function create() {
 		var title = $('#newtitle').val();
 		var content = $('#newcontent').val();
 		var choice = document.getElementById("newtoStudent");
@@ -34,7 +33,7 @@
 		if (confirm('确认创建通知?')) {
 			$.ajax({
 				type : "post",
-				url : "./${sessionScope.pathCode}/createNotify.do",
+				url : "./${sessionScope.pathCode}/create.do",
 				data : "title=" + title + "&content=" + content
 						+ "&toStudent=" + toStudent,
 				dataType : 'html',
@@ -49,23 +48,21 @@
 		}
 	}
 
-	function requestUrl(notifyID) {
+	function delnotify(ID) {
 		if (confirm('确认要删除通知?')) {
-			$
-					.ajax({
-						type : "post",
-						url : "./${sessionScope.pathCode}/deleteNotify.do",
-						data : "notifyID=" + notifyID,
-						dataType : 'html',
-						contentType : "application/x-www-form-urlencoded; charset=utf-8",
-						success : function(result) {
-							location.reload();
-						},
-						error : function(request) {
-							alert("Connection error!");
-						}
-					});
-			alert('已删除');
+			$.ajax({
+				type : "post",
+				url : "./${sessionScope.pathCode}/delNotify.do",
+				data : "ID=" + ID,
+				dataType : 'html',
+				contentType : "application/x-www-form-urlencoded; charset=utf-8",
+				success : function(result) {
+					location.reload();
+				},
+				error : function(request) {
+					alert("Connection error!");
+				}
+			});
 		}
 	}
 </script>
@@ -111,8 +108,8 @@
 							<th><small>删除</small></th>
 						</tr>
 					</thead>
-					<c:forEach items="${notifyList}" var="notify">
-						<tbody>
+					<tbody>
+						<c:forEach items="${notifies}" var="notify">
 							<tr>
 								<td>
 									<div class="visible-md visible-lg hidden-sm hidden-xs">
@@ -122,51 +119,43 @@
 									</div>
 								</td>
 								<td>
-									<c:if test="${notify.owner == 'zzti'}">
-										<small><button type="button" class="btn btn-primary">系统</button></small>
-									</c:if> 
-									<c:if test="${notify.owner == '机房'}">
-										<small><button type="button" class="btn btn-success">${notify.owner}</button></small>
-									</c:if> <c:if
-										test="${notify.owner != '机房' and notify.owner != 'zzti'}">
-										<small><button type="button" class="btn btn-info">${notify.owner}</button></small>
-									</c:if>
+									<c:choose>
+										<c:when test="${notify.owner_name == 'super'}">
+											<span class="label label-primary">系统</span>
+										</c:when>
+										
+										<c:otherwise>
+											<span class="label label-primary">${notify.owner_name}</span>
+										</c:otherwise>
+									</c:choose>
+									
+								
 								</td>
 								<td><small>${notify.time}</small></td>
-								<td><small> 
-								<c:if test="${notify.owner == user.tutorName}">
-									<c:if
-										test="${notify.toStudent eq false}">否
-									</c:if> 
-									<c:if
-										test="${notify.toStudent eq true}">是
-									</c:if>
-								</c:if>
-								</small></td>
-								
 								<td>
-									<div class="visible-md visible-lg hidden-sm hidden-xs">
-										<c:if test="${notify.owner == user.tutorName}">
-											<a onclick="requestUrl('${notify.notifyID}')"> <i
-												class="fa fa-info-circle"></i> <small>删除</small>
-											</a>
+									<small>
+										<c:if test="${notify.owner_id == user.id}">
+											<c:choose>
+												<c:when test="${notify.toStudent == true}">
+													<span class="label label-danger">是</span>
+												</c:when>
+												
+												<c:when test="${notify.toStudent == false}">
+													<span class="label label-warning">否</span>
+												</c:when>
+											</c:choose>
 										</c:if>
-
-									</div>
+									</small>
 								</td>
-
+								<td>
+									<c:if test="${notify.owner_id == user.id}">
+										<button type="button" class="btn btn-danger" onclick="delnotify('${notify.id}')">删除</button>
+									</c:if>
+								</td>
 							</tr>
-						</tbody>
-					</c:forEach>
+						</c:forEach>
+					</tbody>
 				</table>
-				<div class="form-group">
-					<label class="col-sm-8 "> </label>
-					<div class="col-sm-4" style="text-align: right; height: 40px">
-						<page:createPager pageSize="${pageSize}" totalPage="${totalPage}"
-							totalCount="${totalCount}" curPage="${pageNum}"
-							formId="condition" />
-					</div>
-				</div>
 
 			</div>
 		</div>
@@ -186,8 +175,6 @@
 				<div class="modal-body">
 					<div style="padding: 10px 50px 10px 30px">
 						<input type="text" id="newtitle" name="newtitle" placeholder="标题">
-						<!-- <input type="text" id="newtime" name="newtime"
-							style="float: right;" placeholder="时间。例:2016-1-12"> -->
 					</div>
 					<div style="padding: 10px 30px 10px 30px">
 						<textarea id="newcontent" name="newcontent" class="form-control"
@@ -201,7 +188,7 @@
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-					<button type="button" class="btn btn-primary" onclick="subm()">提交</button>
+					<button type="button" class="btn btn-primary" onclick="create()">提交</button>
 				</div>
 			</div>
 			<!-- /.modal-content -->

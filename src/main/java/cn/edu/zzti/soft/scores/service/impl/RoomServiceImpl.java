@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import cn.edu.zzti.soft.scores.entity.Room;
+import cn.edu.zzti.soft.scores.entity.TeaRoom;
 import cn.edu.zzti.soft.scores.service.RoomService;
 import cn.edu.zzti.soft.scores.supervisor.DaoFit;
 import cn.edu.zzti.soft.scores.supervisor.ResultDo;
@@ -50,6 +51,29 @@ public class RoomServiceImpl implements RoomService {
 	@Override
 	public boolean delAll() {
 		return FALSE != daoFit.getRoomDao().delAll();
+	}
+
+	@Override
+	public ResultDo<List<TeaRoom>> getDisInfo() {
+		ResultDo<List<TeaRoom>> resultDo = new ResultDo<List<TeaRoom>>();
+		List<TeaRoom> teaRooms = daoFit.getRoomDao().getDisInfo();
+		if(teaRooms != null) {
+			resultDo.setResult(teaRooms);
+			resultDo.setSuccess(true);
+		} else {
+			resultDo.setMessage("查询失败");
+		}
+		return resultDo;
+	}
+
+	@Override
+	public boolean delTeaRoom(List<String> IDs) {
+		return FALSE != daoFit.getRoomDao().delTeaRoom(IDs);
+	}
+
+	@Override
+	public boolean addTeaRoom(List<TeaRoom> tearooms) {
+		return FALSE != daoFit.getRoomDao().addTeaRoom(tearooms);
 	}
 	
 }

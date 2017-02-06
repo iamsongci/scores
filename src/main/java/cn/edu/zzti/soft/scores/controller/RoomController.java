@@ -1,8 +1,12 @@
 package cn.edu.zzti.soft.scores.controller;
 
+import java.io.IOException;
+import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -10,11 +14,16 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+
 import cn.edu.zzti.soft.scores.entity.Identity;
+import cn.edu.zzti.soft.scores.entity.Notify;
 import cn.edu.zzti.soft.scores.entity.Room;
+import cn.edu.zzti.soft.scores.entity.TeaRoom;
+import cn.edu.zzti.soft.scores.entity.tools.NumOfStuWithTea;
 import cn.edu.zzti.soft.scores.supervisor.ConfigDo;
 import cn.edu.zzti.soft.scores.supervisor.ResultDo;
 import cn.edu.zzti.soft.scores.supervisor.ServiceFit;
+import net.sf.json.JSONArray;
 
 @Controller
 @RequestMapping("/room/")
@@ -127,7 +136,41 @@ public class RoomController implements ConfigDo {
 			return "./room/myInfo";
 		}
 		
+		ResultDo<?> resultDo = serviceFit.getNotifyService().getNotifiesByTea("" + identity.getId());
+		List<?> notifies = null;
+		if(resultDo.isSuccess()) {
+			notifies = (List<?>)resultDo.getResult();
+			model.addAttribute("notifies", notifies);
+		}
+		else {
+			model.addAttribute("message", resultDo.getMessage());
+		}
 		
+		return "./room/notify";
+	}
+	
+	//创建通知
+	@RequestMapping("create")
+	public String create(@RequestParam("title") String title, @RequestParam("content") String content, @RequestParam("toStudent") Boolean toStudent, Model model, HttpSession session) {
+		Identity identity = (Identity) session.getAttribute("user");
+		List<Notify> notifies = new ArrayList<>();
+		Notify notify = new Notify();
+		notify.setTitle(title);
+		notify.setContent(content);
+		notify.setOwner_name(identity.getName());
+		notify.setTime(new Date(new java.util.Date().getTime()));
+		notify.setToStudent(toStudent);
+		notify.setOwner_id(identity.getId());
+		notifies.add(notify);
+		serviceFit.getNotifyService().addNotify(notifies);
+		return "./room/notify";
+	}
+	
+	@RequestMapping("delNotify")
+	public String delNotify(@RequestParam("ID") String ID, Model model, HttpSession session) {
+		List<String> IDs = new ArrayList<>();
+		IDs.add(ID);
+		serviceFit.getNotifyService().delNotify(IDs);
 		return "./room/notify";
 	}
 	
@@ -139,11 +182,97 @@ public class RoomController implements ConfigDo {
 			return "./room/myInfo";
 		}
 		
+		ResultDo<?> resultDo = serviceFit.getRoomService().getDisInfo();
+		List<?> tearooms = null;
+		if(resultDo.isSuccess()){
+			tearooms = (List<?>) resultDo.getResult();
+			model.addAttribute("tearooms", tearooms);
+		}else{
+			model.addAttribute("message", resultDo.getMessage());
+		}
+		
+		return "./room/distribute";
+	}
+
+	@RequestMapping("delTeaRoom")
+	public String delTeaRoom(@RequestParam("ID") String ID, Model model, HttpSession session) {
+
+		List<String> IDs = new ArrayList<>();
+		IDs.add(ID);
+		serviceFit.getRoomService().delTeaRoom(IDs);
 		
 		return "./room/distribute";
 	}
 	
-	
-	
+	@RequestMapping("delAllTeaRoom")
+	public String delAllTeaRoom(Model model, HttpSession session) {
+		List<String> IDs = new ArrayList<>();
+		IDs.add("");
+		ResultDo<?> resultDo = serviceFit.getRoomService().getDisInfo();
+		for (TeaRoom teaRoom : (List<TeaRoom>) resultDo.getResult()) {
+			IDs.add(teaRoom.getId() + "");
+		}
+		serviceFit.getRoomService().delTeaRoom(IDs);
+		return "./room/distribute";
+	}
 
+	@RequestMapping("chooseTeacher")
+	public String chooseTeacher(Model model, HttpSession session){
+		ResultDo<List<NumOfStuWithTea>> resultDo=serviceFit.getTeacherService().chooseTeacher();
+		if(resultDo.isSuccess()){
+			model.addAttribute("teachers", resultDo.getResult());
+		}else{
+			model.addAttribute("message", resultDo.getMessage());
+		}
+		return "./room/chooseTeacher";
+	}
+	
+	
+	@RequestMapping("roomList")
+	public String roomList(@RequestParam("teaID") String teaID, @RequestParam("teaName") String teaName, Model model, HttpSession session){
+		model.addAttribute("teaID", teaID);
+		model.addAttribute("teaName", teaName);
+		ResultDo<List<Room>> resultDo = serviceFit.getRoomService().getRooms();
+		List<Room> rooms = null;
+		if(resultDo.isSuccess()) {
+			rooms = (List<Room>) resultDo.getResult();
+			model.addAttribute("rooms", rooms);
+		} 
+		else {
+			model.addAttribute("message", "查询失败");
+		}
+		return "./room/roomList";
+	}
+	
+	@RequestMapping("getRooms")
+	public void getRooms(Model model, HttpSession session, HttpServletResponse response) throws Exception{
+		ResultDo<List<TeaRoom>> resultDo = serviceFit.getRoomService().getDisInfo();
+		List<TeaRoom> tearooms = null;
+		if(resultDo.isSuccess()) {
+			tearooms = (List<TeaRoom>) resultDo.getResult();
+			response.getWriter().write(JSONArray.fromObject(tearooms).toString());
+		} 
+		else {
+			model.addAttribute("message", "查询失败");
+		}
+	}
+	
+	
+	@RequestMapping("addTeaRoom")
+	public String addTeaRoom(@RequestParam("teaID") Integer teaID, @RequestParam("teaName") String teaName, @RequestParam("roomID") Integer roomID, @RequestParam("start") Integer start, @RequestParam("end") Integer end, Model model, HttpSession session) {
+		model.addAttribute("teaID", teaID);
+		model.addAttribute("teaName", teaName);
+		
+		List<TeaRoom> tearooms = new ArrayList<>();
+		TeaRoom tearoom = new TeaRoom();
+		tearoom.setRoom_id(roomID);
+		tearoom.setIdentity_id(teaID);
+		tearoom.setIdentity_name(teaName);
+		tearoom.setStart(start);
+		tearoom.setEnd(end);
+		tearooms.add(tearoom);
+		serviceFit.getRoomService().addTeaRoom(tearooms);
+		
+		return "./room/roomList";
+	}
 }

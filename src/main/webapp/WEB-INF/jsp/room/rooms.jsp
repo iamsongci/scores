@@ -10,11 +10,15 @@
 
 <script type="text/javascript">
 
-	function init(id) {
+	var curNum = '';
+	function init(id, num) {
 		$('#index').val(id);
+		curNum = num;
 	}
 	
 	function del(id) {
+		alert('test');
+		/* 
 		if (confirm('确认删除?')) {
 			$.ajax({
 				type : "post",
@@ -29,11 +33,13 @@
 					alert("Connection error!");
 				}
 			});
-		}
+		} 
+		*/
 	}
 	
 	function delAll() {
-		
+		alert('test');
+		/* 
 		if (confirm('确认全部删除?')) {
 			$.ajax({
 				type : "post",
@@ -47,7 +53,8 @@
 					alert("Connection error!");
 				}
 			});
-		}
+		} 
+		*/
 		
 	}
 	
@@ -62,6 +69,11 @@
 		
 		if(newNumber < 0) {
 			alert('请输入正确的数值!');
+			return;
+		}
+		
+		if(curNum > newNumber) {
+			alert('数值不能变小!');
 			return;
 		}
 		
@@ -134,9 +146,12 @@
 			<ol class="breadcrumb">
 				<li><i class="clip-home-3"></i> <a
 					href="./${sessionScope.pathCode}/home.do"> 首页 </a></li>
-				<li class="active">课题信息</li>
+				<li class="active">机房信息</li>
 			</ol>
 			<!-- end: PAGE TITLE & BREADCRUMB -->
+			<div class="page-header">
+				<h2>机房信息</h2>
+			</div>
 		</div>
 	</div>
 	<!-- end: PAGE HEADER 頭部結束-->
@@ -165,16 +180,16 @@
 						</tr>
 					</thead>
 						
-					<c:forEach items="${rooms}" var="room">
-						<tbody>
+					<tbody>
+						<c:forEach items="${rooms}" var="room">
 							<tr>
 								<td><small>${room.room_id}</small></td>
 								<td><small>${room.room_num}</small></td>
-								<td><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#change" onclick="init('${room.room_id}')" >修改</button></td>
-								<td><button type="button" class="btn btn-primary btn-sm" onclick="del('${room.room_id}')" >删除</button></td>
+								<td><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#change" onclick="init('${room.room_id}', '${room.room_num }')" >修改</button></td>
+								<td><button type="button" class="btn btn-danger btn-sm" onclick="del('${room.room_id}')" >删除</button></td>
 							</tr>
-						</tbody>
-					</c:forEach>
+						</c:forEach>
+					</tbody>
 						<tr>
 							<td></td>
 							<td></td>
@@ -182,17 +197,7 @@
 							<td><button type="button" class="btn btn-danger btn-sm" onclick="delAll()" >全部删除</button></td>
 						</tr>
 				</table>
-				<div class="form-group">
-					<label class="col-sm-8 "> </label>
-					<div class="col-sm-4" style="text-align: right; height: 40px">
-						<page:createPager pageSize="${pageSize}" totalPage="${totalPage}"
-							totalCount="${totalCount}" curPage="${pageNum}"
-							formId="condition" />
-					</div>
-				</div>
-
 			</div>
-
 		</div>
 		<!-- end: TABLE WITH IMAGES PANEL -->
 	</div>

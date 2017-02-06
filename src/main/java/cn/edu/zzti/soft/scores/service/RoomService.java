@@ -2,7 +2,10 @@ package cn.edu.zzti.soft.scores.service;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Select;
+
 import cn.edu.zzti.soft.scores.entity.Room;
+import cn.edu.zzti.soft.scores.entity.TeaRoom;
 import cn.edu.zzti.soft.scores.supervisor.ResultDo;
 
 public interface RoomService {
@@ -21,4 +24,13 @@ public interface RoomService {
 	
 	//删除所有
 	boolean delAll();
+	
+	//获取分配信息
+	ResultDo<List<TeaRoom>> getDisInfo();
+	
+	//删除机房分配
+	boolean delTeaRoom(List<String> IDs);
+	
+	//添加导师机房
+	boolean addTeaRoom(List<TeaRoom> tearooms);
 }
