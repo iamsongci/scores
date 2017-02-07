@@ -9,6 +9,7 @@
 //
 //import cn.edu.zzti.soft.scores.entity.Identity;
 //import cn.edu.zzti.soft.scores.entity.Project;
+//import cn.edu.zzti.soft.scores.entity.Score;
 //import cn.edu.zzti.soft.scores.supervisor.DaoFit;
 //import cn.edu.zzti.soft.scores.supervisor.ResultDo;
 //import cn.edu.zzti.soft.scores.supervisor.ServiceFit;
@@ -20,7 +21,7 @@
 //    
 //    private ServiceFit servicefit;
 //
-//	@Before
+//	@Before(value = "")
 //	public void setUp() throws Exception {
 //		ApplicationContext context = new ClassPathXmlApplicationContext(
 //				new String[] { "classpath:conf/spring-sql.xml",
@@ -28,8 +29,8 @@
 //		servicefit = (ServiceFit) context.getBean("serviceFit");
 //	}
 //	
-//
-//	
+
+	
 //	
 //	@Test 
 //	public void testLogin() {
@@ -72,5 +73,11 @@
 //		}else{
 //			System.out.println(resultDo.getMessage());
 //		}
+//	}
+//	@Test 
+//	public void addTeaWithStu(){
+//		Integer[] stuIdList={10,11};
+//		servicefit.getTeacherService().addTeaWithStu(8, 3, stuIdList, "王老师", "三级实践课题");
+//		
 //	}
 //}

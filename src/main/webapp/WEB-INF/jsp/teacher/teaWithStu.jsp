@@ -31,7 +31,7 @@
             <li class="active">查看导师所带学生信息</li>
         </ol>
         <div class="page-header">
-            <h3>学生信息列表</h3>
+            <h3>学生信息列表</h3>${projectId}
         </div>
         <!-- end: PAGE TITLE & BREADCRUMB -->
     </div>

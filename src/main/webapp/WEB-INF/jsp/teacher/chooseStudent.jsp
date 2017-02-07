@@ -20,16 +20,20 @@
 <div class="row">
     <div class="col-sm-12">
         <!-- start: PAGE TITLE & BREADCRUMB -->
-       <ol class="breadcrumb">
+        <ol class="breadcrumb">
             <li><i class="clip-home-3"></i> <a
                     href="./${sessionScope.pathCode}/home.do"> 首页 </a>
             </li>
             <li class="active"> <a
                     href="./${sessionScope.pathCode}/myPower.do"> 我的实践课题 </a></li>
-            <li class="active">选择分配教师</li>
+            <li class="active"> <a
+                    href="./${sessionScope.pathCode}/chooseTeacher.do?projectId=${projectId}">选择分配教师</a></li>
+                    <li class="active"> <a
+                    href="./${sessionScope.pathCode}/chooseClasses.do?projectId=${projectId}&teaId=${teaId}">选择班级</a></li>
+            <li class="active">选择学生</li>
         </ol>
         <div class="page-header">
-            <h3>教师列表</h3>
+            <h3>学生信息列表</h3>
         </div>
         <!-- end: PAGE TITLE & BREADCRUMB -->
     </div>
@@ -37,6 +41,10 @@
 <div class="row">
     <div class="col-md-12">
         <!-- start: TABLE WITH IMAGES PANEL -->
+         <form name="add" action="./${sessionScope.pathCode}/addTeaWithStu.do" method="post">
+             <input type="hidden" name="projectId" value="${projectId}">
+             <input type="hidden" name="teaId" value="${teaId}">
+             <input type="hidden" name="classId" value="${classId}">
         <div class="panel-body">
             <div class="row"></div>
             <div class="panel-body">
@@ -44,43 +52,63 @@
                     <thead>
                     <tr>
                     <th >
+                            <small>反选--><input type="checkbox" id="selectAll"/></small>
+                    </th>
+                    <th >
                             <small>序号</small>
                         </th>
-                        <th ><small>姓名</small></th>
+                        <th ><small>学号</small></th>
                         <th >
+                            <small>姓名</small>
+                        </th>
+                        <th>
+                            <small>性别</small>
+                        </th>
+                         <th>
                             <small>联系方式</small>
-                        </th>
-                        <th>
-                            <small>该课题所带学生人数</small>
-                        </th>
-                        <th>
-                            <small>操作</small>
                         </th>
                     </tr>
                     </thead>
+                   
                     <tbody>
-                    <c:forEach items="${list}" var="list" varStatus="status">
+                    <c:forEach items="${listAll}" var="all" varStatus="status">
                         <tr>
+                        <td>
+                         <c:forEach items="${list}" var="list" >
+                           <c:if test="${list.id eq all.id}">
+                             <input id="chk" type="checkbox" name="stu_id" value="${list.id}"/>
+                           </c:if>
+                        </c:forEach>
+                        </td>
                             <td>${ status.index + 1}</td>
                             <td>
-                                <small>${list.name}</small>
+                                <small>${all.noid}</small>
                             </td>
                              <td>
-                                <small>${list.phone }</small>
+                                <small>${all.name }</small>
                             </td>
+                            <c:if test="${all.sex eq true }">
                             <td>
-                                <small>${list.num }</small>
+                                <small>女</small>
                             </td>
+                            </c:if>
+                            <c:if test="${all.sex eq false }">
                             <td>
-                                     <small><a href="./${sessionScope.pathCode}/teaWithStu.do?projectId=${projectId}&teaId=${list.id}">查看</a></small>
-                                     <small><a href="./${sessionScope.pathCode}/chooseClasses.do?projectId=${projectId}&teaId=${list.id}">分配学生</a></small>
+                                <small>男</small>
+                            </td>
+                            </c:if>
+                            <td>
+                                <small>${all.phone }</small>
                             </td>
                            </tr>
                     </c:forEach>
                     </tbody>
                 </table>
+                
             </div>
         </div>
+        <input class="btn btn-primary btn-block" type="submit"/>
+        </form>
     </div>
 </div>
     
@@ -96,6 +124,14 @@
         $('#dataTables-example').DataTable({
             responsive: true
         });
+    });
+    </script>
+    <script>
+    $("#selectAll").click(function(){   
+           $("input[name='stu_id']").each(function(){
+           $(this).attr("checked",!this.checked);  
+           });   
+                                    
     });
     </script>
 </body>

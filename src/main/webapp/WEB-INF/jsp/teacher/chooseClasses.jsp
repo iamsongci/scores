@@ -27,7 +27,7 @@
             <li class="active"> <a
                     href="./${sessionScope.pathCode}/myPower.do"> 我的实践课题 </a></li>
             <li class="active"> <a
-                    href="./${sessionScope.pathCode}/chooseClasses.do?projectId=${projectId}">选择分配教师</a></li>
+                    href="./${sessionScope.pathCode}/chooseTeacher.do?projectId=${projectId}">选择分配教师</a></li>
             <li class="active">选择班级</li>
         </ol>
         <div class="page-header">
@@ -88,7 +88,7 @@
                                 <small>${list.num }</small>
                             </td>
                             <td>
-                                     <small><a href="./${sessionScope.pathCode}/chooseClass.do?projectId=${projectId}&teaId=${list.id}">进入</a></small>
+                                     <small><a href="./${sessionScope.pathCode}/chooseStudent.do?projectId=${projectId}&teaId=${teaId}&classId=${list.id}">进入</a></small>
                             </td>
                            </tr>
                     </c:forEach>

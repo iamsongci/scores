@@ -27,5 +27,22 @@
          from score) AS c 
          ON c.stu_id=i.id HAVING tea_id=#{0} AND pro_id=#{1} AND status =0
         </select>
+        <select id="selectStuByClassId"  resultType="Identity">
+         SELECT id,noid,name,sex,phone 
+         FROM identity 
+         WHERE cla_id=#{0} 
+         AND id NOT IN(SELECT stu_id FROM score WHERE pro_id =#{1});
+        </select>
+        <delete id="delTeaWithStu">
+        DELETE FROM score WHERE id = #{0};
+        </delete>
+        <insert id="addTeaWithStu">
+		INSERT score (
+		stu_id,tea_id,pro_id,tea_name,pro_name
+		)
+		VALUES (
+		#{stu_id},#{tea_id},#{pro_id},#{tea_name},#{pro_name}
+		)
+	  </insert>
       </mapper>  
        

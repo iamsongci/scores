@@ -2,7 +2,7 @@ package cn.edu.zzti.soft.scores.service;
 
 import java.util.List;
 
-import cn.edu.zzti.soft.scores.entity.tools.IdentityWithScores;
+import cn.edu.zzti.soft.scores.entity.Identity;
 import cn.edu.zzti.soft.scores.supervisor.ResultDo;
 
 
@@ -15,4 +15,10 @@ public interface TeacherService {
 	ResultDo chooseClasses();
 	//查看教师所带学生
 	ResultDo teaWithStu(int tea_id,int pro_id);
+	//取消导师分配的学生关系
+	boolean delTeaWithStu(Integer score_id);
+	//查看班级学生信息
+	ResultDo selectStuByClassId(Integer class_id,Integer pro_id);
+	//为导师分配学生
+	boolean addTeaWithStu(Integer tea_id,Integer pro_id,Integer[] stuIdList,String teaName,String proName);
 }

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import cn.edu.zzti.soft.scores.entity.Identity;
+import cn.edu.zzti.soft.scores.entity.Project;
 import cn.edu.zzti.soft.scores.entity.tools.IdentityWithScores;
 import cn.edu.zzti.soft.scores.entity.tools.NumOfClasses;
 import cn.edu.zzti.soft.scores.entity.tools.NumOfStuWithTea;
@@ -87,8 +88,8 @@ public class TeacherController implements ConfigDo {
 	public String chooseTeacher(@RequestParam("projectId") int project_id,Model model, 
 			HttpSession session){
 		ResultDo<List<NumOfStuWithTea>> resultDo=serviceFit.getTeacherService().chooseTeacher(project_id);
+		model.addAttribute("projectId", project_id);
 		if(resultDo.isSuccess()){
-			model.addAttribute("projectId", project_id);
 			model.addAttribute("list", resultDo.getResult());
 		}else{
 			model.addAttribute("message", resultDo.getMessage());
@@ -101,9 +102,9 @@ public class TeacherController implements ConfigDo {
 	public String chooseClasses(@RequestParam("projectId") int project_id,@RequestParam("teaId") int tea_id,
 			Model model, HttpSession session){
 		ResultDo<List<NumOfClasses>> resultDo=serviceFit.getTeacherService().chooseClasses();
+		model.addAttribute("projectId", project_id);
+		model.addAttribute("teaId", tea_id);
 		if(resultDo.isSuccess()){
-			model.addAttribute("projectId", project_id);
-			model.addAttribute("teaId", tea_id);
 			model.addAttribute("list", resultDo.getResult());
 		}else{
 			model.addAttribute("message", resultDo.getMessage());
@@ -116,9 +117,9 @@ public class TeacherController implements ConfigDo {
 	public String teaWithStu(@RequestParam("projectId") int project_id,@RequestParam("teaId") int tea_id,
 			Model model, HttpSession session){
 		ResultDo<List<IdentityWithScores>> resultDo=serviceFit.getTeacherService().teaWithStu(tea_id, project_id);
+		model.addAttribute("teaId", tea_id);
+		model.addAttribute("projectId", project_id);
 		if(resultDo.isSuccess()){
-			model.addAttribute("teaId", tea_id);
-			model.addAttribute("projectId", project_id);
 			model.addAttribute("list", resultDo.getResult());
 		}else{
 			model.addAttribute("message", resultDo.getMessage());
@@ -128,9 +129,54 @@ public class TeacherController implements ConfigDo {
 	//删除导师与学生的分配关系
 	@RequestMapping("delTeaWithStu")
 	public String teaWithStu(@RequestParam("projectId") int project_id,@RequestParam("teaId") int tea_id,
-			@RequestParam("scoreId") int score_id,Model model, HttpSession session){
+			@RequestParam("scoreId") Integer score_id,Model model, HttpSession session){
+		if(!serviceFit.getTeacherService().delTeaWithStu(score_id)){
+			model.addAttribute("message", "取消分配失败！");
+		}
 		return "redirect:./teaWithStu.do?projectId="+project_id+"&teaId="+tea_id;
+		
 	}
+	//选择学生
+	@RequestMapping("chooseStudent")
+	public String chooseStudent(@RequestParam("projectId") int project_id,@RequestParam("teaId") int tea_id,
+			@RequestParam("classId") Integer class_id,Model model, HttpSession session){
+		ResultDo<List<Identity>> resultDoAll=serviceFit.getTeacherService().selectStuByClassId(class_id,null);
+		ResultDo<List<Identity>> resultDo=serviceFit.getTeacherService().selectStuByClassId(class_id,project_id);
+		model.addAttribute("teaId", tea_id);
+		model.addAttribute("projectId", project_id);
+		model.addAttribute("classId", class_id);
+		if(resultDoAll.isSuccess()){
+			model.addAttribute("listAll",resultDoAll.getResult());
+			if(resultDo.isSuccess())
+				model.addAttribute("list", resultDo.getResult());
+		}else{
+			model.addAttribute("message", resultDo.getMessage());
+		}
+		return "./teacher/chooseStudent";
+		}
+	//添加学生导师分配信息
+	@RequestMapping("addTeaWithStu")
+	public String addTeaWithStu(@RequestParam("projectId") Integer project_id,@RequestParam("teaId") Integer tea_id,
+			@RequestParam("classId") Integer class_id,@RequestParam(value="stu_id", required=false, defaultValue="-1") Integer[] stu_id,
+			Model model, HttpSession session){
+		if(stu_id[0]!=-1){
+			List<Project> proList = (List<Project>) session.getAttribute("power");
+			ResultDo resultDo = serviceFit.getLoginService().GetIdentityById(tea_id);
+			String proName=null;
+			Identity identity=(Identity) resultDo.getResult();
+			String teaName=identity.getName();
+			for(Project pro:proList){
+				if(pro.getProject_id().equals(project_id)){
+					proName=pro.getProject_name();
+				}
+			}
+			if(!serviceFit.getTeacherService().addTeaWithStu(tea_id, project_id, stu_id,teaName,proName)){
+				model.addAttribute("message","分配失败！");
+			}
+		}
+		return "redirect:./chooseStudent.do?projectId="+project_id+"&teaId="+tea_id+"&classId="+class_id;
+	}
+	
 	
 	
 	
