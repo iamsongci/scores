@@ -33,6 +33,18 @@
          WHERE cla_id=#{0} 
          AND id NOT IN(SELECT stu_id FROM score WHERE pro_id =#{1});
         </select>
+        <select id="selectClaByProId" resultType="NumOfClasses">
+        SELECT * FROM classes AS c 
+        JOIN(SELECT cla_id,cla_name, role,COUNT(cla_id) AS num FROM identity AS i  
+        JOIN (SELECT stu_id  FROM score WHERE pro_id=#{0}) AS s 
+        ON i.id=s.stu_id GROUP BY cla_id ) AS d ON c.id=d.cla_id;
+        </select>
+        <select id="proStuScore">
+        SELECT id AS identity_id,noid,name,sex,phone,cla_id,role,s.* FROM identity AS i  
+        JOIN (SELECT id ,stu_id,pro_id,tea_name,total_score FROM score) AS s 
+        ON i.identity_id=s.stu_id GROUP BY i.identity_id 
+        HAVING cla_id=#{0} AND pro_id=#{1}
+        </select>
         <delete id="delTeaWithStu">
         DELETE FROM score WHERE id = #{0};
         </delete>
