@@ -159,7 +159,7 @@
 									</a>
 								</li> --%>
 								<li id="teaInfo">
-									<a href="./${sessionScope.pathCode}/teaInfo.do"> <span class="title">导师信息</span>
+									<a href="./${sessionScope.pathCode}/teaInfo.do?message="> <span class="title">导师信息</span>
 									</a>
 								</li>
 							</ul>

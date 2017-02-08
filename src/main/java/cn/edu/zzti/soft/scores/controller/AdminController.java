@@ -1,19 +1,40 @@
 package cn.edu.zzti.soft.scores.controller;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.sql.Date;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.Resource;
+import javax.servlet.ServletInputStream;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.codec.digest.Md5Crypt;
+import org.apache.commons.io.IOUtils;
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.poifs.filesystem.POIFSFileSystem;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.xmlbeans.impl.common.IOUtil;
+import org.junit.Test;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import cn.edu.zzti.soft.scores.entity.Classes;
 import cn.edu.zzti.soft.scores.entity.Identity;
@@ -159,7 +180,8 @@ public class AdminController implements ConfigDo {
 	}
 
 	@RequestMapping("teaInfo")
-	public String teaInfo(Model model, HttpSession session) {
+	public String teaInfo(@RequestParam("message") String message, Model model, HttpSession session) {
+		model.addAttribute("message", message);
 		ResultDo<?> resultDo = serviceFit.getAdminService().getAllTea();
 		List<?> teachers = null;
 		if (resultDo.isSuccess()) {
@@ -171,24 +193,24 @@ public class AdminController implements ConfigDo {
 		return "./admin/teaInfo";
 	}
 
-	@RequestMapping("stuList")
-	public String stuInfo(Model model, HttpSession session) {
-		ResultDo<?> resultDo1 = serviceFit.getAdminService().getStudents();
-		ResultDo<?> resultDo2 = serviceFit.getAdminService().getClasses();
-
-		List<?> students = null;
-		List<?> classes = null;
-
-		if (resultDo1.isSuccess() && resultDo2.isSuccess()) {
-			students = (List<?>) resultDo1.getResult();
-			classes = (List<?>) resultDo2.getResult();
-			model.addAttribute("students", students);
-			model.addAttribute("classes", classes);
-		} else {
-			model.addAttribute("message", resultDo1.getMessage());
-		}
-		return "./admin/stuList";
-	}
+//	@RequestMapping("stuList")
+//	public String stuInfo(Model model, HttpSession session) {
+//		ResultDo<?> resultDo1 = serviceFit.getAdminService().getStudents();
+//		ResultDo<?> resultDo2 = serviceFit.getAdminService().getClasses();
+//
+//		List<?> students = null;
+//		List<?> classes = null;
+//
+//		if (resultDo1.isSuccess() && resultDo2.isSuccess()) {
+//			students = (List<?>) resultDo1.getResult();
+//			classes = (List<?>) resultDo2.getResult();
+//			model.addAttribute("students", students);
+//			model.addAttribute("classes", classes);
+//		} else {
+//			model.addAttribute("message", resultDo1.getMessage());
+//		}
+//		return "./admin/stuList";
+//	}
 
 	@RequestMapping("addClass")
 	public String addClass(@RequestParam("type") boolean type, @RequestParam("grade") String grade,
@@ -233,13 +255,13 @@ public class AdminController implements ConfigDo {
 	}
 
 	@RequestMapping("addTeacher")
-	public String addTeacher(@RequestParam("noid") String noid, @RequestParam("name") String name, Model model,
+	public String addTeacher(@RequestParam("noid") String noid, @RequestParam("name") String name, @RequestParam("type") String type, Model model,
 			HttpSession session) {
 		List<Identity> identities = new ArrayList<>();
 		Identity identity = new Identity();
 		identity.setNoid(noid);
 		identity.setName(name);
-		identity.setRole("tea");
+		identity.setRole(type);
 		identities.add(identity);
 		serviceFit.getAdminService().addIdentity(identities);
 		return "redirect:./teaInfo.do";
@@ -286,5 +308,175 @@ public class AdminController implements ConfigDo {
 		serviceFit.getAdminService().addProjects(projects);
 		return "redirect:./projects.do";
 	}
+	
+	@RequestMapping("upLoad")
+	public String upLoad(@RequestParam("teaInfo") CommonsMultipartFile teaInfo, Model model, HttpSession session) {
+		
+		List<Identity> teachers = new ArrayList<>();
+		Set<String> noids = new HashSet<>();
+		
+		StringBuilder str = new StringBuilder();
+		try {
+			//判断 .xls
+			isXls(teaInfo.getOriginalFilename());  
+			//获取工作簿
+			HSSFWorkbook wb = getHSSFWorkbook(teaInfo);
+			HSSFSheet sheet = null;
+			for (int i = 0; i < wb.getNumberOfSheets(); i++) {
+				//获取sheet页
+				sheet = wb.getSheetAt(i);
+				if(sheet != null) {
+					//添加sheet页的内容到list
+					teachers.addAll(getIdentities(sheet));
+				}
+			}
+			for (Identity iden : teachers) {
+				noids.add(iden.getNoid());
+			}
+			if(noids.size() != teachers.size()) {
+				throw new Exception("表单中存在重复工号!请更改后提交!");
+			}
+			
+			ResultDo<List<Identity>> resultDo = serviceFit.getAdminService().getAllTea();
+			List<Identity> existTeachers = null;
+			if (resultDo.isSuccess()) {
+				existTeachers = (List<Identity>) resultDo.getResult();
+			} else {
+				throw new Exception(resultDo.getMessage());
+			}
+			
+			if(! hasConflict(existTeachers, teachers)) {
+				serviceFit.getAdminService().addIdentity(teachers);
+				model.addAttribute("message", "提交成功! 本次新增" + teachers.size() + "条数据!");
+			}
+		} catch (Exception e) {
+			model.addAttribute("message", e.getMessage());
+			e.printStackTrace();
+		}
+		return "redirect:./teaInfo.do";
+	}
+	
+	private boolean hasConflict(List<Identity> identities1, List<Identity> identities2) throws Exception {
+		for (Identity iden1 : identities1) {
+			for (Identity iden2 : identities2) {
+				if(iden1.getNoid().equals(iden2.getNoid())) {
+					throw new Exception("数据库中已存在工号: " + iden1.getNoid() + " !请更改后提交!");
+				}
+			}
+		}
+		return false;
+	}
+	
+	//获取流
+	private HSSFWorkbook getHSSFWorkbook(CommonsMultipartFile teaInfo) throws IOException {
+		return new HSSFWorkbook(new POIFSFileSystem(teaInfo.getInputStream()));
+	}
 
+	private void isXls(String name) throws Exception {
+		if(name.length() < 5) {
+			throw new Exception("文件类型错误!");
+		}
+		if(! name.substring(name.length() - 4).equals(".xls")) {
+			throw new Exception("文件类型错误!");
+		}
+	}
+
+	private List<Identity> getIdentities(HSSFSheet sheet) throws Exception {
+		List<Identity> identities = new ArrayList<>();
+		HSSFRow row = null;
+		for (int index = 1; index < sheet.getLastRowNum() + 1; index++) {
+			row = sheet.getRow(index);
+			if(row == null) {
+				throw new Exception("第" + (index + 1) + "行存在空单元行");
+			}
+			try {
+				Identity identity = getIdentity(row);
+				identities.add(identity);
+			} catch (Exception e) {
+				e.printStackTrace();
+				throw new Exception("第" + (index + 1) + "行" + e.getMessage());
+			}
+		}
+		return identities;
+	}
+
+
+	private Identity getIdentity(HSSFRow row) throws Exception {
+		Identity identity = new Identity();
+		int i = 0;
+		try {
+			String noid = getStringCellValue(row.getCell(i));
+			if(noid.trim().length() != 4) {
+				throw new Exception("工号: " + noid +" 长度错误!");
+			}
+			identity.setNoid(noid);
+			i++;
+			String name = getStringCellValue(row.getCell(i));
+			if(name.trim().equals("")) {
+				throw new Exception("姓名不能为空!");
+			}
+			identity.setName(name);
+			i++;
+			String role = getStringCellValue(row.getCell(i));
+			if(! (role.trim().equals("room") || role.trim().equals("tea") && role.trim().equals("edu"))) {
+				throw new Exception("类型: " + role +" 错误!");
+			}
+			identity.setRole(role);
+			return identity;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new Exception("第" + (i + 1)  + "列" + e.getMessage() + "请更改后提交!");
+		}
+	}
+
+
+	/**
+     * 获取单元格数据内容为字符串类型的数据
+     * 
+     * @param cell Excel单元格
+     * @return String 单元格数据内容
+	 * @throws Exception 
+     */
+	private String getStringCellValue(HSSFCell cell) throws Exception {
+		/**
+		 * 1. 获取cell
+		 * 2. 判断cell是否为null 抛出异常
+		 * 3. 获取值并返回
+		 */
+		if(cell == null) 
+			throw new Exception("存在空单元格!");
+		String str = "";
+		DecimalFormat df = new DecimalFormat("0");
+		
+		switch (cell.getCellType()) {
+			case HSSFCell.CELL_TYPE_STRING:
+				str = cell.getStringCellValue();
+				break;
+			case HSSFCell.CELL_TYPE_NUMERIC:
+				str = String.valueOf(df.format(cell.getNumericCellValue()));
+				break;
+			case HSSFCell.CELL_TYPE_BOOLEAN:
+				str = String.valueOf(cell.getBooleanCellValue());
+				break;
+			case HSSFCell.CELL_TYPE_BLANK:
+				str = "";
+				break;
+			default:
+				str = "";
+				break;
+		}
+		if (str.trim().equals("") || str == null) {
+			return "";
+		}
+		return str;
+	}
+
+	@Test
+	public void test() {
+		
+		
+	}
+	
+	
+	
 }
