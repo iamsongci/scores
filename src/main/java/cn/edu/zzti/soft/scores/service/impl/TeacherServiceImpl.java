@@ -153,5 +153,12 @@ public class TeacherServiceImpl implements TeacherService {
 		}
 		return resultDo;
 	}
+	@Override
+	public boolean updateStuScore(int score_id, int usual_score, int pro_score,
+			int report_score) {
+		// TODO Auto-generated method stub
+		       int total_score=(int) Math.round(usual_score*0.3+pro_score*0.3+report_score*0.4);
+			   return FALSE != daoFit.getTeacherDao().updateStuScore(score_id, usual_score, pro_score, report_score, total_score);
+	}
 	
 }

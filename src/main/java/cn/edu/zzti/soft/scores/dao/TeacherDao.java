@@ -2,6 +2,7 @@ package cn.edu.zzti.soft.scores.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
 import cn.edu.zzti.soft.scores.entity.Identity;
@@ -31,4 +32,8 @@ public interface TeacherDao {
 	List<NumOfClasses> selectClaByProId (Integer pro_id);
 	//查看某班某课题的学生成绩
 	List<IdentityWithScores> proStuScore(Integer cla_id,Integer pro_id);
+	//根据score_id修改学生成绩信息
+	@Update("UPDATE score SET usual_score = #{1},project_score = #{2},report_score = #{3},total_score = #{4} "
+			+ "WHERE id = #{0}")
+	Integer updateStuScore(int score_id,int usual_score,int pro_score,int report_score,int total_score);
 }
