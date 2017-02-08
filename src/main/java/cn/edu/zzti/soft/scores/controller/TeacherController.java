@@ -177,7 +177,26 @@ public class TeacherController implements ConfigDo {
 		return "redirect:./chooseStudent.do?projectId="+project_id+"&teaId="+tea_id+"&classId="+class_id;
 	}
 	
-	
+	//查看该课题有关的班级信息
+	@RequestMapping("proClasses")
+	public String proClasses(@RequestParam("projectId") Integer pro_id,
+			Model model, HttpSession session){
+			ResultDo<List<NumOfClasses>> resultDo=serviceFit.getTeacherService().selectClaByProId(pro_id);
+			model.addAttribute("proId", pro_id);
+			if(resultDo.isSuccess()){
+				model.addAttribute("list", resultDo.getResult());
+			}else{
+				model.addAttribute("message", resultDo.getMessage());
+			}
+			return "./teacher/proClasses";
+		
+	}
+	//查看该课题有关的班级信息
+		@RequestMapping("proStuScore")
+		public String proStuScore(@RequestParam("projectId") Integer pro_id,@RequestParam("classId") Integer class_id,
+				Model model, HttpSession session){
+			return "./teacher/proStuScore";
+		}
 	
 	
 }

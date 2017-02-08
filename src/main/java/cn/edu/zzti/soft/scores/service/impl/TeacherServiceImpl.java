@@ -127,5 +127,18 @@ public class TeacherServiceImpl implements TeacherService {
 			return false;
 		}
 	}
+	@Override
+	public ResultDo selectClaByProId(Integer pro_id) {
+		// TODO Auto-generated method stub
+		ResultDo<List<NumOfClasses>> resultDo=new ResultDo<List<NumOfClasses>>();
+		List<NumOfClasses> list =daoFit.getTeacherDao().selectClaByProId(pro_id);
+		if(list.size()>0){
+			resultDo.setResult(list);
+			resultDo.setSuccess(true);
+		}else{
+			resultDo.setMessage("无班级信息，请联系该课题分配组长进行分配！！");
+		}
+		return resultDo;
+	}
 	
 }

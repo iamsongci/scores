@@ -54,7 +54,7 @@
                             </td>
                             <td>
                                  <c:if test="${p.aggregate_id eq user.id }">
-                                     <small><a>进入</a></small>
+                                     <small><a href="./${sessionScope.pathCode}/proClasses.do?projectId=${p.project_id}">进入</a></small>
                                 </c:if>
                             </td>
                            </tr>

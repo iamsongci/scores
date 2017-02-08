@@ -3,6 +3,7 @@ package cn.edu.zzti.soft.scores.service;
 import java.util.List;
 
 import cn.edu.zzti.soft.scores.entity.Identity;
+import cn.edu.zzti.soft.scores.entity.tools.NumOfClasses;
 import cn.edu.zzti.soft.scores.supervisor.ResultDo;
 
 
@@ -21,4 +22,6 @@ public interface TeacherService {
 	ResultDo selectStuByClassId(Integer class_id,Integer pro_id);
 	//为导师分配学生
 	boolean addTeaWithStu(Integer tea_id,Integer pro_id,Integer[] stuIdList,String teaName,String proName);
+	//查看与该课题有关的班级
+	ResultDo selectClaByProId (Integer pro_id);
 }
