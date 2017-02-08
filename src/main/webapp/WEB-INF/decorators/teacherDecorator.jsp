@@ -182,11 +182,11 @@
 							class="icon-arrow"></i> <span class="selected"></span> </a>
 						<ul class="sub-menu">
 							<li id="myStudentInfo"><a
-								href="./${sessionScope.pathCode}/myStuInfo.do"> <span
+								href="./${sessionScope.pathCode}/myStudent.do"> <span
 									class="title"> 学生信息 </span>
 							</a></li>
 							<li id="myStudentScore"><a
-								href="./${sessionScope.pathCode}/myStuInfoWithScores.do"> <span
+								href="./${sessionScope.pathCode}/myStudentScore.do"> <span
 									class="title">学生成绩</span>
 							</a></li>
 							<!--  <li id="teacherbystudentgrade"><a href="./${sessionScope.pathCode}/TeaByStudentGrade.do"> <span class="title">成绩管理</span> </a></li> -->

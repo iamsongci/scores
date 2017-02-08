@@ -51,6 +51,9 @@
 			return;
 		}else{
 		    if(u>=0&&u<=100&&p>=0&&p<=100&&r>=0&&r<=100){
+		        alert(u);
+		        alert(p);
+		        alert(r);
 		         $("#form1").submit();
 		    }else{
 		      alert("成绩范围在0~100之间哦！请认真检查.");

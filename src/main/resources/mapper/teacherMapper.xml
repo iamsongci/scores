@@ -12,7 +12,7 @@
          LEFT JOIN (select tea_id from score WHERE pro_id=#{0}) AS s
          ON identity.id=s.tea_id 
          GROUP BY identity.id 
-         HAVING role="tea" AND status = 0;
+         HAVING role="tea" AND status!=-1;
         </select>
         <select id="chooseClasses" resultType="NumOfClasses">
          SELECT classes.*,a.num
@@ -25,7 +25,7 @@
          SELECT * FROM identity AS i 
          left join (select id AS score_id,stu_id,tea_id,pro_id,pro_name 
          from score) AS c 
-         ON c.stu_id=i.id HAVING tea_id=#{0} AND pro_id=#{1} AND status =0
+         ON c.stu_id=i.id HAVING tea_id=#{0} AND pro_id=#{1} AND status!=-1
         </select>
         <select id="selectStuByClassId"  resultType="Identity">
          SELECT id,noid,name,sex,phone
@@ -45,6 +45,18 @@
          project_score,report_score,total_score,scores_status FROM score) AS s 
         ON i.id=s.stu_id 
         HAVING status!=-1 AND cla_id=#{0} AND pro_id=#{1};
+        </select>
+        <select id="myStudent" resultType="IdentityWithScores">
+         SELECT * FROM identity AS i 
+         left join (select id AS score_id,stu_id,tea_id,tea_name,pro_id,pro_name,my_pro_name,usual_score,
+         project_score,report_score,total_score,scores_status from score) AS c 
+         ON c.stu_id=i.id GROUP BY id HAVING tea_id=#{0} AND status!=-1
+        </select>
+         <select id="myStudentScore" resultType="IdentityWithScores">
+         SELECT * FROM identity AS i 
+         left join (select id AS score_id,stu_id,tea_id,tea_name,pro_id,pro_name,my_pro_name,usual_score,
+         project_score,report_score,total_score,scores_status from score) AS c 
+         ON c.stu_id=i.id  HAVING tea_id=#{0} AND status!=-1
         </select>
         <delete id="delTeaWithStu">
         DELETE FROM score WHERE id = #{0};

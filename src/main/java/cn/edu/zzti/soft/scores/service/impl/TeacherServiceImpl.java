@@ -160,5 +160,31 @@ public class TeacherServiceImpl implements TeacherService {
 		       int total_score=(int) Math.round(usual_score*0.3+pro_score*0.3+report_score*0.4);
 			   return FALSE != daoFit.getTeacherDao().updateStuScore(score_id, usual_score, pro_score, report_score, total_score);
 	}
+	@Override
+	public ResultDo myStudent(int tea_id) {
+		// TODO Auto-generated method stub
+		ResultDo<List<IdentityWithScores>> resultDo=new ResultDo<List<IdentityWithScores>>();
+		List<IdentityWithScores> list =daoFit.getTeacherDao().myStudent(tea_id);
+		if(list.size()>0){
+			resultDo.setResult(list);
+			resultDo.setSuccess(true);
+		}else{
+			resultDo.setMessage("没有学生信息！！！");
+		}
+		return resultDo;
+	}
+	@Override
+	public ResultDo myStudentScore(int tea_id) {
+		// TODO Auto-generated method stub
+		ResultDo<List<IdentityWithScores>> resultDo=new ResultDo<List<IdentityWithScores>>();
+		List<IdentityWithScores> list =daoFit.getTeacherDao().myStudentScore(tea_id);
+		if(list.size()>0){
+			resultDo.setResult(list);
+			resultDo.setSuccess(true);
+		}else{
+			resultDo.setMessage("没有学生信息！！！");
+		}
+		return resultDo;
+	}
 	
 }

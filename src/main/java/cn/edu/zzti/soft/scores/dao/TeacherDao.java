@@ -36,4 +36,8 @@ public interface TeacherDao {
 	@Update("UPDATE score SET usual_score = #{1},project_score = #{2},report_score = #{3},total_score = #{4} "
 			+ "WHERE id = #{0}")
 	Integer updateStuScore(int score_id,int usual_score,int pro_score,int report_score,int total_score);
+	//查看导师所带学生信息
+	List<IdentityWithScores> myStudent(int tea_id);
+	//查看导师所带学生成绩信息
+	List<IdentityWithScores> myStudentScore(int tea_id);
 }

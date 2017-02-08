@@ -112,7 +112,7 @@ public class TeacherController implements ConfigDo {
 		return "./teacher/chooseClasses";
 		
 	}
-	//查看导师所带学生信息
+	//查看某课题导师所带学生信息
 	@RequestMapping("teaWithStu")
 	public String teaWithStu(@RequestParam("projectId") int project_id,@RequestParam("teaId") int tea_id,
 			Model model, HttpSession session){
@@ -223,6 +223,34 @@ public class TeacherController implements ConfigDo {
 			}
 			return "redirect:./proStuScore.do?projectId="+pro_id+"&classId="+cla_id;
 			
+		}
+		//查看导师所带学生信息
+		@RequestMapping("myStudent")
+		public String myStudent(Model model, HttpSession session){
+			Identity identity = (Identity) session.getAttribute("user");
+			int tea_id=identity.getId();
+			ResultDo<List<IdentityWithScores>> resultDo=serviceFit.getTeacherService().myStudent(tea_id);
+			model.addAttribute("teaId", tea_id);
+			if(resultDo.isSuccess()){
+				model.addAttribute("list", resultDo.getResult());
+			}else{
+				model.addAttribute("message", resultDo.getMessage());
+			}
+			return "./teacher/myStudent";
+		}
+		//查看导师所带学生成绩信息
+		@RequestMapping("myStudentScore")
+		public String myStudentScore(Model model, HttpSession session){
+			Identity identity = (Identity) session.getAttribute("user");
+			int tea_id=identity.getId();
+			ResultDo<List<IdentityWithScores>> resultDo=serviceFit.getTeacherService().myStudentScore(tea_id);
+			model.addAttribute("teaId", tea_id);
+			if(resultDo.isSuccess()){
+				model.addAttribute("list", resultDo.getResult());
+			}else{
+				model.addAttribute("message", resultDo.getMessage());
+			}
+			return "./teacher/myStudentScore";
 		}
 	
 	

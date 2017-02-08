@@ -87,10 +87,10 @@
 						<div class="col-sm-5">
 							<select class="form-control search-select" id="sex"
 								name="sex">
-								<option value="false"
+								<option value="false">
 									<c:if test="${user.sex eq false }">
 										 selected="selected"</c:if>>男</option>
-								<option value="true"
+								<option value="true">
 									<c:if test="${user.sex eq true}">
 										 selected="selected"</c:if>>女</option>
 							</select>

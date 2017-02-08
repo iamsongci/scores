@@ -29,4 +29,8 @@ public interface TeacherService {
 	ResultDo proStuScore(Integer cla_id,Integer pro_id);
 	//根据score_id修改学生成绩信息
 	boolean updateStuScore(int score_id,int usual_score,int pro_score,int report_score);
+	//查看导师所带学生信息
+	ResultDo myStudent(int tea_id);
+	//查看导师所带学生成绩信息
+	ResultDo myStudentScore(int tea_id);
 }
