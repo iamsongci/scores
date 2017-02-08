@@ -33,9 +33,15 @@
     	-->
 	</update>
 	
+	<delete id="delClass" parameterType="java.util.List">
+		DELETE FROM classes WHERE 
+		<foreach collection="list" item="item" index="index" separator="or" >  
+			id = #{item }
+		</foreach> 
+	</delete>
+	
 	<insert id="addProjects" parameterType="java.util.List">
-		INSERT project(project_name) 
-		VALUES 
+		INSERT project(project_name) VALUES 
 		<foreach collection="list" item="item" index="index" separator="," >  
 			(#{item})  
 		</foreach> 

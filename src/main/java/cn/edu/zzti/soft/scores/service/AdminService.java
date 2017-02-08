@@ -6,6 +6,7 @@ import java.util.List;
 import cn.edu.zzti.soft.scores.entity.Classes;
 import cn.edu.zzti.soft.scores.entity.Identity;
 import cn.edu.zzti.soft.scores.entity.Project;
+import cn.edu.zzti.soft.scores.entity.tools.ClassAndNum;
 import cn.edu.zzti.soft.scores.entity.tools.Grade;
 import cn.edu.zzti.soft.scores.supervisor.ResultDo;
 
@@ -53,5 +54,12 @@ public interface AdminService {
 	//添加课题
 	boolean addProjects(List<String> projcets);
 	
+	//删除班级
+	boolean delClass(List<String> IDs);
 	
+	//班级查学生
+	ResultDo<List<Identity>> getStuByClaID(String claID);
+	
+	//查询班级及学生
+	ResultDo<List<ClassAndNum>> getClassesAndNum();
 }

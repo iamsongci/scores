@@ -151,15 +151,15 @@
 							class="icon-arrow"></i> <span class="selected"></span> </a>
 							<ul class="sub-menu">
 								<li id="stuInfo">
-									<a href="./${sessionScope.pathCode}/claInfo.do"> <span class="title">班级基本信息</span>
+									<a href="./${sessionScope.pathCode}/claInfo.do"> <span class="title">班级及学生信息</span>
 									</a>
 								</li>
-								<li id="stuInfo">
-									<a href="./${sessionScope.pathCode}/stuInfo.do"> <span class="title">学生基本信息</span>
+								<%-- <li id="stuInfo">
+									<a href="./${sessionScope.pathCode}/stuList.do"> <span class="title">学生基本信息</span>
 									</a>
-								</li>
+								</li> --%>
 								<li id="teaInfo">
-									<a href="./${sessionScope.pathCode}/teaInfo.do"> <span class="title">导师基本信息</span>
+									<a href="./${sessionScope.pathCode}/teaInfo.do"> <span class="title">导师信息</span>
 									</a>
 								</li>
 							</ul>

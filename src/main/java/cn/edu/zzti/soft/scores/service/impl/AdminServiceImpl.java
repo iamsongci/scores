@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import cn.edu.zzti.soft.scores.entity.Classes;
 import cn.edu.zzti.soft.scores.entity.Identity;
 import cn.edu.zzti.soft.scores.entity.Project;
+import cn.edu.zzti.soft.scores.entity.tools.ClassAndNum;
 import cn.edu.zzti.soft.scores.entity.tools.Grade;
 import cn.edu.zzti.soft.scores.service.AdminService;
 import cn.edu.zzti.soft.scores.supervisor.DaoFit;
@@ -135,6 +136,39 @@ public class AdminServiceImpl implements AdminService {
 	public ResultDo<List<Identity>> getAllTea() {
 		ResultDo<List<Identity>> resultDo = new ResultDo<>();
 		List<Identity> projects = daoFit.getAdminDao().getAllTea();
+		if(projects != null) {
+			resultDo.setResult(projects);
+			resultDo.setSuccess(true);
+		}
+		else {
+			resultDo.setMessage("查询失败");
+		}
+		return resultDo;
+	}
+
+	@Override
+	public boolean delClass(List<String> IDs) {
+		return FALSE != daoFit.getAdminDao().delClass(IDs);
+	}
+
+	@Override
+	public ResultDo<List<Identity>> getStuByClaID(String claID) {
+		ResultDo<List<Identity>> resultDo = new ResultDo<>();
+		List<Identity> projects = daoFit.getAdminDao().getStuByClaID(claID);
+		if(projects != null) {
+			resultDo.setResult(projects);
+			resultDo.setSuccess(true);
+		}
+		else {
+			resultDo.setMessage("查询失败");
+		}
+		return resultDo;
+	}
+
+	@Override
+	public ResultDo<List<ClassAndNum>> getClassesAndNum() {
+		ResultDo<List<ClassAndNum>> resultDo = new ResultDo<>();
+		List<ClassAndNum> projects = daoFit.getAdminDao().getClassesAndNum();
 		if(projects != null) {
 			resultDo.setResult(projects);
 			resultDo.setSuccess(true);

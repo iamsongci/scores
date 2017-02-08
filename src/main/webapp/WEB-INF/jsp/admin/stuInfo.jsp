@@ -1,21 +1,23 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
-
 	<head>
-		<title>软件学院实践课题管理系统</title>
-
-		<!-- <script src="assets/js/ajaxfileupload.js" type="text/javascript"></script> -->
-
-		<link rel="stylesheet" href="assets/plugins/select2/select2.css">
+		<title>实践课题管理系统</title>
+		<!-- DataTables CSS -->
+		<link href="assets/vendor/datatables-plugins/dataTables.bootstrap.css" rel="stylesheet">
+		<!-- DataTables Responsive CSS -->
+		<link href="assets/vendor/datatables-responsive/dataTables.responsive.css" rel="stylesheet">
+		<!-- Custom CSS -->
+		<link href="assets/vendor/dist/css/sb-admin-2.css" rel="stylesheet">
+		<!-- Custom Fonts -->
+		<link href="assets/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+		
 		<script type="text/javascript">
 			function checkStudent() {
 				var noid = $('#noid').val();
 				var name = $('#name').val();
-				var claname = $('#classes option:selected').text();
-				var claid = $('#classes option:selected').val();
+				var claName = '${claName}';
+				var claID = '${claID}';
 
 				var students = '${students}';
 				var len = students.length;
@@ -37,15 +39,11 @@
 					alert('请输入姓名!');
 					return false;
 				}
-				if(claname == '请选择') {
-					alert('请选择班级!');
-					return false;
-				}
 
 				$.ajax({
 					type: "post",
 					url: "./${sessionScope.pathCode}/addStudent.do",
-					data: "noid=" + noid + "&name=" + name + "&claname=" + claname + "&claid=" + claid,
+					data: "noid=" + noid + "&name=" + name + "&claName=" + claName + "&claID=" + claID,
 					dataType: 'html',
 					contentType: "application/x-www-form-urlencoded; charset=utf-8",
 					success: function(result) {
@@ -57,13 +55,36 @@
 				});
 
 			}
+			
+			function resetPsw(stuID) {
+				var claID = '${claID}';
+				var claName = '${claName}';
+				if(confirm('确认重置?')) {
+					$.ajax({
+						type: "post",
+						url: "./${sessionScope.pathCode}/resetStuPsw.do",
+						data: "stuID=" + stuID + "&claID=" +　claID + "&claName=" +　claName,
+						dataType: 'html',
+						contentType: "application/x-www-form-urlencoded; charset=utf-8",
+						success: function(result) {
+							$('#resetPsw').modal('show') 
+						},
+						error: function(request) {
+							alert("Connection error!");
+						}
+					});
+				}
+			}
+			
 
-			function delStudent(id) {
+			function delStudent(stuID) {
+				var claID = '${claID}';
+				var claName = '${claName}';
 				if(confirm('确认删除?')) {
 					$.ajax({
 						type: "post",
 						url: "./${sessionScope.pathCode}/delStudent.do",
-						data: "id=" + id,
+						data: "stuID=" + stuID + "&claID=" +　claID + "&claName=" +　claName,
 						dataType: 'html',
 						contentType: "application/x-www-form-urlencoded; charset=utf-8",
 						success: function(result) {
@@ -86,17 +107,18 @@
 						fileElementId: 'file', //file标签的id  
 						dataType: null, //返回数据的类型  
 						success: function(result) //服务器成功响应处理函数
-							{
-								location.reload();
-							},
+						{
+							location.reload();
+						},
 						error: function(request) //服务器响应失败处理函数
-							{
-								alert("Connection error!");
-							}
+						{
+							alert("Connection error!");
+						}
 					});
 				}
 			}
 		</script>
+		
 	</head>
 
 	<body>
@@ -105,102 +127,75 @@
 			<div class="col-sm-12">
 				<!-- start: PAGE TITLE & BREADCRUMB -->
 				<ol class="breadcrumb">
-					<li><i class="clip-home-3"></i>
+					<li>
+						<i class="clip-home-3"></i>
 						<a href="./${sessionScope.pathCode}/home.do"> 首页 </a>
 					</li>
-					<li class="active">学生基本信息</li>
+					<li class="active">
+						<a href="./${sessionScope.pathCode}/claInfo.do?">班级信息</a>
+					</li>
+					<li class="active">学生信息</li>
 				</ol>
 				<div class="page-header">
 					<h3>学生信息</h3>
+					<button data-target="#upload" data-toggle="modal" type="button" class="btn btn-info" style="float: right; margin: 15px 2% 5px 5px;">导入学生</button>
+					<button data-target="#addStu" data-toggle="modal" type="button" class="btn btn-info" style="float: right; margin: 15px 2% 5px 5px;">添加学生</button>
 				</div>
 				<!-- end: PAGE TITLE & BREADCRUMB -->
 			</div>
 		</div>
-
-		<div class="modal fade" id="upload" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-						<h4 class="modal-title">导入学生基本信息</h4>
-					</div>
-					<div class="modal-body">
-						<div style="padding: 10px 30px 10px 30px">
-							<input type="file" id="file" name="file" accept="application/vnd.ms-excel">
-						</div>
-						<div style="padding: 10px 30px 10px 30px">
-							<h4>
-							<span class="label label-warning">Warning</span> 导入格式: 
-						</h4>
-							<img src="./img/type-stu.png" class="img-responsive" alt="Responsive image">
-						</div>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-						<button type="button" class="btn btn-primary" onclick="submitFile()">提交</button>
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<!-- end: PAGE HEADER 頭部結束-->
 		<div class="row">
 			<div class="col-md-12">
-				<div class="panel-body">
-					<table class="table  table-hover">
-						<thead>
-							<tr>
-								<!-- <button data-target="#download" data-toggle="modal" type="button"
-								class="btn btn-info"
-								style="float: right; margin: 5px 2% 5px 5px;">导出学生信息</button> -->
-								<button data-target="#upload" data-toggle="modal" type="button" class="btn btn-info" style="float: right; margin: 5px 10% 5px 5px;">导入学生</button>
-								<button data-target="#addStu" data-toggle="modal" type="button" class="btn btn-info" style="float: right; margin: 5px 2% 5px 5px;">添加学生</button>
-							</tr>
-							<tr>
-								<th><small>学号</small></th>
-								<th><small>姓名</small></th>
-								<th><small>性别</small></th>
-								<th><small>班级</small></th>
-								<th><small>手机号</small></th>
-								<th><small>邮箱</small></th>
-								<th><small>操作</small></th>
-								<th><small>删除</small></th>
+				<!-- start: TABLE WITH IMAGES PANEL -->
+				<form name="add" action="./${sessionScope.pathCode}/addTeaWithStu.do" method="post">
+					<input type="hidden" name="classId" value="${classId}">
+					<div class="panel-body">
+						<div class="row"></div>
+						<div class="panel-body">
+							<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
+								<thead>
+									<tr>
+										<th><small>序号</small></th>
+										<th><small>学号</small></th>
+										<th><small>姓名</small></th>
+										<th><small>性别</small></th>
+										<th><small>联系方式</small></th>
+										<th><small>重置密码</small></th>
+										<th><small>删除</small></th>
+									</tr>
+								</thead>
 
-							</tr>
-						</thead>
-						<tbody>
-							<c:forEach items="${students}" var="student">
-								<tr>
-									<td><small>${student.noid}</small></td>
-									<td><small>${student.name}</small></td>
-									<td><small>
-									<c:if test="${student.sex eq true}">
-										女
-									</c:if>
-									<c:if test="${student.sex eq false}">
-										男
-									</c:if>
-									</small></td>
-									<td><small>${student.cla_name }</small></td>
-									<td><small>${student.phone}</small></td>
-									<td><small>${student.email}</small></td>
-									<td>
-										<a href="./${sessionScope.pathCode}/resetStuPsw.do?ID=${student.id}"> 重置密码 </a>
-									</td>
-									<td>
-										<button type="button" class="btn btn-danger" data-dismiss="modal" onclick="delStudent('${student.id }')">删除</button>
-									</td>
-
-								</tr>
-							</c:forEach>
-						</tbody>
-					</table>
-
-				</div>
-
+								<tbody>
+									<c:forEach items="${students}" var="student" varStatus="status">
+										<tr>
+											<td>${status.index + 1}</td>
+											<td><small>${student.noid}</small></td>
+											<td><small>${student.name }</small></td>
+											<c:if test="${student.sex eq true }">
+												<td><small>女</small></td>
+											</c:if>
+											<c:if test="${student.sex eq false }">
+												<td><small>男</small></td>
+											</c:if>
+											<td><small>${student.phone }</small></td>
+											<td>
+												<button type="button" class="btn btn-info btn-sm" data-dismiss="modal" onclick="resetPsw('${student.id }')">重置密码</button>
+											</td>
+											<td>
+												<button type="button" class="btn btn-danger btn-sm" data-dismiss="modal" onclick="delStudent('${student.id }')">删除</button>
+											</td>
+										</tr>
+									</c:forEach>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					
+				</form>
 			</div>
-			<!-- end: TABLE WITH IMAGES PANEL -->
 		</div>
+
+
 
 		<!-- Modal 添加学生-->
 		<div class="modal fade" id="addStu" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -226,16 +221,11 @@
 									<input type="text" class="form-control" id="name" name="name" placeholder="example: 张三">
 								</div>
 							</div>
-
+							
 							<div class="form-group">
-								<label for="classes" class="col-sm-2 control-label">班级</label>
+								<label for="name" class="col-sm-2 control-label">班级</label>
 								<div class="col-sm-10">
-									<select class="form-control" id="classes" name="classes">
-										<option value="请选择">请选择</option>
-										<c:forEach items="${classes}" var="classs">
-											<option value="${classs.id}">${classs.classes_name }</option>
-										</c:forEach>
-									</select>
+									<input type="text" class="form-control" id="claName" name="claName" disabled="disabled" value="${claName}">
 								</div>
 							</div>
 
@@ -252,7 +242,7 @@
 		</div>
 
 		<!-- Modal    重置密码提示 -->
-		<div class="modal fade" id="pwdM" tabindex="-1" aria-labelledby="pwdT">
+		<div class="modal fade" id="resetPsw" tabindex="-1" aria-labelledby="pwdT">
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
@@ -270,21 +260,55 @@
 					</div>
 				</div>
 			</div>
-
 		</div>
+		
+		<div class="modal fade" id="upload" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+						<h4 class="modal-title">导入学生基本信息</h4>
+					</div>
+					<div class="modal-body">
+						<div style="padding: 10px 30px 10px 30px">
+							<input type="file" id="file" name="file" accept="application/vnd.ms-excel">
+						</div>
+						<div style="padding: 10px 30px 10px 30px">
+							<h4>
+							<span class="label label-warning">Warning</span> 导入格式: 
+						</h4>
+							<img src="./img/type-stu.png" class="img-responsive" alt="Responsive image">
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+						<button type="button" class="btn btn-primary" onclick="submitFile()">提交</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		
+		<!-- DataTables JavaScript -->
+		<script src="assets/vendor/datatables/js/jquery.dataTables.min.js"></script>
+		<script src="assets/vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
+		<script src="assets/vendor/datatables-responsive/dataTables.responsive.js"></script>
 
-		<script src="assets/plugins/jquery-inputlimiter/jquery.inputlimiter.1.3.1.min.js"></script>
-		<!-- 3 -->
-		<script src="assets/plugins/autosize/jquery.autosize.min.js"></script>
-		<!-- 1 -->
-		<script src="assets/plugins/select2/select2.min.js"></script>
-		<!-- 2 -->
-		<script src="assets/js/form-elements.js"></script>
-		<!-- 4 -->
-		<!-- end: JAVASCRIPTS REQUIRED FOR THIS PAGE ONLY -->
+		<!-- Page-Level Demo Scripts - Tables - Use for reference -->
 		<script>
+			$(document).ready(function() {
+				$('#dataTables-example').DataTable({
+					responsive: true
+				});
+			});
 		</script>
-
+		<script>
+			$("#selectAll").click(function() {  
+				$("input[name='stu_id']").each(function() {
+					$(this).attr("checked", !this.checked);
+				});                   
+			});
+		</script>
 	</body>
 
 </html>
