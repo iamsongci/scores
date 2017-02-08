@@ -209,6 +209,21 @@ public class TeacherController implements ConfigDo {
 			}
 			return "./teacher/proStuScore";
 		}
+		//学生成绩修改
+		@RequestMapping("updateStuScore")
+		public String updateStuScore(@RequestParam("proId") Integer pro_id,@RequestParam("claId") Integer cla_id,
+				@RequestParam("score_id") int score_id,@RequestParam("usual_score") int usual_score,
+				@RequestParam("pro_score") int pro_score,@RequestParam("report_score") int report_score,
+				Model model, HttpSession session){
+			System.out.println(pro_id+"#################"+cla_id);
+			System.out.println("id"+score_id+"#################"+usual_score);
+			System.out.println(pro_score+"#################"+report_score);
+			if(!serviceFit.getTeacherService().updateStuScore(score_id, usual_score, pro_score, report_score)){
+				model.addAttribute("message", "成绩修改失败！");
+			}
+			return "redirect:./proStuScore.do?projectId="+pro_id+"&classId="+cla_id;
+			
+		}
 	
 	
 }

@@ -14,7 +14,51 @@
 
 		<!-- Custom Fonts -->
 		<link href="assets/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-
+		<!-- 成绩修改 -->
+        <script type="text/javascript">
+	function updateScore(id,u,p,r) {
+	    $("#score_id").val(id);  
+		$("#usual_score").val(u);  
+		$("#pro_score").val(p); 
+		$("#report_score").val(r); 
+		count();
+	}
+	function count(){
+	var u=$("#usual_score").val();
+	var p=$("#pro_score").val();
+	var r=$("#report_score").val();
+	if (isNaN(u)||isNaN(p)||isNaN(r)) {
+			alert("请输入0~100之间的数值哦！");
+			return;
+		}else{
+		    if(u>=0&&u<=100&&p>=0&&p<=100&&r>=0&&r<=100){
+		         var t=u*0.3+p*0.3+r*0.4;
+		         t=Math.round(t);
+		         $("#total_score").val(t);
+		         
+		    }else{
+		      alert("成绩范围在0~100之间哦！");
+		      return;
+		    }
+		}
+	}
+	function check(){
+	var u=$("#usual_score").val();
+	var p=$("#pro_score").val();
+	var r=$("#report_score").val();
+	if (isNaN(u)||isNaN(p)||isNaN(r)) {
+			alert("请输入0~100之间的数值哦 ，不然无法提交.");
+			return;
+		}else{
+		    if(u>=0&&u<=100&&p>=0&&p<=100&&r>=0&&r<=100){
+		         $("#form1").submit();
+		    }else{
+		      alert("成绩范围在0~100之间哦！请认真检查.");
+		      return;
+		    }
+		}
+	}
+</script>
 	</head>
 
 	<body>
@@ -100,17 +144,25 @@
 										      <c:forEach items="${list}" var="stu" >
 										       <c:if test="${ stu.id eq li.id}">
 										       <c:if test="${stu.scores_status ne 2}">
-														<small>无</small>
+														<span class="label label-warning">无</span>
 													</c:if>
 													<c:if test="${ stu.scores_status eq 2}">
-														<small>${stu.total_score }</small>
+													      <c:if test="${stu.total_score < 60 }">
+													           <span class="label label-danger">${stu.total_score}</span>
+													      </c:if>
+													       <c:if test="${stu.total_score >=60 }">
+													           <span class="label label-success">${stu.total_score}</span>
+													      </c:if>
+														
 													</c:if>
 										       </c:if></c:forEach>
 										</td>
 										<td>
 										      <c:forEach items="${list}" var="stu" >
 										       <c:if test="${ stu.id eq li.id}">
-										       <small><button class="btn btn-primary">查看</button></small>
+										       <c:if test="${ stu.scores_status eq 2}">
+														 <small><button class="btn btn-primary" data-toggle="modal" data-target="#scoreInfo" onclick="updateScore(${stu.score_id},${stu.usual_score},${stu.project_score },${stu.report_score })">修改</button></small>
+												</c:if>
 										       </c:if></c:forEach>
 										</td>
 
@@ -136,6 +188,47 @@
 				});
 			});
 		</script>
+		
+		<!-- 弹出框 -->
+	<div class="modal fade" id="scoreInfo" tabindex="-1" role="dialog"
+		aria-labelledby="alterModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="alterModalLabel">成绩信息</h4>
+				</div>
+				<form id="form1" name="form1" method="post"
+					action="./${sessionScope.pathCode}/updateStuScore.do">
+					<div class="modal-body">
+					       <input type="hidden" name="score_id" id="score_id"/>
+					       <input type="hidden" name="claId" id="claId" value="${claId }"/>
+					       <input type="hidden" name="proId" id="proId" value="${proId }"/>
+						平时成绩：<input 
+						    type="text" maxlength='3' class="form-control" id="usual_score" name="usual_score" ONBLUR="count()"/></br> 
+						项目验收成绩：<input 
+						    type="text" maxlength='3' class="form-control" id="pro_score" name="pro_score" ONBLUR="count()"/></br> 
+						报告成绩：<input
+							type="text" maxlength='3' class="form-control" id="report_score" name="report_score"ONBLUR="count()"/></br>
+						总成绩：<input
+							type="text" maxlength='3' class="form-control" id="total_score" readonly="readonly" />
+					</div>
+					<div class="modal-footer">
+						<script type="text/javascript">
+							
+						</script>
+						<button type="button" class="btn btn-default btn-primary"
+							onclick="check()">确认修改</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
 	</body>
 
 </html>
