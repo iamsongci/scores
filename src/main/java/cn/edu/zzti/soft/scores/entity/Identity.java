@@ -1,23 +1,23 @@
 package cn.edu.zzti.soft.scores.entity;
 
 public class Identity {
-	private int id;// 我们在查询修改时需要使用此id，作为主键效率更改。
+	private Integer id;// 我们在查询修改时需要使用此id，作为主键效率更改。
 	private String noid;// 主要用于登陆和学号信息的显示
 	private String name;
-	private boolean sex;// 0：男 1：女
+	private Boolean sex;// 0：男 1：女
 	private String psw;// 在进行学生信息导入时不需要设置此值，数据库默认为123456
 	private String phone;
 	private String email;
 	private String role;// 角色只有 stu/tea/room/edu[admin不算在这里]
-	private int cla_id;// 班级id
+	private Integer cla_id;// 班级id
 	private String cla_name;// 班级名称
 	private Integer status;// 0：表示正常状态 -1表示删除状态
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -37,11 +37,11 @@ public class Identity {
 		this.name = name;
 	}
 
-	public boolean isSex() {
+	public Boolean getSex() {
 		return sex;
 	}
 
-	public void setSex(boolean sex) {
+	public void setSex(Boolean sex) {
 		this.sex = sex;
 	}
 
@@ -77,11 +77,11 @@ public class Identity {
 		this.role = role;
 	}
 
-	public int getCla_id() {
+	public Integer getCla_id() {
 		return cla_id;
 	}
 
-	public void setCla_id(int cla_id) {
+	public void setCla_id(Integer cla_id) {
 		this.cla_id = cla_id;
 	}
 
