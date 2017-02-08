@@ -74,6 +74,24 @@
 					});
 				}
 			}
+			
+			function resetPsw(teaID) {
+				if(confirm('确认重置?')) {
+					$.ajax({
+						type: "post",
+						url: "./${sessionScope.pathCode}/resetTeaPsw.do",
+						data: "ID=" + teaID,
+						dataType: 'html',
+						contentType: "application/x-www-form-urlencoded; charset=utf-8",
+						success: function(result) {
+							$('#resetPsw').modal('show') 
+						},
+						error: function(request) {
+							alert("Connection error!");
+						}
+					});
+				}
+			}
 
 			function submitFile() {
 				var file = $("#file").val();
@@ -192,11 +210,12 @@
 									</small></td>
 									<td><small>${teacher.phone}</small></td>
 									<td><small>${teacher.email}</small></td>
+
 									<td>
-										<a href="./${sessionScope.pathCode}/resetTeaPsw.do?ID=${teacher.id}"> 重置密码 </a>
+										<button type="button" class="btn btn-info btn-sm" data-dismiss="modal" onclick="resetPsw('${teacher.id }')">重置密码</button>
 									</td>
 									<td>
-										<button type="button" class="btn btn-danger" data-dismiss="modal" onclick="delTeacher('${teacher.id }')">删除</button>
+										<button type="button" class="btn btn-danger btn-sm" data-dismiss="modal" onclick="delTeacher('${teacher.id }')">删除</button>
 									</td>
 
 								</tr>
@@ -245,7 +264,7 @@
 		</div>
 
 		<!-- Modal    重置密码提示 -->
-		<div class="modal fade" id="pwdM" tabindex="-1" aria-labelledby="pwdT">
+		<div class="modal fade" id="resetPsw" tabindex="-1" aria-labelledby="pwdT">
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
