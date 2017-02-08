@@ -14,6 +14,8 @@
 			function checkTeacher() {
 				var noid = $('#noid').val();
 				var name = $('#name').val();
+				var type = $('#teatype option:selected').val();
+
 				var teachers = '${teachers}';
 				var len = teachers.length;
 				teachers = teachers.substring(1, len - 1)
@@ -34,6 +36,11 @@
 					return false;
 				}
 
+				if(type == '请选择') {
+					alert('请选择教师类型!');
+					return false;
+				}
+
 				for(var i = 0; i < teacher.length; i++) {
 					if(teacher[i] == noid) {
 						alert('工号已存在!');
@@ -44,7 +51,7 @@
 				$.ajax({
 					type: "post",
 					url: "./${sessionScope.pathCode}/addTeacher.do",
-					data: "noid=" + noid + "&name=" + name,
+					data: "noid=" + noid + "&name=" + name + "&type=" + type,
 					dataType: 'html',
 					contentType: "application/x-www-form-urlencoded; charset=utf-8",
 					success: function(result) {
@@ -74,7 +81,7 @@
 					});
 				}
 			}
-			
+
 			function resetPsw(teaID) {
 				if(confirm('确认重置?')) {
 					$.ajax({
@@ -84,7 +91,7 @@
 						dataType: 'html',
 						contentType: "application/x-www-form-urlencoded; charset=utf-8",
 						success: function(result) {
-							$('#resetPsw').modal('show') 
+							$('#resetPsw').modal('show')
 						},
 						error: function(request) {
 							alert("Connection error!");
@@ -93,24 +100,11 @@
 				}
 			}
 
-			function submitFile() {
-				var file = $("#file").val();
-
-				if(confirm('确认提交?')) {
-					$.ajaxFileUpload({
-						url: './${sessionScope.pathCode}/upLoadStu.do',
-						secureuri: false, //安全传输
-						fileElementId: 'file', //file标签的id  
-						dataType: null, //返回数据的类型  
-						success: function(result) //服务器成功响应处理函数
-							{
-								location.reload();
-							},
-						error: function(request) //服务器响应失败处理函数
-							{
-								alert("Connection error!");
-							}
-					});
+			function checkFile(form) {
+				var file = form.teaInfo.value;
+				if(file == '') {
+					alert('请选择文件!');
+					return false;
 				}
 			}
 		</script>
@@ -130,7 +124,6 @@
 				<div class="page-header">
 					<h3>导师信息</h3>
 				</div>
-				<!-- end: PAGE TITLE & BREADCRUMB -->
 			</div>
 		</div>
 
@@ -141,21 +134,25 @@
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 						<h4 class="modal-title">导入导师</h4>
 					</div>
-					<div class="modal-body">
-						<div style="padding: 10px 30px 10px 30px">
-							<input type="file" id="file" name="file" accept="application/vnd.ms-excel">
+					<form action="./${sessionScope.pathCode}/upLoad.do" method="post" enctype="multipart/form-data">
+						<div class="modal-body">
+							<div style="padding: 10px 30px 10px 30px">
+								<input type="file" id="teaInfo" name="teaInfo">
+							</div>
+
+							<div style="padding: 10px 30px 10px 30px">
+								<h5>
+									<span class="label label-warning">Warning</span> 导入格式: 
+								</h5>
+								<p>请导入: Microsoft Excel 97-2003 工作表 (.xls)</p>
+								<img src="./img/type-tea.png" class="img-responsive" alt="Responsive image">
+							</div>
 						</div>
-						<div style="padding: 10px 30px 10px 30px">
-							<h4>
-							<span class="label label-warning">Warning</span> 导入格式: 
-						</h4>
-							<img src="./img/type-stu.png" class="img-responsive" alt="Responsive image">
+						<div class="modal-footer">
+							<button type="submit" class="btn btn-primary" style="float:right; margin-left: 25px ;" onclick="return checkFile(this.form)">提交</button>
+							<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
 						</div>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-						<button type="button" class="btn btn-primary" onclick="submitFile()">提交</button>
-					</div>
+					</form>
 				</div>
 			</div>
 		</div>
@@ -166,6 +163,9 @@
 				<div class="panel-body">
 					<table class="table  table-hover">
 						<thead>
+							<tr>
+								<h5><font color="red">${message}</font></h5>
+							</tr>
 							<tr>
 								<button data-target="#upload" data-toggle="modal" type="button" class="btn btn-info" style="float: right; margin: 5px 10% 5px 5px;">导入导师</button>
 								<button data-target="#addTea" data-toggle="modal" type="button" class="btn btn-info" style="float: right; margin: 5px 2% 5px 5px;">添加导师</button>
@@ -179,7 +179,7 @@
 								<th><small>邮箱</small></th>
 								<th><small>操作</small></th>
 								<th><small>删除</small></th>
-								
+
 							</tr>
 						</thead>
 						<tbody>
@@ -194,7 +194,7 @@
 												<span class="label label-warning">机房管理员</span>
 											</c:when>
 											<c:when test="${teacher.role == 'edu'}">
-												<span class="label label-danger">edu</span>
+												<span class="label label-danger">教育</span>
 											</c:when>
 										</c:choose>
 									</small></td>
@@ -248,6 +248,18 @@
 								<label for="name" class="col-sm-2 control-label">姓名</label>
 								<div class="col-sm-10">
 									<input type="text" class="form-control" id="name" name="name" placeholder="example: 张三">
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label for="teatype" class="col-sm-2 control-label">类型</label>
+								<div class="col-sm-10">
+									<select class="form-control" id="teatype" name="teatype">
+										<option value="请选择">请选择</option>
+										<option value="tea">导师</option>
+										<option value="room">机房管理员</option>
+										<option value="edu">教育</option>
+									</select>
 								</div>
 							</div>
 
