@@ -18,7 +18,7 @@
          SELECT classes.*,a.num
          FROM classes
          LEFT OUTER JOIN (select cla_id as c_id , count(cla_id) AS num 
-         FROM identity group by cla_id) AS a 
+         FROM identity WHERE status!=-1 group by cla_id) AS a 
          ON a.c_id=classes.id;
         </select>
         <select id="teaWithStu" resultType="IdentityWithScores">
@@ -28,9 +28,9 @@
          ON c.stu_id=i.id HAVING tea_id=#{0} AND pro_id=#{1} AND status =0
         </select>
         <select id="selectStuByClassId"  resultType="Identity">
-         SELECT id,noid,name,sex,phone 
+         SELECT id,noid,name,sex,phone
          FROM identity 
-         WHERE cla_id=#{0} 
+         WHERE status!=-1 AND cla_id=#{0} 
          AND id NOT IN(SELECT stu_id FROM score WHERE pro_id =#{1});
         </select>
         <select id="selectClaByProId" resultType="NumOfClasses">
@@ -39,11 +39,12 @@
         JOIN (SELECT stu_id  FROM score WHERE pro_id=#{0}) AS s 
         ON i.id=s.stu_id GROUP BY cla_id ) AS d ON c.id=d.cla_id;
         </select>
-        <select id="proStuScore">
-        SELECT id AS identity_id,noid,name,sex,phone,cla_id,role,s.* FROM identity AS i  
-        JOIN (SELECT id ,stu_id,pro_id,tea_name,total_score FROM score) AS s 
-        ON i.identity_id=s.stu_id GROUP BY i.identity_id 
-        HAVING cla_id=#{0} AND pro_id=#{1}
+        <select id="proStuScore" resultType="IdentityWithScores">
+        SELECT id ,noid,name,sex,phone,cla_id,role,status,s.* FROM identity AS i  
+        JOIN (SELECT id AS score_id,stu_id,tea_id,tea_name,pro_id,pro_name,my_pro_name,usual_score,
+         project_score,report_score,total_score,scores_status FROM score) AS s 
+        ON i.id=s.stu_id 
+        HAVING status!=-1 AND cla_id=#{0} AND pro_id=#{1};
         </select>
         <delete id="delTeaWithStu">
         DELETE FROM score WHERE id = #{0};

@@ -182,8 +182,10 @@ public class TeacherController implements ConfigDo {
 	public String proClasses(@RequestParam("projectId") Integer pro_id,
 			Model model, HttpSession session){
 			ResultDo<List<NumOfClasses>> resultDo=serviceFit.getTeacherService().selectClaByProId(pro_id);
+			ResultDo<List<NumOfClasses>> resultDoAll=serviceFit.getTeacherService().chooseClasses();
 			model.addAttribute("proId", pro_id);
 			if(resultDo.isSuccess()){
+				model.addAttribute("listAll", resultDoAll.getResult());
 				model.addAttribute("list", resultDo.getResult());
 			}else{
 				model.addAttribute("message", resultDo.getMessage());
@@ -193,8 +195,18 @@ public class TeacherController implements ConfigDo {
 	}
 	//查看该课题有关的班级信息
 		@RequestMapping("proStuScore")
-		public String proStuScore(@RequestParam("projectId") Integer pro_id,@RequestParam("classId") Integer class_id,
+		public String proStuScore(@RequestParam("projectId") Integer pro_id,@RequestParam("classId") Integer cla_id,
 				Model model, HttpSession session){
+			ResultDo<List<Identity>> resultDoAll=serviceFit.getTeacherService().selectStuByClassId(cla_id,null);
+			ResultDo<List<IdentityWithScores>> resultDo=serviceFit.getTeacherService().proStuScore(cla_id, pro_id);
+			model.addAttribute("claId", cla_id);
+			model.addAttribute("proId", pro_id);
+			if(resultDo.isSuccess()){
+				model.addAttribute("listAll", resultDoAll.getResult());
+				model.addAttribute("list", resultDo.getResult());
+			}else{
+				model.addAttribute("message", resultDo.getMessage());
+			}
 			return "./teacher/proStuScore";
 		}
 	

@@ -140,5 +140,18 @@ public class TeacherServiceImpl implements TeacherService {
 		}
 		return resultDo;
 	}
+	@Override
+	public ResultDo proStuScore(Integer cla_id, Integer pro_id) {
+		// TODO Auto-generated method stub
+		ResultDo<List<IdentityWithScores>> resultDo=new ResultDo<List<IdentityWithScores>>();
+		List<IdentityWithScores> list =daoFit.getTeacherDao().proStuScore(cla_id, pro_id);
+		if(list.size()>0){
+			resultDo.setResult(list);
+			resultDo.setSuccess(true);
+		}else{
+			resultDo.setMessage("无分配信息，请联系分配课题组长进行分配！！");
+		}
+		return resultDo;
+	}
 	
 }
