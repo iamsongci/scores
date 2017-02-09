@@ -51,7 +51,7 @@
 				$.ajax({
 					type: "post",
 					url: "./${sessionScope.pathCode}/addTeacher.do",
-					data: "noid=" + noid + "&name=" + name + "&type=" + type,
+					data: "noid=" + noid + "&name=" + name + "&type=" + type + "&message=",
 					dataType: 'html',
 					contentType: "application/x-www-form-urlencoded; charset=utf-8",
 					success: function(result) {
@@ -69,7 +69,7 @@
 					$.ajax({
 						type: "post",
 						url: "./${sessionScope.pathCode}/delTeacher.do",
-						data: "id=" + id,
+						data: "id=" + id + "&message=",
 						dataType: 'html',
 						contentType: "application/x-www-form-urlencoded; charset=utf-8",
 						success: function(result) {
@@ -87,7 +87,7 @@
 					$.ajax({
 						type: "post",
 						url: "./${sessionScope.pathCode}/resetTeaPsw.do",
-						data: "ID=" + teaID,
+						data: "ID=" + teaID + "&message=",
 						dataType: 'html',
 						contentType: "application/x-www-form-urlencoded; charset=utf-8",
 						success: function(result) {
@@ -134,7 +134,7 @@
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 						<h4 class="modal-title">导入导师</h4>
 					</div>
-					<form action="./${sessionScope.pathCode}/upLoad.do" method="post" enctype="multipart/form-data">
+					<form action="./${sessionScope.pathCode}/upLoadTea.do" method="post" enctype="multipart/form-data">
 						<div class="modal-body">
 							<div style="padding: 10px 30px 10px 30px">
 								<input type="file" id="teaInfo" name="teaInfo">

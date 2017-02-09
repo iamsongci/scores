@@ -45,6 +45,7 @@ import cn.edu.zzti.soft.scores.supervisor.ConfigDo;
 import cn.edu.zzti.soft.scores.supervisor.DaoFit;
 import cn.edu.zzti.soft.scores.supervisor.ResultDo;
 import cn.edu.zzti.soft.scores.supervisor.ServiceFit;
+import cn.edu.zzti.soft.scores.util.ExcelUtil;
 import cn.edu.zzti.soft.scores.util.MDUtil;
 
 @Controller
@@ -67,18 +68,20 @@ public class AdminController implements ConfigDo {
 	}
 
 	@RequestMapping("resetStuPsw")
-	public String resetStuPsw(@RequestParam("stuID") Integer stuID, @RequestParam("claID") Integer claID, @RequestParam("claName") String claName, Model model, HttpServletResponse response)
+	public String resetStuPsw(@RequestParam("stuID") Integer stuID, @RequestParam("claID") Integer claID, @RequestParam("message") String message, @RequestParam("claName") String claName, Model model, HttpServletResponse response)
 			throws Exception {
 		model.addAttribute("claID", claID);
 		model.addAttribute("claName", claName);
+		model.addAttribute("message", message);
 		
 		serviceFit.getLoginService().updatePsw(stuID, MDUtil.MD5Tools("123456"));
 		return "redirect:./stuInfo.do";
 	}
 
 	@RequestMapping("resetTeaPsw")
-	public String resetTeaPsw(@RequestParam("ID") Integer ID, Model model, HttpServletResponse response)
+	public String resetTeaPsw(@RequestParam("ID") Integer ID, @RequestParam("message") String message, Model model, HttpServletResponse response)
 			throws Exception {
+		model.addAttribute("message", message);
 		serviceFit.getLoginService().updatePsw(ID, MDUtil.MD5Tools("123456"));
 		return "redirect:./teaInfo.do";
 	}
@@ -164,9 +167,11 @@ public class AdminController implements ConfigDo {
 	}
 
 	@RequestMapping("stuInfo")
-	public String stuInfo(@RequestParam("claID") String claID, @RequestParam("claName") String claName, Model model, HttpSession session) {
+	public String stuInfo(@RequestParam("claID") String claID, @RequestParam("claName") String claName, @RequestParam("message") String message, Model model, HttpSession session) {
 		model.addAttribute("claID", claID);
 		model.addAttribute("claName", claName);
+		model.addAttribute("message", message);
+		
 		
 		ResultDo<List<Identity>> resultDo = serviceFit.getAdminService().getStuByClaID(claID);
 		List<?> students = null;
@@ -227,10 +232,11 @@ public class AdminController implements ConfigDo {
 
 	@RequestMapping("addStudent")
 	public String addStudent(@RequestParam("noid") String noid, @RequestParam("name") String name,
-			@RequestParam("claName") String claName, @RequestParam("claID") Integer claID, Model model,
+			@RequestParam("claName") String claName, @RequestParam("claID") Integer claID, @RequestParam("message") String message, Model model,
 			HttpSession session) {
 		model.addAttribute("claID", claID);
 		model.addAttribute("claName", claName);
+		model.addAttribute("message", message);
 		
 		List<Identity> identities = new ArrayList<>();
 		Identity identity = new Identity();
@@ -245,9 +251,11 @@ public class AdminController implements ConfigDo {
 	}
 
 	@RequestMapping("delStudent")
-	public String delStudent(@RequestParam("stuID") String stuID, @RequestParam("claID") Integer claID, @RequestParam("claName") String claName, Model model, HttpSession session) {
+	public String delStudent(@RequestParam("stuID") String stuID, @RequestParam("claID") Integer claID, @RequestParam("claName") String claName, @RequestParam("message") String message, Model model, HttpSession session) {
 		model.addAttribute("claID", claID);
 		model.addAttribute("claName", claName);
+		model.addAttribute("message", message);
+		
 		List<String> identities = new ArrayList<>();
 		identities.add(stuID);
 		serviceFit.getAdminService().delIdentity(identities);
@@ -255,8 +263,10 @@ public class AdminController implements ConfigDo {
 	}
 
 	@RequestMapping("addTeacher")
-	public String addTeacher(@RequestParam("noid") String noid, @RequestParam("name") String name, @RequestParam("type") String type, Model model,
+	public String addTeacher(@RequestParam("noid") String noid, @RequestParam("name") String name, @RequestParam("type") String type, @RequestParam("message") String message, Model model,
 			HttpSession session) {
+		model.addAttribute("message", message);
+		
 		List<Identity> identities = new ArrayList<>();
 		Identity identity = new Identity();
 		identity.setNoid(noid);
@@ -268,7 +278,8 @@ public class AdminController implements ConfigDo {
 	}
 
 	@RequestMapping("delTeacher")
-	public String delTeacher(@RequestParam("id") String id, Model model, HttpSession session) {
+	public String delTeacher(@RequestParam("id") String id, @RequestParam("message") String message,  Model model, HttpSession session) {
+		model.addAttribute("message", message);
 		List<String> identities = new ArrayList<>();
 		identities.add(id);
 		serviceFit.getAdminService().delIdentity(identities);
@@ -309,25 +320,29 @@ public class AdminController implements ConfigDo {
 		return "redirect:./projects.do";
 	}
 	
-	@RequestMapping("upLoad")
-	public String upLoad(@RequestParam("teaInfo") CommonsMultipartFile teaInfo, Model model, HttpSession session) {
+	@RequestMapping("upLoadTea")
+	public String upLoadTea(@RequestParam("teaInfo") CommonsMultipartFile teaInfo, Model model, HttpSession session) {
 		
 		List<Identity> teachers = new ArrayList<>();
 		Set<String> noids = new HashSet<>();
 		
-		StringBuilder str = new StringBuilder();
 		try {
 			//判断 .xls
-			isXls(teaInfo.getOriginalFilename());  
+			ExcelUtil.isXls(teaInfo.getOriginalFilename());  
 			//获取工作簿
-			HSSFWorkbook wb = getHSSFWorkbook(teaInfo);
+			HSSFWorkbook wb = ExcelUtil.getHSSFWorkbook(teaInfo);
 			HSSFSheet sheet = null;
 			for (int i = 0; i < wb.getNumberOfSheets(); i++) {
 				//获取sheet页
 				sheet = wb.getSheetAt(i);
 				if(sheet != null) {
-					//添加sheet页的内容到list
-					teachers.addAll(getIdentities(sheet));
+					try {
+						//添加sheet页的内容到list
+						teachers.addAll(getIdentities(sheet, "tea"));
+					} catch (Exception e) {
+						e.printStackTrace();
+						throw new Exception("sheet页: " + (i + 1) + " !  " + e.getMessage());
+					}
 				}
 			}
 			for (Identity iden : teachers) {
@@ -356,6 +371,66 @@ public class AdminController implements ConfigDo {
 		return "redirect:./teaInfo.do";
 	}
 	
+	
+	@RequestMapping("upLoadStu")
+	public String upLoadStu(@RequestParam("stuInfo") CommonsMultipartFile stuInfo, @RequestParam("claName") String claName, @RequestParam("claID") Integer claID, Model model, HttpSession session) {
+		model.addAttribute("claName", claName);
+		model.addAttribute("claID", claID);
+		
+		List<Identity> students = new ArrayList<>();
+		Set<String> noids = new HashSet<>();
+		
+		try {
+			//判断 .xls
+			ExcelUtil.isXls(stuInfo.getOriginalFilename());  
+			//获取工作簿
+			HSSFWorkbook wb = ExcelUtil.getHSSFWorkbook(stuInfo);
+			HSSFSheet sheet = null;
+			for (int i = 0; i < wb.getNumberOfSheets(); i++) {
+				//获取sheet页
+				sheet = wb.getSheetAt(i);
+				if(sheet != null) {
+					try {
+						//添加sheet页的内容到list
+						students.addAll(getIdentities(sheet, "stu"));
+					} catch (Exception e) {
+						e.printStackTrace();
+						throw new Exception("sheet页: " + (i + 1) + " !  " + e.getMessage());
+					}
+				}
+			}
+			for (int i = 0; i < students.size(); i++) {
+				students.get(i).setCla_id(claID);
+				students.get(i).setCla_name(claName);
+				students.get(i).setRole("stu");
+			}
+			
+			for (Identity iden : students) {
+				noids.add(iden.getNoid());
+			}
+			if(noids.size() != students.size()) {
+				throw new Exception("表单中存在重复学号!请更改后提交!");
+			}
+			
+			ResultDo<List<Identity>> resultDo = serviceFit.getAdminService().getStuByClaID("" + claID);
+			List<Identity> existStudents = null;
+			if (resultDo.isSuccess()) {
+				existStudents = (List<Identity>) resultDo.getResult();
+			} else {
+				throw new Exception(resultDo.getMessage());
+			}
+			
+			if(! hasConflict(existStudents, students)) {
+				serviceFit.getAdminService().addIdentity(students);
+				model.addAttribute("message", "提交成功! 本次新增" + students.size() + "条数据!");
+			}
+		} catch (Exception e) {
+			model.addAttribute("message", e.getMessage());
+			e.printStackTrace();
+		}
+		return "redirect:./stuInfo.do";
+	}
+	
 	private boolean hasConflict(List<Identity> identities1, List<Identity> identities2) throws Exception {
 		for (Identity iden1 : identities1) {
 			for (Identity iden2 : identities2) {
@@ -367,113 +442,104 @@ public class AdminController implements ConfigDo {
 		return false;
 	}
 	
-	//获取流
-	private HSSFWorkbook getHSSFWorkbook(CommonsMultipartFile teaInfo) throws IOException {
-		return new HSSFWorkbook(new POIFSFileSystem(teaInfo.getInputStream()));
-	}
+	
 
-	private void isXls(String name) throws Exception {
-		if(name.length() < 5) {
-			throw new Exception("文件类型错误!");
-		}
-		if(! name.substring(name.length() - 4).equals(".xls")) {
-			throw new Exception("文件类型错误!");
-		}
-	}
-
-	private List<Identity> getIdentities(HSSFSheet sheet) throws Exception {
+	private List<Identity> getIdentities(HSSFSheet sheet, String type) throws Exception {
 		List<Identity> identities = new ArrayList<>();
 		HSSFRow row = null;
 		for (int index = 1; index < sheet.getLastRowNum() + 1; index++) {
 			row = sheet.getRow(index);
 			if(row == null) {
-				throw new Exception("第" + (index + 1) + "行存在空单元行");
+				throw new Exception("存在空单元行: " + (index + 1) + " !  ");
 			}
 			try {
-				Identity identity = getIdentity(row);
+				Identity identity = null;
+				switch (type) {
+				case "tea":
+					identity = getTeacher(row);
+					break;
+				case "stu":
+					identity = getStudent(row);
+					break;
+				}
+				
 				identities.add(identity);
 			} catch (Exception e) {
 				e.printStackTrace();
-				throw new Exception("第" + (index + 1) + "行" + e.getMessage());
+				throw new Exception("行: " + (index + 1) + " !  " + e.getMessage());
 			}
 		}
 		return identities;
 	}
 
 
-	private Identity getIdentity(HSSFRow row) throws Exception {
+	private Identity getStudent(HSSFRow row) throws Exception {
 		Identity identity = new Identity();
 		int i = 0;
 		try {
-			String noid = getStringCellValue(row.getCell(i));
-			if(noid.trim().length() != 4) {
-				throw new Exception("工号: " + noid +" 长度错误!");
+			String noid = ExcelUtil.getStringCellValue(row.getCell(i));
+			if(noid.trim().length() != 12) {
+				throw new Exception("学号: " + noid +" !  长度错误!");
+			}
+			try {
+				Long.parseLong(noid);
+			} catch (NumberFormatException e) {
+				throw new Exception("学号: " + noid +" !  应为数字!");
 			}
 			identity.setNoid(noid);
 			i++;
-			String name = getStringCellValue(row.getCell(i));
+			String name = ExcelUtil.getStringCellValue(row.getCell(i));
+			if(name.trim().equals("")) {
+				throw new Exception("姓名不能为空!");
+			}
+			identity.setName(name);
+			return identity;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new Exception("列: " + (i + 1) + " !  " + e.getMessage() + "请更改后提交!");
+		}
+	}
+
+	private Identity getTeacher(HSSFRow row) throws Exception {
+		Identity identity = new Identity();
+		int i = 0;
+		try {
+			String noid = ExcelUtil.getStringCellValue(row.getCell(i));
+			if(noid.trim().length() != 4) {
+				throw new Exception("工号: " + noid +" !  长度错误!");
+			}
+			try {
+				Integer.parseInt(noid);
+			} catch (NumberFormatException e) {
+				throw new Exception("工号: " + noid +" !  应为数字!");
+			}
+			identity.setNoid(noid);
+			i++;
+			String name = ExcelUtil.getStringCellValue(row.getCell(i));
 			if(name.trim().equals("")) {
 				throw new Exception("姓名不能为空!");
 			}
 			identity.setName(name);
 			i++;
-			String role = getStringCellValue(row.getCell(i));
-			if(! (role.trim().equals("room") || role.trim().equals("tea") && role.trim().equals("edu"))) {
+			String role = ExcelUtil.getStringCellValue(row.getCell(i));
+			if(! (role.trim().equals("room") || role.trim().equals("tea") || role.trim().equals("edu"))) {
 				throw new Exception("类型: " + role +" 错误!");
 			}
 			identity.setRole(role);
 			return identity;
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw new Exception("第" + (i + 1)  + "列" + e.getMessage() + "请更改后提交!");
+			throw new Exception("列: " + (i + 1) + " !  " + e.getMessage() + "请更改后提交!");
 		}
-	}
-
-
-	/**
-     * 获取单元格数据内容为字符串类型的数据
-     * 
-     * @param cell Excel单元格
-     * @return String 单元格数据内容
-	 * @throws Exception 
-     */
-	private String getStringCellValue(HSSFCell cell) throws Exception {
-		/**
-		 * 1. 获取cell
-		 * 2. 判断cell是否为null 抛出异常
-		 * 3. 获取值并返回
-		 */
-		if(cell == null) 
-			throw new Exception("存在空单元格!");
-		String str = "";
-		DecimalFormat df = new DecimalFormat("0");
-		
-		switch (cell.getCellType()) {
-			case HSSFCell.CELL_TYPE_STRING:
-				str = cell.getStringCellValue();
-				break;
-			case HSSFCell.CELL_TYPE_NUMERIC:
-				str = String.valueOf(df.format(cell.getNumericCellValue()));
-				break;
-			case HSSFCell.CELL_TYPE_BOOLEAN:
-				str = String.valueOf(cell.getBooleanCellValue());
-				break;
-			case HSSFCell.CELL_TYPE_BLANK:
-				str = "";
-				break;
-			default:
-				str = "";
-				break;
-		}
-		if (str.trim().equals("") || str == null) {
-			return "";
-		}
-		return str;
 	}
 
 	@Test
 	public void test() {
-		
+		try {
+			System.out.println(Integer.parseInt("0001"));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 	}
 	

@@ -72,7 +72,7 @@
 		}
 			
 		function enter(claID, claName) {
-			var url = "./${sessionScope.pathCode}/stuInfo.do?claID=" + claID + "&claName=" + claName;
+			var url = "./${sessionScope.pathCode}/stuInfo.do?claID=" + claID + "&claName=" + claName + "&message=";
 			url = encodeURI(url);
 			window.location.href = url;
 		}
@@ -147,9 +147,7 @@
 										<td><small>${classes.classes_name }</small></td>
 										<td><small>${classes.cla_num }</small></td>
 										<td>
-											<c:if test="${classes.cla_num != 0}">
-												<button type="button" class="btn btn-primary btn-sm" onclick="enter('${classes.id}', '${classes.classes_name}')">进入</button>
-											</c:if>
+											<button type="button" class="btn btn-primary btn-sm" onclick="enter('${classes.id}', '${classes.classes_name}')">进入</button>
 										</td>
 										<td>
 											<c:if test="${classes.cla_num == 0}">

@@ -43,7 +43,7 @@
 				$.ajax({
 					type: "post",
 					url: "./${sessionScope.pathCode}/addStudent.do",
-					data: "noid=" + noid + "&name=" + name + "&claName=" + claName + "&claID=" + claID,
+					data: "noid=" + noid + "&name=" + name + "&claName=" + claName + "&claID=" + claID + "&message=",
 					dataType: 'html',
 					contentType: "application/x-www-form-urlencoded; charset=utf-8",
 					success: function(result) {
@@ -63,7 +63,7 @@
 					$.ajax({
 						type: "post",
 						url: "./${sessionScope.pathCode}/resetStuPsw.do",
-						data: "stuID=" + stuID + "&claID=" +　claID + "&claName=" +　claName,
+						data: "stuID=" + stuID + "&claID=" +　claID + "&claName=" +　claName + "&message=",
 						dataType: 'html',
 						contentType: "application/x-www-form-urlencoded; charset=utf-8",
 						success: function(result) {
@@ -84,7 +84,7 @@
 					$.ajax({
 						type: "post",
 						url: "./${sessionScope.pathCode}/delStudent.do",
-						data: "stuID=" + stuID + "&claID=" +　claID + "&claName=" +　claName,
+						data: "stuID=" + stuID + "&claID=" +　claID + "&claName=" +　claName + "&message=",
 						dataType: 'html',
 						contentType: "application/x-www-form-urlencoded; charset=utf-8",
 						success: function(result) {
@@ -96,25 +96,12 @@
 					});
 				}
 			}
-
-			function submitFile() {
-				var file = $("#file").val();
-
-				if(confirm('确认提交?')) {
-					$.ajaxFileUpload({
-						url: './${sessionScope.pathCode}/upLoadStu.do',
-						secureuri: false, //安全传输
-						fileElementId: 'file', //file标签的id  
-						dataType: null, //返回数据的类型  
-						success: function(result) //服务器成功响应处理函数
-						{
-							location.reload();
-						},
-						error: function(request) //服务器响应失败处理函数
-						{
-							alert("Connection error!");
-						}
-					});
+			
+			function checkFile(form) {
+				var file = form.stuInfo.value;
+				if(file == '') {
+					alert('请选择文件!');
+					return false;
 				}
 			}
 		</script>
@@ -134,16 +121,52 @@
 					<li class="active">
 						<a href="./${sessionScope.pathCode}/claInfo.do?">班级信息</a>
 					</li>
-					<li class="active">学生信息</li>
+					<li class="active">${claName}班 学生信息</li>
 				</ol>
 				<div class="page-header">
-					<h3>学生信息</h3>
+					<h3>${claName}班 学生信息</h3>
 					<button data-target="#upload" data-toggle="modal" type="button" class="btn btn-info" style="float: right; margin: 15px 2% 5px 5px;">导入学生</button>
 					<button data-target="#addStu" data-toggle="modal" type="button" class="btn btn-info" style="float: right; margin: 15px 2% 5px 5px;">添加学生</button>
 				</div>
 				<!-- end: PAGE TITLE & BREADCRUMB -->
 			</div>
 		</div>
+		
+		<div class="modal fade" id="upload" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+						<h4 class="modal-title">导入学生</h4>
+					</div>
+					<form action="./${sessionScope.pathCode}/upLoadStu.do" method="post" enctype="multipart/form-data">
+						<div class="modal-body">
+							<input type="hidden" name="claName" value="${claName}">
+							<input type="hidden" name="claID" value="${claID}">
+							
+							<div style="padding: 10px 30px 10px 30px">
+								<input type="file" id="stuInfo" name="stuInfo">
+							</div>
+
+							<div style="padding: 10px 30px 10px 30px">
+								<h5>
+									<span class="label label-warning">Warning</span> 导入格式: 
+								</h5>
+								<p>请导入: Microsoft Excel 97-2003 工作表 (.xls)</p>
+								<p><font color="red">注意: 导入学生的班级为当前班级!</font></p>
+								
+								<img src="./img/type-stu.png" class="img-responsive" alt="Responsive image">
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="submit" class="btn btn-primary" style="float:right; margin-left: 25px ;" onclick="return checkFile(this.form)">提交</button>
+							<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		
 		<div class="row">
 			<div class="col-md-12">
 				<!-- start: TABLE WITH IMAGES PANEL -->
@@ -154,6 +177,9 @@
 						<div class="panel-body">
 							<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
 								<thead>
+									<tr>
+										<h5><font color="red">${message}</font></h5>
+									</tr>
 									<tr>
 										<th><small>序号</small></th>
 										<th><small>学号</small></th>
@@ -261,33 +287,6 @@
 				</div>
 			</div>
 		</div>
-		
-		<div class="modal fade" id="upload" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-						<h4 class="modal-title">导入学生基本信息</h4>
-					</div>
-					<div class="modal-body">
-						<div style="padding: 10px 30px 10px 30px">
-							<input type="file" id="file" name="file" accept="application/vnd.ms-excel">
-						</div>
-						<div style="padding: 10px 30px 10px 30px">
-							<h4>
-							<span class="label label-warning">Warning</span> 导入格式: 
-						</h4>
-							<img src="./img/type-stu.png" class="img-responsive" alt="Responsive image">
-						</div>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-						<button type="button" class="btn btn-primary" onclick="submitFile()">提交</button>
-					</div>
-				</div>
-			</div>
-		</div>
-		
 		
 		<!-- DataTables JavaScript -->
 		<script src="assets/vendor/datatables/js/jquery.dataTables.min.js"></script>
