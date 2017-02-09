@@ -138,7 +138,7 @@ public class Score {
 		this.scores_status = scores_status;
 	}
 
-	protected String getRepStatus() {
+	public String getRepStatus() {
 		return this.report_status == 0 ? "未提交"
 				: this.report_status == 1 ? "已提交" 
 					: this.report_status == 2 ? "通过" : "未通过";
