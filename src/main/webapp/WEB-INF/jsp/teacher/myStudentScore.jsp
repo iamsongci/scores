@@ -22,6 +22,9 @@
 		$("#report_score").val(r); 
 		count();
 	}
+	function addScore(id){
+	   $("#scoreId").val(id); 
+	}
 	function count(){
 	var u=$("#usual_score").val();
 	var p=$("#pro_score").val();
@@ -60,6 +63,41 @@
 		    }
 		}
 	}
+	function save(){
+	var u=$("#usual").val();
+	var p=$("#pro").val();
+	var r=$("#report").val();
+	if (isNaN(u)||isNaN(p)||isNaN(r)) {
+			alert("请输入0~100之间的数值哦 ，不然无法提交.");
+			return;
+		}else{
+		    if(u>=0&&u<=100&&p>=0&&p<=100&&r>=0&&r<=100){
+		    $("#form1").submit();
+		    }else{
+		      alert("成绩范围在0~100之间哦！请认真检查.");
+		      return;
+		    }
+		}
+	}
+	function add(){
+	var u=$("#usual").val();
+	var p=$("#pro").val();
+	var r=$("#report").val();
+	if (isNaN(u)||isNaN(p)||isNaN(r)) {
+			alert("请输入0~100之间的数值哦！");
+			return;
+		}else{
+		    if(u>=0&&u<=100&&p>=0&&p<=100&&r>=0&&r<=100){
+		         var t=u*0.3+p*0.3+r*0.4;
+		         t=Math.round(t);
+		         $("#total").val(t);
+		         
+		    }else{
+		      alert("成绩范围在0~100之间哦！");
+		      return;
+		    }
+		}
+	}
 </script>
 </head>
 <body>
@@ -82,6 +120,12 @@
         <!-- end: PAGE TITLE & BREADCRUMB -->
     </div>
 </div>
+<!-- 
+<c:if test="${putScoresMessage eq 1 }"><div class="alert alert-success">学生成绩已提交成功！</div></c:if>
+<c:if test="${putScoresMessage eq 0 }"><div class="alert alert-danger">没有可提交的成绩或学生成绩提交失败，如有问题请联系管理员！</div></c:if>
+<c:if test="${putScoresMessage eq 2 }"><div class="alert alert-success">学生成绩已保存！</div></c:if>
+<c:if test="${putScoresMessage eq 3 }"><div class="alert alert-danger">学生成绩保存失败，如有问题请联系管理员！</div></c:if>
+ -->
 <div class="row">
     <div class="col-md-12">
         <!-- start: TABLE WITH IMAGES PANEL -->
@@ -138,7 +182,7 @@
                             </td>
                             <td>
                             <c:if test="${list.total_score eq null && list.scores_status eq 0}">
-                                    <button class="btn btn-primary" data-toggle="modal" data-target="#addScore" onclick="addScore()">添加成绩</button>
+                                    <button class="btn btn-primary" data-toggle="modal" data-target="#addScore" onclick="addScore(${list.score_id})">添加成绩</button>
                             </c:if>
                              
                              <c:if test="${list.total_score ne null && list.scores_status eq 1}">
@@ -179,18 +223,18 @@
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
-					<h4 class="modal-title" >成绩信息</h4>
+					<h4 class="modal-title" >学生成绩添加</h4>
 				</div>
 				<form id="form1" name="form1" method="post"
-					action="./${sessionScope.pathCode}/addMyStuScore.do">
+					action="./${sessionScope.pathCode}/addStudentScore.do">
 					<div class="modal-body">
-					          <input type="hidden" name="scoreid" id="scoreid"/>
+					          <input type="hidden" name="scoreId" id="scoreId"/>
 						平时成绩：<input 
-						    type="text" maxlength='3' class="form-control" id="usual" name="usual" ONBLUR="count()"/></br> 
+						    type="text" maxlength='3' class="form-control" id="usual" name="usual" ONBLUR="add()"/></br> 
 						项目验收成绩：<input 
-						    type="text" maxlength='3' class="form-control" id="pro" name="pro" ONBLUR="count()"/></br> 
+						    type="text" maxlength='3' class="form-control" id="pro" name="pro" ONBLUR="add()"/></br> 
 						报告成绩：<input
-							type="text" maxlength='3' class="form-control" id="report" name="report"ONBLUR="count()"/></br>
+							type="text" maxlength='3' class="form-control" id="report" name="report"ONBLUR="add()"/></br>
 						总成绩：<input
 							type="text" maxlength='3' class="form-control" id="total" readonly="readonly" />
 					</div>
@@ -199,7 +243,7 @@
 							
 						</script>
 						<button type="button" class="btn btn-default btn-primary"
-							onclick="check()">保存</button>
+							onclick="save()">保存</button>
 						<button type="button" class="btn btn-default" data-dismiss="modal">关闭
 						</button>
 					</div>
@@ -225,6 +269,7 @@
 					         <input type="hidden" name="score_id" id="score_id"/>
 					       <input type="hidden" name="claId" id="claId" />
 					       <input type="hidden" name="proId" id="proId" />
+					       <input type="hidden" name="scores_status" id="scores_status" value="1" />
 						平时成绩：<input 
 						    type="text" maxlength='3' class="form-control" id="usual_score" name="usual_score" ONBLUR="count()"/></br> 
 						项目验收成绩：<input 
@@ -262,15 +307,15 @@
 				<form id="form3" name="form3" method="post"
 					action="./${sessionScope.pathCode}/addMyStuScore.do">
 					<div class="modal-body">
-					<h5>将对你已添加的成绩进行提交</h5>
-					<h5>提交后将无法进行成绩修改，如有问题请联系相关课题的管理员！</h5>
+					<h5>将对您<font color="#FF0000">已添加</font>的学生成绩进行提交【未添加的将不会被提交】</h5>
+					<h5>提交后将<font color="#FF0000">无法进行成绩修改</font>，如有问题请联系相关课题的管理员！</h5>
 					</div>
 					<div class="modal-footer">
 						<script type="text/javascript">
 							
 						</script>
-						<button type="button" class="btn btn-default btn-primary"
-							onclick="#">提交</button>
+						<a href="./${sessionScope.pathCode}/putStudentScore.do">
+						<button type="button" class="btn btn-default btn-primary">提交</button></a>
 						<button type="button" class="btn btn-default" data-dismiss="modal">关闭
 						</button>
 					</div>

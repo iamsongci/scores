@@ -207,6 +207,7 @@
 					       <input type="hidden" name="score_id" id="score_id"/>
 					       <input type="hidden" name="claId" id="claId" value="${claId }"/>
 					       <input type="hidden" name="proId" id="proId" value="${proId }"/>
+					       <input type="hidden" name="scores_status" id="scores_status" value="2" />
 						平时成绩：<input 
 						    type="text" maxlength='3' class="form-control" id="usual_score" name="usual_score" ONBLUR="count()"/></br> 
 						项目验收成绩：<input 
