@@ -184,7 +184,7 @@
 							<div class="form-group">
 								<label for="name" class="col-sm-2 control-label">课题名</label>
 								<div class="col-sm-10">
-									<input type="text" class="form-control" id="proName" name="proName" placeholder="example: 一级实践课题">
+									<input type="text" maxlength="30" class="form-control" id="proName" name="proName" placeholder="example: 一级实践课题">
 								</div>
 							</div>
 							<div class="form-group">

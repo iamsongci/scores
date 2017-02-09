@@ -150,17 +150,7 @@
 						</tbody>
 					</c:forEach>
 				</table>
-				<div class="form-group">
-					<label class="col-sm-8 "> </label>
-					<div class="col-sm-4" style="text-align: right; height: 40px">
-						<page:createPager pageSize="${pageSize}" totalPage="${totalPage}"
-							totalCount="${totalCount}" curPage="${pageNum}"
-							formId="condition" />
-					</div>
-				</div>
-
 			</div>
-
 		</div>
 		<!-- end: TABLE WITH IMAGES PANEL -->
 	</div>
@@ -178,7 +168,7 @@
 				</div>
 				<div class="modal-body">
 					<input type="hidden" id="index" name="index">
-					课题名称：<input type="text" class="form-control" id="newProName" name="newProName">
+					课题名称：<input type="text" maxlength="30" class="form-control" id="newProName" name="newProName">
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>

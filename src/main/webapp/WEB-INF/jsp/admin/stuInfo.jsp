@@ -238,13 +238,13 @@
 							<div class="form-group">
 								<label for="noid" class="col-sm-2 control-label">学号</label>
 								<div class="col-sm-10">
-									<input type="text" class="form-control" id="noid" name="noid" placeholder="example: 201560140428">
+									<input type="text" maxlength="12" class="form-control" id="noid" name="noid" placeholder="example: 201560140428">
 								</div>
 							</div>
 							<div class="form-group">
 								<label for="name" class="col-sm-2 control-label">姓名</label>
 								<div class="col-sm-10">
-									<input type="text" class="form-control" id="name" name="name" placeholder="example: 张三">
+									<input type="text" maxlength="10" class="form-control" id="name" name="name" placeholder="example: 张三">
 								</div>
 							</div>
 							

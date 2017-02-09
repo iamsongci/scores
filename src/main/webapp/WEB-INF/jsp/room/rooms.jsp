@@ -214,10 +214,10 @@
 				</div>
 				<div class="modal-body">
 					<div class="modal-body">
-						机房号：<input type="text" class="form-control" id="newID" name="newID">
+						机房号：<input type="text" maxlength="5" class="form-control" id="newID" name="newID" placeholder="example: 105">
 					</div>
 					<div class="modal-body">
-						机位数：<input type="text" class="form-control" id="num" name="num">
+						机位数：<input type="text" maxlength="4" class="form-control" id="num" name="num" placeholder="example: 80">
 					</div>
 
 				</div>

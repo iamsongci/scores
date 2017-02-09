@@ -190,13 +190,13 @@
 							<div class="form-group">
 								<label for="grade" class="col-sm-2 control-label">年级</label>
 								<div class="col-sm-10">
-									<input type="text" class="form-control" id="grade" name="grade" placeholder="example: 15">
+									<input type="text" maxlength="2" class="form-control" id="grade" name="grade" placeholder="example: 15">
 								</div>
 							</div>
 							<div class="form-group">
 								<label for="name" class="col-sm-2 control-label">班级名</label>
 								<div class="col-sm-10">
-									<input type="text" class="form-control" id="classes_name" name="classes_name" placeholder="example: RB卓越151">
+									<input type="text" maxlength="15" class="form-control" id="classes_name" name="classes_name" placeholder="example: RB卓越151">
 								</div>
 							</div>
 							<div class="form-group">

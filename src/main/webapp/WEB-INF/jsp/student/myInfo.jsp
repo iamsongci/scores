@@ -18,16 +18,16 @@
 			var email = form.email.value;
 			if(! phoneReg.test(phone)) {
 				alert("请输入11位手机号!");
-				return;
+				return false;
 			}
 			if(email != '')
 				if(! emailReg.test(email)) {
 					alert("请输入正确的邮箱!");
-					return;
+					return false;
 				}
 			if(email.length > 50) {
 				alert("邮箱过长!");
-				return ;
+				return false;
 			}
 		}
 	
