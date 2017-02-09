@@ -3,6 +3,7 @@ package cn.edu.zzti.soft.scores.controller;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -11,11 +12,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import cn.edu.zzti.soft.scores.entity.Identity;
+import cn.edu.zzti.soft.scores.entity.TeaRoom;
 import cn.edu.zzti.soft.scores.entity.tools.MyScore;
 import cn.edu.zzti.soft.scores.supervisor.ConfigDo;
 import cn.edu.zzti.soft.scores.supervisor.DaoFit;
 import cn.edu.zzti.soft.scores.supervisor.ResultDo;
 import cn.edu.zzti.soft.scores.supervisor.ServiceFit;
+import net.sf.json.JSONArray;
 
 @Controller
 @RequestMapping("/stu/")
@@ -108,6 +111,56 @@ public class StudentController implements ConfigDo {
 			Model model, HttpSession session) {
 		serviceFit.getStudentService().upProName(Integer.parseInt(index), newProName);
 		return "redirect:./myScores.do";
+	}
+	
+	@RequestMapping("getScore")
+	public void getScore(@RequestParam("ID") Integer ID, Model model, HttpSession session, HttpServletResponse response) throws Exception{
+		StringBuffer code = new StringBuffer();
+		
+		
+		ResultDo<MyScore> resultDo = serviceFit.getStudentService().getScore(ID);
+		MyScore score = null;
+		if(resultDo.isSuccess()) {
+			score = (MyScore)resultDo.getResult();
+			code.append("<dl class='dl-horizontal'>")
+				.append(getCode("课题类型", score.getPro_name()));
+			if(score.getScores_status() != 2) {
+				if(score.getMy_pro_name() != null)
+					code.append("<dt>课题名称</dt><dd>" + score.getMy_pro_name() + "<button type='button' style='margin-left:20%' class='btn btn-primary btn-sm' data-toggle='modal' data-target='#changeMyProName' onclick='initOne('" + ID + "')' >修改我的课题名称</button></dd>");
+				else
+					code.append("<dt>课题名称</dt><dd>[暂无]<button type='button' style='margin-left:20%' class='btn btn-primary btn-sm' data-toggle='modal' data-target='#changeMyProName' onclick='initOne('" + ID + "')' >修改我的课题名称</button></dd>");
+			}
+			else {
+				code.append(getCode("课题名称", score.getMy_pro_name()));
+			}
+			code.append(getCode("导师", score.getTea_name()))
+			.append(getCode("报告状态", score.getRepStatus()))
+			.append(getCode("报告地址", score.getAddress()))
+			.append(getCode("平时分数", score.getUsual_score()))
+			.append(getCode("课题分数", score.getProject_score()))
+			.append(getCode("报告分数", score.getReport_score()))
+			.append(getCode("总分数", score.getTotal_score()))
+			.append(getCode("教师评语", score.getComment()));
+			response.getWriter().write(code.toString());
+		}
+		else {
+			model.addAttribute("message", "查询失败");
+		}
+		
+	}
+	
+	private String getCode(String name, String value) {
+		if(value == null || value.trim().equals("")) {
+			return "<dt>" + name + "</dt><dd>[暂无]</dd>";
+		}
+		return "<dt>" + name + "</dt><dd>" + value + "</dd>";
+	}
+	
+	private String getCode(String name, Integer value) {
+		if(value == null) {
+			return "<dt>" + name + "</dt><dd>[暂无]</dd>";
+		}
+		return "<dt>" + name + "</dt><dd>" + value + "</dd>";
 	}
 
 }

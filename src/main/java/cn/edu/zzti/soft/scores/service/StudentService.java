@@ -12,4 +12,6 @@ public interface StudentService {
 	
 	//更新课题名
 	Boolean upProName(int id, String newName);
+	
+	ResultDo<MyScore> getScore(Integer ID);
 }
