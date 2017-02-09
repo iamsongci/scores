@@ -1,6 +1,9 @@
 package cn.edu.zzti.soft.scores.controller;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -67,7 +70,7 @@ public class AdminController implements ConfigDo {
 		return "./admin/empty";
 	}
 
-	@RequestMapping("resetStuPsw")
+	@RequestMapping("claInfo/stuInfo/resetStuPsw")
 	public String resetStuPsw(@RequestParam("stuID") Integer stuID, @RequestParam("claID") Integer claID, @RequestParam("message") String message, @RequestParam("claName") String claName, Model model, HttpServletResponse response)
 			throws Exception {
 		model.addAttribute("claID", claID);
@@ -75,7 +78,7 @@ public class AdminController implements ConfigDo {
 		model.addAttribute("message", message);
 		
 		serviceFit.getLoginService().updatePsw(stuID, MDUtil.MD5Tools("123456"));
-		return "redirect:./stuInfo.do";
+		return "redirect:./../stuInfo.do";
 	}
 
 	@RequestMapping("resetTeaPsw")
@@ -166,7 +169,7 @@ public class AdminController implements ConfigDo {
 		return "./admin/claInfo";
 	}
 
-	@RequestMapping("stuInfo")
+	@RequestMapping("claInfo/stuInfo")
 	public String stuInfo(@RequestParam("claID") String claID, @RequestParam("claName") String claName, @RequestParam("message") String message, Model model, HttpSession session) {
 		model.addAttribute("claID", claID);
 		model.addAttribute("claName", claName);
@@ -230,7 +233,7 @@ public class AdminController implements ConfigDo {
 		return "redirect:./claInfo.do";
 	}
 
-	@RequestMapping("addStudent")
+	@RequestMapping("claInfo/stuInfo/addStudent")
 	public String addStudent(@RequestParam("noid") String noid, @RequestParam("name") String name,
 			@RequestParam("claName") String claName, @RequestParam("claID") Integer claID, @RequestParam("message") String message, Model model,
 			HttpSession session) {
@@ -247,10 +250,10 @@ public class AdminController implements ConfigDo {
 		identity.setRole("stu");
 		identities.add(identity);
 		serviceFit.getAdminService().addIdentity(identities);
-		return "redirect:./stuInfo.do";
+		return "redirect:./../stuInfo.do";
 	}
 
-	@RequestMapping("delStudent")
+	@RequestMapping("claInfo/stuInfo/delStudent")
 	public String delStudent(@RequestParam("stuID") String stuID, @RequestParam("claID") Integer claID, @RequestParam("claName") String claName, @RequestParam("message") String message, Model model, HttpSession session) {
 		model.addAttribute("claID", claID);
 		model.addAttribute("claName", claName);
@@ -259,7 +262,7 @@ public class AdminController implements ConfigDo {
 		List<String> identities = new ArrayList<>();
 		identities.add(stuID);
 		serviceFit.getAdminService().delIdentity(identities);
-		return "redirect:./stuInfo.do";
+		return "redirect:./../stuInfo.do";
 	}
 
 	@RequestMapping("addTeacher")
@@ -372,7 +375,7 @@ public class AdminController implements ConfigDo {
 	}
 	
 	
-	@RequestMapping("upLoadStu")
+	@RequestMapping("claInfo/stuInfo/upLoadStu")
 	public String upLoadStu(@RequestParam("stuInfo") CommonsMultipartFile stuInfo, @RequestParam("claName") String claName, @RequestParam("claID") Integer claID, Model model, HttpSession session) {
 		model.addAttribute("claName", claName);
 		model.addAttribute("claID", claID);
@@ -428,7 +431,7 @@ public class AdminController implements ConfigDo {
 			model.addAttribute("message", e.getMessage());
 			e.printStackTrace();
 		}
-		return "redirect:./stuInfo.do";
+		return "redirect:./../stuInfo.do";
 	}
 	
 	private boolean hasConflict(List<Identity> identities1, List<Identity> identities2) throws Exception {
@@ -443,10 +446,10 @@ public class AdminController implements ConfigDo {
 	}
 	
 	
-
 	private List<Identity> getIdentities(HSSFSheet sheet, String type) throws Exception {
 		List<Identity> identities = new ArrayList<>();
 		HSSFRow row = null;
+		
 		for (int index = 1; index < sheet.getLastRowNum() + 1; index++) {
 			row = sheet.getRow(index);
 			if(row == null) {
@@ -462,8 +465,9 @@ public class AdminController implements ConfigDo {
 					identity = getStudent(row);
 					break;
 				}
-				
-				identities.add(identity);
+				if(identity != null) {
+					identities.add(identity);
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 				throw new Exception("行: " + (index + 1) + " !  " + e.getMessage());
@@ -478,6 +482,9 @@ public class AdminController implements ConfigDo {
 		int i = 0;
 		try {
 			String noid = ExcelUtil.getStringCellValue(row.getCell(i));
+			if(noid.trim() == "") {
+				return null;
+			}
 			if(noid.trim().length() != 12) {
 				throw new Exception("学号: " + noid +" !  长度错误!");
 			}
@@ -505,6 +512,9 @@ public class AdminController implements ConfigDo {
 		int i = 0;
 		try {
 			String noid = ExcelUtil.getStringCellValue(row.getCell(i));
+			if(noid.trim() == "") {
+				return null;
+			}
 			if(noid.trim().length() != 4) {
 				throw new Exception("工号: " + noid +" !  长度错误!");
 			}
@@ -533,16 +543,5 @@ public class AdminController implements ConfigDo {
 		}
 	}
 
-	@Test
-	public void test() {
-		try {
-			System.out.println(Integer.parseInt("0001"));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-	}
-	
-	
 	
 }

@@ -72,7 +72,7 @@
 		}
 			
 		function enter(claID, claName) {
-			var url = "./${sessionScope.pathCode}/stuInfo.do?claID=" + claID + "&claName=" + claName + "&message=";
+			var url = "./${sessionScope.pathCode}/claInfo/stuInfo.do?claID=" + claID + "&claName=" + claName + "&message=";
 			url = encodeURI(url);
 			window.location.href = url;
 		}

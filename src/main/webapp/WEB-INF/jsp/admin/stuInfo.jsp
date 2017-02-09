@@ -42,7 +42,7 @@
 
 				$.ajax({
 					type: "post",
-					url: "./${sessionScope.pathCode}/addStudent.do",
+					url: "./${sessionScope.pathCode}/claInfo/stuInfo/addStudent.do",
 					data: "noid=" + noid + "&name=" + name + "&claName=" + claName + "&claID=" + claID + "&message=",
 					dataType: 'html',
 					contentType: "application/x-www-form-urlencoded; charset=utf-8",
@@ -62,7 +62,7 @@
 				if(confirm('确认重置?')) {
 					$.ajax({
 						type: "post",
-						url: "./${sessionScope.pathCode}/resetStuPsw.do",
+						url: "./${sessionScope.pathCode}/claInfo/stuInfo/resetStuPsw.do",
 						data: "stuID=" + stuID + "&claID=" +　claID + "&claName=" +　claName + "&message=",
 						dataType: 'html',
 						contentType: "application/x-www-form-urlencoded; charset=utf-8",
@@ -83,7 +83,7 @@
 				if(confirm('确认删除?')) {
 					$.ajax({
 						type: "post",
-						url: "./${sessionScope.pathCode}/delStudent.do",
+						url: "./${sessionScope.pathCode}/claInfo/stuInfo/delStudent.do",
 						data: "stuID=" + stuID + "&claID=" +　claID + "&claName=" +　claName + "&message=",
 						dataType: 'html',
 						contentType: "application/x-www-form-urlencoded; charset=utf-8",
@@ -139,7 +139,7 @@
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 						<h4 class="modal-title">导入学生</h4>
 					</div>
-					<form action="./${sessionScope.pathCode}/upLoadStu.do" method="post" enctype="multipart/form-data">
+					<form action="./${sessionScope.pathCode}/claInfo/stuInfo/upLoadStu.do" method="post" enctype="multipart/form-data">
 						<div class="modal-body">
 							<input type="hidden" name="claName" value="${claName}">
 							<input type="hidden" name="claID" value="${claID}">
