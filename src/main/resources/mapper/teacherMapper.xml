@@ -57,6 +57,9 @@
          project_score,report_score,total_score,scores_status from score) AS c 
          ON c.stu_id=i.id  HAVING tea_id=#{0} AND status!=-1
         </select>
+        <select id="myMrInfo" resultType="TeaRoom">
+        SELECT * FROM tea_room WHERE identity_id=#{0}
+        </select>
         <delete id="delTeaWithStu">
         DELETE FROM score WHERE id = #{0};
         </delete>

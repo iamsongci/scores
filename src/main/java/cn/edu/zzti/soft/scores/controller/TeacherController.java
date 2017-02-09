@@ -1,5 +1,7 @@
 package cn.edu.zzti.soft.scores.controller;
 
+import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import cn.edu.zzti.soft.scores.entity.Identity;
+import cn.edu.zzti.soft.scores.entity.Notify;
 import cn.edu.zzti.soft.scores.entity.Project;
 import cn.edu.zzti.soft.scores.entity.tools.IdentityWithScores;
 import cn.edu.zzti.soft.scores.entity.tools.NumOfClasses;
@@ -40,6 +43,63 @@ public class TeacherController implements ConfigDo {
 	public String empty(Model model) {
 		model.addAttribute("menuSelected1", ConfigDo.EMPTY);
 		return "./teacher/empty";
+		
+	}
+	//查看通知信息
+	@RequestMapping("notify")
+	public String notify(Model model, HttpSession session) {
+		Identity identity = (Identity) session.getAttribute("user");
+		if (identity.getPhone() == null || identity.getPhone().trim().equals("")) {
+			return "./teacher/myInfo";
+		}
+		
+		ResultDo<?> resultDo = serviceFit.getNotifyService().getNotifiesByTea("" + identity.getId());
+		List<?> notifies = null;
+		if(resultDo.isSuccess()) {
+			notifies = (List<?>)resultDo.getResult();
+			model.addAttribute("notifies", notifies);
+		}
+		else {
+			model.addAttribute("message", resultDo.getMessage());
+		}
+		
+		return "./teacher/notify";
+	}
+	//删除通知
+	@RequestMapping("delNotify")
+	public String delNotify(@RequestParam("ID") String ID, Model model, HttpSession session) {
+		List<String> IDs = new ArrayList<>();
+		IDs.add(ID);
+		serviceFit.getNotifyService().delNotify(IDs);
+		return "./teacher/notify";
+	}
+	//创建通知
+		@RequestMapping("create")
+		public String create(@RequestParam("title") String title, @RequestParam("content") String content, @RequestParam("toStudent") Boolean toStudent, Model model, HttpSession session) {
+			Identity identity = (Identity) session.getAttribute("user");
+			List<Notify> notifies = new ArrayList<>();
+			Notify notify = new Notify();
+			notify.setTitle(title);
+			notify.setContent(content);
+			notify.setOwner_name(identity.getName());
+			notify.setTime(new Date(new java.util.Date().getTime()));
+			notify.setToStudent(toStudent);
+			notify.setOwner_id(identity.getId());
+			notifies.add(notify);
+			serviceFit.getNotifyService().addNotify(notifies);
+			return "./teacher/notify";
+		}
+	//机房信息查看
+	@RequestMapping("myMrInfo")
+	public String myMrInfo(Model model, HttpSession session){
+		Identity identity = (Identity) session.getAttribute("user");
+		ResultDo resultDo = serviceFit.getTeacherService().myMrInfo(identity.getId());
+		if (resultDo.isSuccess()) {
+			model.addAttribute("list", resultDo.getResult());
+		} else {
+			model.addAttribute("message", resultDo.getMessage());
+		}
+		return "./teacher/myMrInfo";
 		
 	}
 

@@ -112,7 +112,7 @@
             <li class="active">学生成绩信息</li>
         </ol>
         <div class="page-header">
-          <h3> 学生成绩信息</h3>
+          <h3> 学生成绩信息<font color="red" size="2">当学生成绩添加或修改过之后即可进行提交，提交后将不能对成绩进行任何操作！ </font></h3>
         </div>
         <div style="position: absolute;right:45px;top:65px"> 
         <button class="btn btn-warning" data-toggle="modal" data-target="#putScore"">提交学生成绩</button></div>

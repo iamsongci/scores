@@ -81,6 +81,10 @@
 				<div class="page-header">
 					<h3>学生信息列表</h3>
 				</div>
+				<div style="position: absolute;right:120px;top:65px"> 
+        <button class="btn btn-primary" data-toggle="modal" data-target="#outScore"">导入</button></div>
+				 <div style="position: absolute;right:45px;top:65px"> 
+        <button class="btn btn-info" data-toggle="modal" data-target="#outScore"">导出</button></div>
 				<!-- end: PAGE TITLE & BREADCRUMB -->
 			</div>
 		</div>

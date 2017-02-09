@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Update;
 
 import cn.edu.zzti.soft.scores.entity.Identity;
+import cn.edu.zzti.soft.scores.entity.TeaRoom;
 import cn.edu.zzti.soft.scores.entity.tools.IdentityWithScores;
 import cn.edu.zzti.soft.scores.entity.tools.NumOfClasses;
 import cn.edu.zzti.soft.scores.supervisor.ResultDo;
@@ -37,4 +38,6 @@ public interface TeacherService {
 	ResultDo myStudentScore(int tea_id);
 	//将教师的学生成绩进行提交将状态1改为2
 	boolean putStudentScore(int tea_id);
+	//导师所在机房信息
+	ResultDo myMrInfo (int tea_id);
 }

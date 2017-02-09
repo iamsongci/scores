@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import cn.edu.zzti.soft.scores.entity.Identity;
 import cn.edu.zzti.soft.scores.entity.Project;
 import cn.edu.zzti.soft.scores.entity.Score;
+import cn.edu.zzti.soft.scores.entity.TeaRoom;
 import cn.edu.zzti.soft.scores.entity.tools.IdentityWithScores;
 import cn.edu.zzti.soft.scores.entity.tools.NumOfClasses;
 import cn.edu.zzti.soft.scores.entity.tools.NumOfStuWithTea;
@@ -190,6 +191,19 @@ public class TeacherServiceImpl implements TeacherService {
 	public boolean putStudentScore(int tea_id) {
 		// TODO Auto-generated method stub
 		return FALSE != daoFit.getTeacherDao().putStudentScore(tea_id);
+	}
+	@Override
+	public ResultDo myMrInfo(int tea_id) {
+		// TODO Auto-generated method stub
+		ResultDo<List<TeaRoom>> resultDo=new ResultDo<List<TeaRoom>>();
+		List<TeaRoom> list=daoFit.getTeacherDao().myMrInfo(tea_id);
+		if(list.size()>0){
+			resultDo.setResult(list);
+			resultDo.setSuccess(true);
+		}else{
+			resultDo.setMessage("未分配机房信息！");
+		}
+		return resultDo;
 	}
 	
 }

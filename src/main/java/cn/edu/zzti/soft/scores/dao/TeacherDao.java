@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import cn.edu.zzti.soft.scores.entity.Identity;
 import cn.edu.zzti.soft.scores.entity.Project;
 import cn.edu.zzti.soft.scores.entity.Score;
+import cn.edu.zzti.soft.scores.entity.TeaRoom;
 import cn.edu.zzti.soft.scores.entity.tools.IdentityWithScores;
 import cn.edu.zzti.soft.scores.entity.tools.NumOfClasses;
 import cn.edu.zzti.soft.scores.entity.tools.NumOfStuWithTea;
@@ -43,5 +44,7 @@ public interface TeacherDao {
 	//将教师的学生成绩进行提交将状态1改为2
 	@Update("UPDATE score SET scores_status=2 WHERE tea_id=#{0} AND scores_status=1;")
 	Integer putStudentScore(int tea_id);
+	//导师所在机房信息
+	List<TeaRoom> myMrInfo (int tea_id);
 
 }
