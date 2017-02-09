@@ -214,9 +214,10 @@ public class TeacherController implements ConfigDo {
 		public String updateStuScore(@RequestParam("proId") Integer pro_id,@RequestParam("claId") Integer cla_id,
 				@RequestParam("score_id") int score_id,@RequestParam("usual_score") int usual_score,
 				@RequestParam("pro_score") int pro_score,@RequestParam("report_score") int report_score,
+				@RequestParam("scores_status") int scores_status,
 				Model model, HttpSession session){
 			
-			if(!serviceFit.getTeacherService().updateStuScore(score_id, usual_score, pro_score, report_score)){
+			if(!serviceFit.getTeacherService().updateStuScore(score_id, usual_score, pro_score, report_score,scores_status)){
 				model.addAttribute("message", "成绩修改失败！");
 			}
 			if(pro_id<0&&cla_id<0){
@@ -255,6 +256,32 @@ public class TeacherController implements ConfigDo {
 			}
 			return "./teacher/myStudentScore";
 		}
+		//老师进行成绩提交
+		@RequestMapping("putStudentScore")
+		public String putStudentScore(Model model, HttpSession session){
+			Identity identity = (Identity) session.getAttribute("user");
+			int tea_id=identity.getId();
+			model.addAttribute("teaId", tea_id);
+			if(serviceFit.getTeacherService().putStudentScore(tea_id)){
+				model.addAttribute("putScoresMessage", "1");
+			}else{
+				model.addAttribute("putScoresMessage", "0");
+			}
+			return"redirect:./myStudentScore.do";
+		}
+		//老师进行成绩添加
+		@RequestMapping("addStudentScore")
+		public String putStudentScore(@RequestParam("scoreId") int score_id,@RequestParam("usual") int usual_score,
+				@RequestParam("pro") int pro_score,@RequestParam("report") int report_score,
+				Model model, HttpSession session){
+			if(serviceFit.getTeacherService().updateStuScore(score_id, usual_score, pro_score, report_score,1)){
+				model.addAttribute("putScoresMessage", 2);
+			}else{
+				model.addAttribute("putScoresMessage", 3);
+			}
+			return"redirect:./myStudentScore.do";
+		}
+		
 	
 	
 }

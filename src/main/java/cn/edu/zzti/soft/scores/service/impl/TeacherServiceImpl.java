@@ -155,10 +155,10 @@ public class TeacherServiceImpl implements TeacherService {
 	}
 	@Override
 	public boolean updateStuScore(int score_id, int usual_score, int pro_score,
-			int report_score) {
+			int report_score,int scores_status) {
 		// TODO Auto-generated method stub
 		       int total_score=(int) Math.round(usual_score*0.3+pro_score*0.3+report_score*0.4);
-			   return FALSE != daoFit.getTeacherDao().updateStuScore(score_id, usual_score, pro_score, report_score, total_score);
+			   return FALSE != daoFit.getTeacherDao().updateStuScore(score_id, usual_score, pro_score, report_score, total_score,scores_status);
 	}
 	@Override
 	public ResultDo myStudent(int tea_id) {
@@ -185,6 +185,11 @@ public class TeacherServiceImpl implements TeacherService {
 			resultDo.setMessage("没有学生信息！！！");
 		}
 		return resultDo;
+	}
+	@Override
+	public boolean putStudentScore(int tea_id) {
+		// TODO Auto-generated method stub
+		return FALSE != daoFit.getTeacherDao().putStudentScore(tea_id);
 	}
 	
 }
