@@ -53,8 +53,8 @@
         </select>
          <select id="myStudentScore" resultType="IdentityWithScores">
          SELECT * FROM identity AS i 
-         left join (select id AS score_id,stu_id,tea_id,tea_name,pro_id,pro_name,my_pro_name,usual_score,
-         project_score,report_score,total_score,scores_status from score) AS c 
+         left join (select id AS score_id,stu_id,tea_id,tea_name,pro_id,pro_name,my_pro_name,usual_score,report_status,
+         comment,address,project_score,report_score,total_score,scores_status from score) AS c 
          ON c.stu_id=i.id  HAVING tea_id=#{0} AND status!=-1
         </select>
         <select id="myMrInfo" resultType="TeaRoom">

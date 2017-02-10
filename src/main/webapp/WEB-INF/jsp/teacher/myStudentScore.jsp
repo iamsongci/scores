@@ -98,6 +98,9 @@
 		    }
 		}
 	}
+	function getScoreId(id){
+	$("#id").val(id);
+	}
 </script>
 </head>
 <body>
@@ -171,7 +174,29 @@
                             <td><small>${list.cla_name }</small></td>
                             <td><small>${list.pro_name }</small></td>
                             <td><small>${list.my_pro_name }</small></td>
-                            <td><small>report</small></td>
+                            <td><small>
+                                <c:choose>
+										<c:when test="${list.report_status == 0}">
+											<button class="btn btn-warning">未提交</button>
+										</c:when>
+										<c:when test="${list.report_status == 1}">
+										<button data-toggle="modal" data-target="#selectReport" class="btn btn-info" onclick="getScoreId(${list.score_id })">已提交 </button>
+										<!-- <form  method="post" action="./${sessionScope.pathCode}/download.do">
+										    <input type="hidden" name="id" value="${list.score_id}"/>
+										    <input data-toggle="modal" data-target="#selectReport" class="btn btn-info"value="已提交"/>
+										</form> -->
+										</c:when>
+										<c:when test="${list.report_status == 2}">
+											<button class="btn btn-success">通过</button>
+										</c:when>
+										<c:otherwise>   
+											<button class="btn btn-danger">未通过</button>
+									 	</c:otherwise> 
+									</c:choose>
+                            
+                            
+                            
+                            </small></td>
                             <td>
                                  <c:if test="${list.total_score < 60 }">
 													           <span class="label label-danger">${list.total_score}</span>
@@ -316,6 +341,38 @@
 						</script>
 						<a href="./${sessionScope.pathCode}/putStudentScore.do">
 						<button type="button" class="btn btn-default btn-primary">提交</button></a>
+						<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- 查看报告 -->
+	     <div class="modal fade" id="selectReport" tabindex="-1" role="dialog"
+		aria-labelledby="alterModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="alterModalLabel">报告信息</h4>
+				</div>
+				<form id="form4" name="form4" method="post"
+					action="./stu/download.do">
+					<div class="modal-body">
+					<h5>请点击<font color="#FF0000">下载报告</font>，然后根据报告填写报告评语！并给予通过或未通过</h5>
+					 <input type="hidden" name="id" id="id"/>
+					</div>
+					<div class="modal-footer">
+						<button type="submit" class="btn btn-default btn-primary"
+							">下载报告</button>
+							<button  class="btn btn-default btn-success"
+							onclick="">通过</button>
+							<button  class="btn btn-default btn-danger"
+							onclick="">不通过</button>
 						<button type="button" class="btn btn-default" data-dismiss="modal">关闭
 						</button>
 					</div>

@@ -10,11 +10,33 @@ public class IdentityWithScores extends Identity {
 	private Integer pro_id;
 	private String pro_name;
 	private String my_pro_name;
+	private int report_status;
+	private String comment;
+	private String address;
 	private Integer usual_score;
 	private Integer project_score;
 	private Integer report_score;
 	private Integer total_score;
 	private Integer scores_status;
+	
+	public int getReport_status() {
+		return report_status;
+	}
+	public void setReport_status(int report_status) {
+		this.report_status = report_status;
+	}
+	public String getComment() {
+		return comment;
+	}
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
 	public Integer getScore_id() {
 		return score_id;
 	}
@@ -94,11 +116,14 @@ public class IdentityWithScores extends Identity {
 		return "IdentityWithScores [score_id=" + score_id + ", stu_id="
 				+ stu_id + ", tea_id=" + tea_id + ", tea_name=" + tea_name
 				+ ", pro_id=" + pro_id + ", pro_name=" + pro_name
-				+ ", my_pro_name=" + my_pro_name + ", usual_score="
-				+ usual_score + ", project_score=" + project_score
-				+ ", report_score=" + report_score + ", total_score="
-				+ total_score + ", scores_status=" + scores_status + "]";
+				+ ", my_pro_name=" + my_pro_name + ", report_status="
+				+ report_status + ", comment=" + comment + ", address="
+				+ address + ", usual_score=" + usual_score + ", project_score="
+				+ project_score + ", report_score=" + report_score
+				+ ", total_score=" + total_score + ", scores_status="
+				+ scores_status + "]";
 	}
+    
     
 	
 	
