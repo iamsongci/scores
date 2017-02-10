@@ -1,15 +1,18 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 
 	<head>
-		<title>软件学院实践课题管理系统</title>
+		<title>实践课题管理系统</title>
+		<!-- DataTables CSS -->
+		<link href="assets/vendor/datatables-plugins/dataTables.bootstrap.css" rel="stylesheet">
+		<!-- DataTables Responsive CSS -->
+		<link href="assets/vendor/datatables-responsive/dataTables.responsive.css" rel="stylesheet">
+		<!-- Custom CSS -->
+		<link href="assets/vendor/dist/css/sb-admin-2.css" rel="stylesheet">
+		<!-- Custom Fonts -->
+		<link href="assets/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
-		<script src="assets/js/ajaxfileupload.js" type="text/javascript"></script>
-
-		<link rel="stylesheet" href="assets/plugins/select2/select2.css">
 		<script type="text/javascript">
 			function checkTeacher() {
 				var noid = $('#noid').val();
@@ -108,6 +111,7 @@
 				}
 			}
 		</script>
+
 	</head>
 
 	<body>
@@ -123,6 +127,8 @@
 				</ol>
 				<div class="page-header">
 					<h3>导师信息</h3>
+					<button data-target="#upload" data-toggle="modal" type="button" class="btn btn-info" style="float: right; margin: 5px 10% 5px 5px;">导入导师</button>
+					<button data-target="#addTea" data-toggle="modal" type="button" class="btn btn-info" style="float: right; margin: 5px 2% 5px 5px;">添加导师</button>
 				</div>
 			</div>
 		</div>
@@ -157,35 +163,35 @@
 			</div>
 		</div>
 
-		<!-- end: PAGE HEADER 頭部結束-->
 		<div class="row">
 			<div class="col-md-12">
-				<div class="panel-body">
-					<table class="table  table-hover">
-						<thead>
-							<tr>
-								<h5><font color="red">${message}</font></h5>
-							</tr>
-							<tr>
-								<button data-target="#upload" data-toggle="modal" type="button" class="btn btn-info" style="float: right; margin: 5px 10% 5px 5px;">导入导师</button>
-								<button data-target="#addTea" data-toggle="modal" type="button" class="btn btn-info" style="float: right; margin: 5px 2% 5px 5px;">添加导师</button>
-							</tr>
-							<tr>
-								<th><small>角色</small></th>
-								<th><small>工号</small></th>
-								<th><small>姓名</small></th>
-								<th><small>性别</small></th>
-								<th><small>手机号</small></th>
-								<th><small>邮箱</small></th>
-								<th><small>操作</small></th>
-								<th><small>删除</small></th>
+				<!-- start: TABLE WITH IMAGES PANEL -->
+				<form name="add" action="./${sessionScope.pathCode}/addTeaWithStu.do" method="post">
+					<input type="hidden" name="classId" value="${classId}">
+					<div class="panel-body">
+						<div class="row"></div>
+						<div class="panel-body">
+							<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
+								<thead>
+									<tr>
+										<h5><font color="red">${message}</font></h5>
+									</tr>
+									<tr>
+										<th><small>角色</small></th>
+										<th><small>工号</small></th>
+										<th><small>姓名</small></th>
+										<th><small>性别</small></th>
+										<th><small>手机号</small></th>
+										<th><small>邮箱</small></th>
+										<th><small>操作</small></th>
+										<th><small>删除</small></th>
 
-							</tr>
-						</thead>
-						<tbody>
-							<c:forEach items="${teachers}" var="teacher">
-								<tr>
-									<td><small>
+									</tr>
+								</thead>
+								<tbody>
+									<c:forEach items="${teachers}" var="teacher">
+										<tr>
+											<td><small>
 										<c:choose>
 											<c:when test="${teacher.role == 'tea'}">
 												<span class="label label-primary">导师</span>
@@ -198,9 +204,9 @@
 											</c:when>
 										</c:choose>
 									</small></td>
-									<td><small>${teacher.noid}</small></td>
-									<td><small>${teacher.name}</small></td>
-									<td><small>
+											<td><small>${teacher.noid}</small></td>
+											<td><small>${teacher.name}</small></td>
+											<td><small>
 									<c:if test="${teacher.sex eq true}">
 										女
 									</c:if>
@@ -208,25 +214,27 @@
 										男
 									</c:if>
 									</small></td>
-									<td><small>${teacher.phone}</small></td>
-									<td><small>${teacher.email}</small></td>
+											<td><small>${teacher.phone}</small></td>
+											<td><small>${teacher.email}</small></td>
 
-									<td>
-										<button type="button" class="btn btn-info btn-sm" data-dismiss="modal" onclick="resetPsw('${teacher.id }')">重置密码</button>
-									</td>
-									<td>
-										<button type="button" class="btn btn-danger btn-sm" data-dismiss="modal" onclick="delTeacher('${teacher.id }')">删除</button>
-									</td>
+											<td>
+												<button type="button" class="btn btn-info btn-sm" data-dismiss="modal" onclick="resetPsw('${teacher.id }')">重置密码</button>
+											</td>
+											<td>
+												<button type="button" class="btn btn-danger btn-sm" data-dismiss="modal" onclick="delTeacher('${teacher.id }')">删除</button>
+											</td>
 
-								</tr>
-							</c:forEach>
-						</tbody>
-					</table>
-				</div>
+										</tr>
+									</c:forEach>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</form>
 			</div>
 		</div>
 
-		<!-- Modal 添加学生-->
+		<!-- Modal 添加导师-->
 		<div class="modal fade" id="addTea" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
@@ -297,18 +305,26 @@
 
 		</div>
 
-		<script src="assets/plugins/jquery-inputlimiter/jquery.inputlimiter.1.3.1.min.js"></script>
-		<!-- 3 -->
-		<script src="assets/plugins/autosize/jquery.autosize.min.js"></script>
-		<!-- 1 -->
-		<script src="assets/plugins/select2/select2.min.js"></script>
-		<!-- 2 -->
-		<script src="assets/js/form-elements.js"></script>
-		<!-- 4 -->
-		<!-- end: JAVASCRIPTS REQUIRED FOR THIS PAGE ONLY -->
-		<script>
-		</script>
+		<!-- DataTables JavaScript -->
+		<script src="assets/vendor/datatables/js/jquery.dataTables.min.js"></script>
+		<script src="assets/vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
+		<script src="assets/vendor/datatables-responsive/dataTables.responsive.js"></script>
 
+		<!-- Page-Level Demo Scripts - Tables - Use for reference -->
+		<script>
+			$(document).ready(function() {
+				$('#dataTables-example').DataTable({
+					responsive: true
+				});
+			});
+		</script>
+		<script>
+			$("#selectAll").click(function() {  
+				$("input[name='stu_id']").each(function() {
+					$(this).attr("checked", !this.checked);
+				});                   
+			});
+		</script>
 	</body>
 
 </html>
