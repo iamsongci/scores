@@ -31,6 +31,7 @@ import cn.edu.zzti.soft.scores.entity.tools.MyScore;
 import cn.edu.zzti.soft.scores.supervisor.ConfigDo;
 import cn.edu.zzti.soft.scores.supervisor.ResultDo;
 import cn.edu.zzti.soft.scores.supervisor.ServiceFit;
+import cn.edu.zzti.soft.scores.util.MDUtil;
 
 @Controller
 @RequestMapping("/stu/")
@@ -138,16 +139,16 @@ public class StudentController implements ConfigDo {
 				.append(getCode("课题类型", score.getPro_name()));
 			if(score.getScores_status() != 2) {
 				if(score.getMy_pro_name() != null)
-					code.append("<dt>课题名称</dt><dd>" + score.getMy_pro_name() + "<button type='button' style='margin-left:20%' class='btn btn-primary btn-sm' data-toggle='modal' data-target='#changeMyProName' onclick='initOne('" + ID + "')' >修改我的课题名称</button></dd>");
+					code.append("<dt>课题名称</dt><dd>" + score.getMy_pro_name() + "<button type='button' style='margin-left:20%' class='btn btn-primary btn-sm' data-toggle='modal' data-target='#changeMyProName' onclick='initOne(" + ID + ")' >修改我的课题名称</button></dd>");
 				else
-					code.append("<dt>课题名称</dt><dd>[暂无]<button type='button' style='margin-left:20%' class='btn btn-primary btn-sm' data-toggle='modal' data-target='#changeMyProName' onclick='initOne('" + ID + "')' >修改我的课题名称</button></dd>");
+					code.append("<dt>课题名称</dt><dd>[暂无]<button type='button' style='margin-left:20%' class='btn btn-primary btn-sm' data-toggle='modal' data-target='#changeMyProName' onclick='initOne(" + ID + ")' >修改我的课题名称</button></dd>");
 			}
 			else {
 				code.append(getCode("课题名称", score.getMy_pro_name()));
 			}
 			code.append(getCode("导师", score.getTea_name()))
 			.append(getCode("报告状态", score.getRepStatus()))
-			.append(getCode("报告地址", score.getAddress()))
+			.append(getCode("报告名称", score.getAddress()))
 			.append(getCode("平时分数", score.getUsual_score()))
 			.append(getCode("课题分数", score.getProject_score()))
 			.append(getCode("报告分数", score.getReport_score()))
@@ -174,6 +175,15 @@ public class StudentController implements ConfigDo {
 		}
 		return "<dt>" + name + "</dt><dd>" + value + "</dd>";
 	}
+	
+	@RequestMapping("updateStuPsd")
+	public String resetStuPsw(@RequestParam("psw") String psw, Model model, HttpServletResponse response, HttpSession session)
+			throws Exception {
+		Identity identity = (Identity) session.getAttribute("user");
+		serviceFit.getLoginService().updatePsw(identity.getId(), MDUtil.MD5Tools(psw));
+		return "forward:./../logout.do";
+	}
+	
 	//文件上传
 	@RequestMapping(value="doUpload")
 	public String doUploadFile(Model model,@RequestParam("file")MultipartFile file,HttpServletRequest request,
