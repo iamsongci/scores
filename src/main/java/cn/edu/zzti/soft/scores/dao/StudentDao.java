@@ -15,4 +15,6 @@ public interface StudentDao {
 	
 	@Select("SELECT * FROM score WHERE id = #{0}")
 	MyScore getScore(Integer ID);
+	
+	Integer updateReport(int id,int report_status,String address);
 }

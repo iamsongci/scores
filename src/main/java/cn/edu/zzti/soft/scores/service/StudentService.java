@@ -14,4 +14,6 @@ public interface StudentService {
 	Boolean upProName(int id, String newName);
 	
 	ResultDo<MyScore> getScore(Integer ID);
+	
+	Boolean updateReport(int id,int report_status,String address);
 }

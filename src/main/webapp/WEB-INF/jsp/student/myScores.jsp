@@ -111,7 +111,7 @@
 										<c:choose>
 											<c:when test="${empty score.my_pro_name}">
 												<c:if test="${score.scores_status != 2}">
-													<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#changeMyProName" onclick="initOne('${score.id}')">修改我的课题名称</button>
+													<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#changeMyProName" onclick="initOne('${score.id}')">添加课题名称</button>
 												</c:if>
 											</c:when>
 											<c:otherwise>
@@ -125,16 +125,21 @@
 									<td><small>
 									<c:choose>
 										<c:when test="${score.report_status == 0}">
-											未提交
+											<button class="btn btn-warning" data-toggle="modal" data-target="#putReport" 
+											        onclick="myScoresId(${score.id},${score.tea_id},${score.pro_id })">点击提交</button>
 										</c:when>
 										<c:when test="${score.report_status == 1}">
-											已提交
+										<!-- <a href=".${score.address }"><button class="btn btn-info">已提交 </button></a>-->
+										<form  method="post" action="./${sessionScope.pathCode}/download.do">
+										    <input type="hidden" name="id" value="${score.id}"/>
+										    <input type="submit"class="btn btn-info"value="已提交"/>
+										</form> 
 										</c:when>
 										<c:when test="${score.report_status == 2}">
-											通过
+											<button class="btn btn-success">通过</button>
 										</c:when>
 										<c:otherwise>   
-											未通过
+											<button class="btn btn-danger">未通过</button>
 									 	</c:otherwise> 
 									</c:choose>
 								</small></td>
@@ -210,6 +215,96 @@
 				FormElements.init();
 			});
 		</script>
+		<!-- 获取scoreid -->
+		<script type="text/javascript">
+		  function myScoresId(id,tea_id,pro_id){
+		     $("#score_id").val(id);
+		      $("#tea_id").val(tea_id);
+		      $("#pro_id").val(pro_id);
+		      
+		  }
+		</script>
+		<!-- 文件大小限制 -->
+		<script type="text/javascript">
+			var maxsize = 5 * 1024 * 1024; //2M  
+			var errMsg = "上传的附件文件不能超过5M！！！";
+			var tipMsg = "您的浏览器暂不支持计算上传文件的大小，确保上传文件不要超过4M，建议使用IE、FireFox、Chrome浏览器。";
+			var browserCfg = {};
+			var ua = window.navigator.userAgent;
+			if(ua.indexOf("MSIE") >= 1) {
+				browserCfg.ie = true;
+			} else if(ua.indexOf("Firefox") >= 1) {
+				browserCfg.firefox = true;
+			} else if(ua.indexOf("Chrome") >= 1) {
+				browserCfg.chrome = true;
+			}
+
+			function checkfile() {
+				try {
+					var obj_file = document.getElementById("file");
+					if(obj_file.value == "") {
+						alert("请先选择上传文件");
+						return;
+					}
+					var filesize = 0;
+					if(browserCfg.firefox || browserCfg.chrome) {
+						filesize = obj_file.files[0].size;
+					} else if(browserCfg.ie) {
+						var obj_img = document.getElementById('tempimg');
+						obj_img.dynsrc = obj_file.value;
+						filesize = obj_img.fileSize;
+					} else {
+						alert(tipMsg);
+						return;
+					}
+					if(filesize == -1) {
+						alert(tipMsg);
+						return;
+					} else if(filesize > maxsize) {
+						alert(errMsg);
+						return;
+					} else {
+						$("#form1").submit();
+					}
+				} catch(e) {
+					alert(e);
+				}
+			}
+		</script>
+		 <!-- 报告提交模态框-->
+    <div class="modal fade" id="putReport" tabindex="-1" role="dialog"
+		aria-labelledby="alterModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" >文件提交</h4>
+				</div>
+				<form id="form1" name="form1" method="post" enctype="multipart/form-data"
+					action="./${sessionScope.pathCode}/doUpload.do">
+					<div class="modal-body">
+					<h5>注意：提交的文件大小不能超过<font color="#FF0000">5M</font>，可提交word文档与PDF文档</h5>
+					<input type="hidden"name="score_id" id="score_id"/>
+					<input type="hidden"name="tea_id" id="tea_id"/>
+					<input type="hidden"name="pro_id" id="pro_id"/>
+					<input type="file"name="file" id="file"
+					       accept="application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf"/>
+					</div>
+					<div class="modal-footer">
+						<script type="text/javascript">
+							
+						</script>
+						<button type="button" class="btn btn-default btn-primary"onclick="checkfile()">提交</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
 	</body>
 
 </html>

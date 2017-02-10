@@ -1,24 +1,36 @@
 package cn.edu.zzti.soft.scores.controller;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.FileUtils;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import cn.edu.zzti.soft.scores.entity.Identity;
-import cn.edu.zzti.soft.scores.entity.TeaRoom;
 import cn.edu.zzti.soft.scores.entity.tools.MyScore;
 import cn.edu.zzti.soft.scores.supervisor.ConfigDo;
-import cn.edu.zzti.soft.scores.supervisor.DaoFit;
 import cn.edu.zzti.soft.scores.supervisor.ResultDo;
 import cn.edu.zzti.soft.scores.supervisor.ServiceFit;
-import net.sf.json.JSONArray;
 
 @Controller
 @RequestMapping("/stu/")
@@ -162,5 +174,67 @@ public class StudentController implements ConfigDo {
 		}
 		return "<dt>" + name + "</dt><dd>" + value + "</dd>";
 	}
+	//文件上传
+	@RequestMapping(value="doUpload")
+	public String doUploadFile(Model model,@RequestParam("file")MultipartFile file,HttpServletRequest request,
+			@RequestParam("score_id")int score_id,@RequestParam("tea_id")int tea_id,
+			@RequestParam("pro_id")int pro_id
+			) throws IOException{
+		if(!file.isEmpty()){
+			String path =request.getSession().getServletContext().getRealPath(File.separator) ;
+			String path2="studentReport\\"+tea_id+"\\"+pro_id+"\\";
+			path=path+path2;
+			String adress=file.getOriginalFilename();
+			FileUtils.copyInputStreamToFile(file.getInputStream(), new File(path,adress));
+			serviceFit.getStudentService().updateReport(score_id, 1, adress);
+		}else{
+			model.addAttribute("message","文件为空");
+		}
+		return "redirect:./myScores.do";
+		
+	}
+	
+	//文件下载
+    @RequestMapping("download")    
+    public void download(@RequestParam("id")int id,HttpServletRequest request
+    		, HttpServletResponse response,HttpSession session) throws IOException {  
+    	ResultDo<MyScore> resultDo = serviceFit.getStudentService().getScore(id);
+		MyScore score = null;
+			score = (MyScore)resultDo.getResult();
+			String fileName=score.getAddress();
+			String path =request.getSession().getServletContext().getRealPath(File.separator) ;
+			String path2="studentReport\\"+score.getTea_id()+"\\"+score.getPro_id()+"\\";
+			path=path+path2;
+			request.setCharacterEncoding("utf-8");
+			response.setContentType("text/html;charset=utf-8");
+			//fileName=new String(fileName.getBytes("iso8859-1"),"utf-8");
+			System.out.println(fileName);
+			
+			try
+			  {
+			         response.setContentType("text/plain");
+			         response.setHeader("Location",fileName);
+			         response.setHeader("Content-Disposition", "attachment; filename=" +  new String( fileName.getBytes("gb2312"), "ISO8859-1" ) );
+			         OutputStream outputStream = response.getOutputStream();
+			         System.out.println(path+fileName);
+			         InputStream inputStream = new FileInputStream(path+fileName);
+			         byte[] buffer = new byte[1024];
+			         int i = -1;
+			         while ((i = inputStream.read(buffer)) != -1) {
+			          outputStream.write(buffer, 0, i);
+			         }
+			         outputStream.flush();
+			         outputStream.close();
+			  }catch(FileNotFoundException e1)
+			  {
+			   System.out.println("没有找到您要的文件");
+			  }
+			  catch(Exception e)
+			  {
+			   System.out.println("系统错误，请及时与管理员联系");
+			  }
+    }   
+	
+	
 
 }

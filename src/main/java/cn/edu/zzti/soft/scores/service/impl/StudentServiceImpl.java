@@ -56,5 +56,11 @@ public class StudentServiceImpl implements StudentService {
 		}
 		return resultDo;
 	}
+
+	@Override
+	public Boolean updateReport(int id, int report_status, String address) {
+		// TODO Auto-generated method stub
+		return FALSE != daoFit.getStudentDao().updateReport(id, report_status, address);
+	}
 	
 }
