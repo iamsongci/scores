@@ -16,12 +16,6 @@
 	function create() {
 		var title = $('#newtitle').val();
 		var content = $('#newcontent').val();
-		var choice = document.getElementById("newtoStudent");
-		var toStudent = false;
-		if (choice.checked == true)
-			toStudent = true;
-		if (choice.checked == false)
-			toStudent = false;
 		if (title.trim() == "") {
 			alert("标题不能为空!");
 			return;
@@ -34,8 +28,7 @@
 			$.ajax({
 				type : "post",
 				url : "./${sessionScope.pathCode}/create.do",
-				data : "title=" + title + "&content=" + content
-						+ "&toStudent=" + toStudent,
+				data : "title=" + title + "&content=" + content,
 				dataType : 'html',
 				contentType : "application/x-www-form-urlencoded; charset=utf-8",
 				success : function(result) {
@@ -181,10 +174,6 @@
 					<div style="padding: 10px 30px 10px 30px">
 						<textarea id="newcontent" name="newcontent" class="form-control"
 							rows="5" placeholder="内容""></textarea>
-					</div>
-					<div style="padding: 10px 45px 0px 30px">
-						<label style="float: right;"><input type="checkbox"
-							id="newtoStudent" name="newtoStudent">是否发送给学生</label>
 					</div>
 
 				</div>

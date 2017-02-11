@@ -85,7 +85,7 @@ public class TeacherController implements ConfigDo {
 	}
 	//创建通知
 		@RequestMapping("create")
-		public String create(@RequestParam("title") String title, @RequestParam("content") String content, @RequestParam("toStudent") Boolean toStudent, Model model, HttpSession session) {
+		public String create(@RequestParam("title") String title, @RequestParam("content") String content,Model model, HttpSession session) {
 			Identity identity = (Identity) session.getAttribute("user");
 			List<Notify> notifies = new ArrayList<>();
 			Notify notify = new Notify();
@@ -93,7 +93,7 @@ public class TeacherController implements ConfigDo {
 			notify.setContent(content);
 			notify.setOwner_name(identity.getName());
 			notify.setTime(new Date(new java.util.Date().getTime()));
-			notify.setToStudent(toStudent);
+			notify.setToStudent(true);
 			notify.setOwner_id(identity.getId());
 			notifies.add(notify);
 			serviceFit.getNotifyService().addNotify(notifies);
@@ -360,6 +360,14 @@ public class TeacherController implements ConfigDo {
 		serviceFit.getLoginService().updatePsw(identity.getId(), MDUtil.MD5Tools(psw));
 		return "forward:./../logout.do";
 	}
+//	//reportStatus修改报告状态和评语
+//	@RequestMapping("reportStatus")
+//	public String reportStatus(@RequestParam("comment") String comment,@RequestParam("Status") int Status,@RequestParam("score_id") int score_id,
+//            Model model, HttpServletResponse response, HttpSession session)
+//			throws Exception {
+//		serviceFit.getTeacherService().updateRepStatus(score_id, Status, comment);
+//		return"redirect:./myStudentScore.do";
+//	}
 		
 	
 	

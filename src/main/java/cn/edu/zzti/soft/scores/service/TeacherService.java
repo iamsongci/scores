@@ -40,4 +40,6 @@ public interface TeacherService {
 	boolean putStudentScore(int tea_id);
 	//导师所在机房信息
 	ResultDo myMrInfo (int tea_id);
+	//修改学生评语与状态
+	boolean updateRepStatus(int id,int report_status,String comment);
 }

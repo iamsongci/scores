@@ -102,6 +102,34 @@
 	$("#id").val(id);
 	}
 </script>
+<!-- 报告状态设置
+<script type="text/javascript">
+	   function reportStatus(Status){
+	    var score_id = $("#id").val();
+		var comment = $("#comment").val();
+		var tell="";
+		if(Status==-1){
+		    tell="确定报告不通过？"
+		}else{
+		     tell="确定报告通过？"
+		}
+		
+			$.ajax({
+				type : "post",
+				url : "./${sessionScope.pathCode}/reportStatus.do",
+				data : {"score_id":score_id,"comment":comment,"Status":Status},
+				dataType : 'html',
+				contentType : "application/x-www-form-urlencoded; charset=utf-8",
+				success : function(result) {
+					alert("提交成功!");
+				},
+				error : function(request) {
+					alert("提交失败，如有需要请联系管理员!");
+				}
+			});
+	
+	   }
+	</script> --> 
 </head>
 <body>
 <!-- start: PAGE HEADER -->
@@ -360,19 +388,20 @@
 					</button>
 					<h4 class="modal-title" id="alterModalLabel">报告信息</h4>
 				</div>
-				<form id="form4" name="form4" method="post"
-					action="./stu/download.do">
+				
 					<div class="modal-body">
-					<h5>请点击<font color="#FF0000">下载报告</font>，然后根据报告填写报告评语！并给予通过或未通过</h5>
-					 <input type="hidden" name="id" id="id"/>
+					<h5>请点击<font color="#FF0000">下载报告</font>，进行报告的下下载</h5>
+					</div>
+					<form id="form4" name="form4" method="post"	action="./stu/download.do">
+					<div style="padding: 10px 30px 10px 30px">
+					<input type="hidden" name="id" id="id"/>
 					</div>
 					<div class="modal-footer">
-						<button type="submit" class="btn btn-default btn-primary"
-							">下载报告</button>
-							<button  class="btn btn-default btn-success"
-							onclick="">通过</button>
+					<input type="submit"class="btn btn-default btn-primary" value="下载报告"/>
+						<!-- 	<button  class="btn btn-default btn-success"
+							onclick="reportStatus(2)">通过</button>
 							<button  class="btn btn-default btn-danger"
-							onclick="">不通过</button>
+							onclick="reportStatus(-1)">不通过</button> -->
 						<button type="button" class="btn btn-default" data-dismiss="modal">关闭
 						</button>
 					</div>
@@ -380,6 +409,7 @@
 			</div>
 		</div>
 	</div>
+	
     
     
 </body>

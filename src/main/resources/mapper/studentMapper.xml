@@ -15,6 +15,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<update id="updateReport">
 		UPDATE score SET report_status = #{1},address=#{2} WHERE id = #{0}
 	</update>
+	<update id="updateRepStatus">
+		UPDATE score SET report_status = #{1},comment=#{2} WHERE id = #{0}
+	</update>
 
 </mapper>  
        

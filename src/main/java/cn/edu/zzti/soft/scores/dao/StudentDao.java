@@ -17,4 +17,6 @@ public interface StudentDao {
 	MyScore getScore(Integer ID);
 	
 	Integer updateReport(int id,int report_status,String address);
+	
+	Integer updateRepStatus(int id,int report_status,String comment);
 }

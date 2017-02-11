@@ -286,7 +286,7 @@
 				<form id="form1" name="form1" method="post" enctype="multipart/form-data"
 					action="./${sessionScope.pathCode}/doUpload.do">
 					<div class="modal-body">
-					<h5>注意：提交的文件大小不能超过<font color="#FF0000">5M</font>，可提交word文档与PDF文档</h5>
+					<h5>注意：当报告合格并经过课题指导教师确认后方可提交</h5><h5>提交的文件大小不能超过<font color="#FF0000">5M</font>，可提交word文档与PDF文档</h5>
 					<input type="hidden"name="score_id" id="score_id"/>
 					<input type="hidden"name="tea_id" id="tea_id"/>
 					<input type="hidden"name="pro_id" id="pro_id"/>

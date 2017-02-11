@@ -205,5 +205,10 @@ public class TeacherServiceImpl implements TeacherService {
 		}
 		return resultDo;
 	}
+	@Override
+	public boolean updateRepStatus(int id, int report_status, String comment) {
+		// TODO Auto-generated method stub
+		return FALSE != daoFit.getStudentDao().updateReport(id, report_status, comment);
+	}
 	
 }
