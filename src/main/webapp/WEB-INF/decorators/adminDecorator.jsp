@@ -86,6 +86,7 @@
 	</head>
 
 	<body>
+	<c:if test="${sessionScope.pathCode eq 'admin'}">
 		<!-- start: HEADER -->
 		<div class="navbar navbar-inverse navbar-fixed-top">
 			<!-- start: TOP NAVIGATION CONTAINER -->
@@ -222,7 +223,7 @@
 			$('#' + level1menuId).click();
 			$('#' + level1menuId).addClass('active open');
 		</script>
-
+  </c:if>
 	</body>
 
 </html>

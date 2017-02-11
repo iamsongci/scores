@@ -116,7 +116,7 @@
     <!-- end: LOGIN BOX -->
     <!-- start: COPYRIGHT -->
     <div class="copyright">
-        2016 &copy; 实践课题管理系统 by 中原工学院软件学院.
+        2017 &copy; 实践课题管理系统 by 中原工学院软件学院.
     </div>
     <!-- end: COPYRIGHT -->
 </div>
