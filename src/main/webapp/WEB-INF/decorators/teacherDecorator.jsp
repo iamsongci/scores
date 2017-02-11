@@ -99,6 +99,8 @@
 	</head>
 
 	<body>
+	<c:if test="${sessionScope.pathCode eq 'stu'}"><h1>这里什么都没有.....</h1></c:if>
+	<c:if test="${sessionScope.pathCode eq 'tea'}">
 		<!-- start: HEADER -->
 		<div class="navbar navbar-inverse navbar-fixed-top">
 			<!-- start: TOP NAVIGATION CONTAINER -->
@@ -110,7 +112,7 @@
 				</button>
 					<!-- end: RESPONSIVE MENU TOGGLER -->
 					<!-- start: LOGO -->
-					<a class="navbar-brand" href="./${sessionScope.pathCode}/homePage.do"> 软件学院实践课题管理系统 </a>
+					<a class="navbar-brand" href="./${sessionScope.pathCode}/home.do"> 软件学院实践课题管理系统 </a>
 					<!-- end: LOGO -->
 				</div>
 				<div class="navbar-tools">
@@ -159,12 +161,13 @@
 						<li id="index" class="active open">
 							<a href="./${sessionScope.pathCode}/home.do"><i class="clip-home-3"></i> <span class="title">首页</span><span class="selected"></span> </a>
 						</li>
-						<li id="tutNotify">
-							<a href="./${sessionScope.pathCode}/notify.do"><i class=" glyphicon glyphicon-bullhorn  "></i> <span class="title">通知管理</span></a>
+						<c:if test="${phone eq null }">
+						<li id="notify">
+							<a href="./${sessionScope.pathCode}/notify.do"><i class=" glyphicon glyphicon-bullhorn  "></i> <span class="title">通知管理</span><span class="selected"></span></a>
 						</li>
 
 						<li id="myMrInfo">
-							<a href="./${sessionScope.pathCode}/myMrInfo.do"><i class=" clip-pencil"></i> <span class="title">机房信息</span></a>
+							<a href="./${sessionScope.pathCode}/myMrInfo.do"><i class=" clip-pencil"></i> <span class="title">机房信息</span><span class="selected"></span></a>
 						</li>
 
 						<li id="myStudent">
@@ -195,6 +198,7 @@
 						href="./${sessionScope.pathCode}/empty.do"><i
 							class=" 	clip-download"></i> <span class="title">文件模板</span><span
 							class="selected"></span> </a></li> --%>
+						</c:if>
 						<li id="myInfo">
 							<a href="./${sessionScope.pathCode}/myInfo.do"> <i class=" clip-settings"></i> <span class="title">个人信息</span> <span class="selected"></span>
 							</a>
@@ -274,7 +278,7 @@
 				</div>
 			</div>
 		</div>
-
+    </c:if>
 	</body>
 
 </html>

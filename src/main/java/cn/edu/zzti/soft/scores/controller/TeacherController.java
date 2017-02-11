@@ -72,7 +72,7 @@ public class TeacherController implements ConfigDo {
 		else {
 			model.addAttribute("message", resultDo.getMessage());
 		}
-		
+		model.addAttribute("menuSelected1", ConfigDo.TEANOTIFY);
 		return "./teacher/notify";
 	}
 	//删除通知
@@ -81,6 +81,7 @@ public class TeacherController implements ConfigDo {
 		List<String> IDs = new ArrayList<>();
 		IDs.add(ID);
 		serviceFit.getNotifyService().delNotify(IDs);
+		model.addAttribute("menuSelected1", ConfigDo.TEANOTIFY);
 		return "./teacher/notify";
 	}
 	//创建通知
@@ -97,6 +98,7 @@ public class TeacherController implements ConfigDo {
 			notify.setOwner_id(identity.getId());
 			notifies.add(notify);
 			serviceFit.getNotifyService().addNotify(notifies);
+			model.addAttribute("menuSelected1", ConfigDo.TEANOTIFY);
 			return "./teacher/notify";
 		}
 	//机房信息查看
@@ -109,6 +111,7 @@ public class TeacherController implements ConfigDo {
 		} else {
 			model.addAttribute("message", resultDo.getMessage());
 		}
+		model.addAttribute("menuSelected1", ConfigDo.MYMRINFO);
 		return "./teacher/myMrInfo";
 		
 	}
@@ -164,6 +167,7 @@ public class TeacherController implements ConfigDo {
 		}else{
 			model.addAttribute("message", resultDo.getMessage());
 		}
+		model.addAttribute("menuSelected1", ConfigDo.MYPOWER);
 		return "./teacher/chooseTeacher";
 		
 	}
@@ -179,6 +183,7 @@ public class TeacherController implements ConfigDo {
 		}else{
 			model.addAttribute("message", resultDo.getMessage());
 		}
+		model.addAttribute("menuSelected1", ConfigDo.MYPOWER);
 		return "./teacher/chooseClasses";
 		
 	}
@@ -194,6 +199,7 @@ public class TeacherController implements ConfigDo {
 		}else{
 			model.addAttribute("message", resultDo.getMessage());
 		}
+		model.addAttribute("menuSelected1", ConfigDo.MYPOWER);
 		return "./teacher/teaWithStu";
 	}
 	//删除导师与学生的分配关系
@@ -203,6 +209,7 @@ public class TeacherController implements ConfigDo {
 		if(!serviceFit.getTeacherService().delTeaWithStu(score_id)){
 			model.addAttribute("message", "取消分配失败！");
 		}
+		model.addAttribute("menuSelected1", ConfigDo.MYPOWER);
 		return "redirect:./teaWithStu.do?projectId="+project_id+"&teaId="+tea_id;
 		
 	}
@@ -222,6 +229,7 @@ public class TeacherController implements ConfigDo {
 		}else{
 			model.addAttribute("message", resultDo.getMessage());
 		}
+		model.addAttribute("menuSelected1", ConfigDo.MYPOWER);
 		return "./teacher/chooseStudent";
 		}
 	//添加学生导师分配信息
@@ -260,6 +268,7 @@ public class TeacherController implements ConfigDo {
 			}else{
 				model.addAttribute("message", resultDo.getMessage());
 			}
+			model.addAttribute("menuSelected1", ConfigDo.MYPOWER);
 			return "./teacher/proClasses";
 		
 	}
@@ -277,6 +286,7 @@ public class TeacherController implements ConfigDo {
 			}else{
 				model.addAttribute("message", resultDo.getMessage());
 			}
+			model.addAttribute("menuSelected1", ConfigDo.MYPOWER);
 			return "./teacher/proStuScore";
 		}
 		//学生成绩修改
@@ -293,6 +303,7 @@ public class TeacherController implements ConfigDo {
 			if(pro_id<0&&cla_id<0){
 				return"redirect:./myStudentScore.do";
 			}else{
+				model.addAttribute("menuSelected1", ConfigDo.MYPOWER);
 				return "redirect:./proStuScore.do?projectId="+pro_id+"&classId="+cla_id;
 			}
 			
@@ -310,6 +321,8 @@ public class TeacherController implements ConfigDo {
 			}else{
 				model.addAttribute("message", resultDo.getMessage());
 			}
+			model.addAttribute("menuSelected1", ConfigDo.MYSTUDENT);
+			model.addAttribute("menuSelected2", ConfigDo.MYSTUDENTINFO);
 			return "./teacher/myStudent";
 		}
 		//查看导师所带学生成绩信息
@@ -324,6 +337,8 @@ public class TeacherController implements ConfigDo {
 			}else{
 				model.addAttribute("message", resultDo.getMessage());
 			}
+			model.addAttribute("menuSelected1", ConfigDo.MYSTUDENT);
+			model.addAttribute("menuSelected2", ConfigDo.MYSTUDENTSCORE);
 			return "./teacher/myStudentScore";
 		}
 		//老师进行成绩提交

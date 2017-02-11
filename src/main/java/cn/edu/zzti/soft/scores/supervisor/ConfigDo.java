@@ -24,10 +24,6 @@ public interface ConfigDo {
 	 */
 	public static final String MYINFO="myInfo";
 	/**
-	 * 教师端-课题组长权限
-	 */
-	public static final String MYPOWER="myPower";
-	/**
 	 * 超级管理员端-通知管理
 	 */
 	public static final String ADMINNOTIFY="notify";
@@ -71,6 +67,32 @@ public interface ConfigDo {
 	
 	
 	
+	/**
+	 * 教师端端-通知管理
+	 */
+	public static final String TEANOTIFY="notify";
 	
-
+	/**
+	 * 教师端端-机房信息
+	 */
+	
+	public static final String  MYMRINFO="myMrInfo";
+	/**
+	 * 教师端端-我的学生
+	 */
+	public static final String MYSTUDENT="myStudent";
+	/**
+	 * 教师端端-学生信息
+	 */
+	public static final String MYSTUDENTINFO="myStudentInfo";
+	
+	/**
+	 * 教师端端-学生成绩
+	 */
+	public static final String MYSTUDENTSCORE="myStudentScore";
+	
+	/**
+	 * 教师端端-课题组长权限
+	 */
+	public static final String MYPOWER="myPower";
 }
