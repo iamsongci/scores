@@ -142,7 +142,7 @@
 						<li id="notify"><a href="./${sessionScope.pathCode}/notify.do"><i
 							class=" glyphicon glyphicon-bullhorn  "></i> <span class="selected">通知管理</span></a>
 						</li>
-						<li id="notify"><a href="./${sessionScope.pathCode}/projects.do"><i
+						<li id="projects"><a href="./${sessionScope.pathCode}/projects.do"><i
 							class=" glyphicon glyphicon-eye-close  "></i> <span class="selected">课题管理</span></a>
 						</li>
 

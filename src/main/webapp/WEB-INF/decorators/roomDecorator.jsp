@@ -177,7 +177,7 @@
 							<a href="./${sessionScope.pathCode}/home.do"><i class="clip-home-3"></i> <span class="title">首页</span><span class="selected"></span> </a>
 						</li>
 
-						<li id="mrinfo">
+						<li id="notify">
 							<a href="./${sessionScope.pathCode}/notify.do">
 								<i class=" glyphicon glyphicon-bullhorn"></i>
 								<span class="title">通知管理</span>
@@ -185,16 +185,16 @@
 							</a>
 						</li>
 
-						<li id="mrinfo">
+						<li id="rooms">
 							<a href="./${sessionScope.pathCode}/rooms.do">
 								<i class=" clip-stack-2"></i> <span class="title">机房信息维护</span> <span class="selected"></span>
 							</a>
 						</li>
-						<li id="stuInfo">
+						<li id="distribute">
 							<a href="./${sessionScope.pathCode}/distribute.do"> <i class=" clip-users-2"></i> <span class="title">导师机房分配</span> <span class="selected"></span>
 							</a>
 						</li>
-						<li id="mrteainfo">
+						<li id="myInfo">
 							<a href="./${sessionScope.pathCode}//myInfo.do"> <i class=" clip-user-3"></i> <span class="title">个人信息</span> <span class="selected"></span>
 							</a>
 						</li>

@@ -203,7 +203,7 @@
 						<!--  <li><a href="./${sessionScope.pathCode}/notify.do"><i
 							class=" glyphicon glyphicon-bullhorn  "></i> <span class="title">通知</span></a>
 					</li>-->
-						<li id="stuSubjectInfo">
+						<li id="scores">
 							<a href="./${sessionScope.pathCode}/myScores.do"> <i class="glyphicon glyphicon-file "></i> <span class="title">课题信息</span>
 								<span class="selected"></span>
 							</a>
@@ -219,7 +219,7 @@
 							class="clip-download"></i> <span class="title">文件模板</span> <span
 							class="selected"></span>
 					</a></li> --%>
-						<li id="stuInfo">
+						<li id="myInfo">
 							<a href="./${sessionScope.pathCode}/myInfo.do"> <i class=" clip-user-3"></i> <span class="title">个人信息</span> <span class="selected"></span>
 							</a>
 						</li>

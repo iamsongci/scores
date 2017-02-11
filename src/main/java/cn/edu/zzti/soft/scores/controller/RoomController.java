@@ -61,7 +61,7 @@ public class RoomController implements ConfigDo {
 		} else {
 			model.addAttribute("message", resultDo.getMessage());
 		}
-		model.addAttribute("menuSelected1", ConfigDo.MYINFO);
+		model.addAttribute("menuSelected1", ConfigDo.ROOMMYINFO);
 		return "./room/myInfo";
 	}
 	
@@ -82,6 +82,7 @@ public class RoomController implements ConfigDo {
 		} else {
 			model.addAttribute("message", "信息修改失败");
 		}
+		model.addAttribute("menuSelected1", ConfigDo.ROOMMYINFO);
 		return "redirect:./myInfo.do";
 	}
 	
@@ -101,6 +102,7 @@ public class RoomController implements ConfigDo {
 		else {
 			model.addAttribute("message", "查询失败");
 		}
+		model.addAttribute("menuSelected1", ConfigDo.ROOMROOMS);
 		return "./room/rooms";
 	}
 	
@@ -108,6 +110,7 @@ public class RoomController implements ConfigDo {
 	@RequestMapping("delRoom")
 	public String delRoom(@RequestParam("id") String id, Model model, HttpSession session) {
 		serviceFit.getRoomService().delRoom(Integer.parseInt(id));
+		model.addAttribute("menuSelected1", ConfigDo.ROOMROOMS);
 		return "redirect:./rooms.do";
 	}
 	
@@ -115,18 +118,21 @@ public class RoomController implements ConfigDo {
 	@RequestMapping("upRoomNum")
 	public String upRoomNum(@RequestParam("id") String id, @RequestParam("newNumber") String newNumber, Model model, HttpSession session) {
 		serviceFit.getRoomService().upRoomNum(Integer.parseInt(id), Integer.parseInt(newNumber));
+		model.addAttribute("menuSelected1", ConfigDo.ROOMROOMS);
 		return "redirect:./rooms.do";
 	}
 	
 	@RequestMapping("addNewRoom")
 	public String addNewRoom(@RequestParam("id") String id, @RequestParam("num") String num, Model model, HttpSession session) {
 		serviceFit.getRoomService().addNewRoom(Integer.parseInt(id), Integer.parseInt(num));
+		model.addAttribute("menuSelected1", ConfigDo.ROOMROOMS);
 		return "redirect:./rooms.do";
 	}
 	
 	@RequestMapping("delAll")
 	public String delAll(Model model, HttpSession session) {
 		serviceFit.getRoomService().delAll();
+		model.addAttribute("menuSelected1", ConfigDo.ROOMROOMS);
 		return "redirect:./rooms.do";
 	}
 	
@@ -146,7 +152,7 @@ public class RoomController implements ConfigDo {
 		else {
 			model.addAttribute("message", resultDo.getMessage());
 		}
-		
+		model.addAttribute("menuSelected1", ConfigDo.ROOMNOTIFY);
 		return "./room/notify";
 	}
 	
@@ -164,6 +170,7 @@ public class RoomController implements ConfigDo {
 		notify.setOwner_id(identity.getId());
 		notifies.add(notify);
 		serviceFit.getNotifyService().addNotify(notifies);
+		model.addAttribute("menuSelected1", ConfigDo.ROOMNOTIFY);
 		return "./room/notify";
 	}
 	
@@ -172,6 +179,7 @@ public class RoomController implements ConfigDo {
 		List<String> IDs = new ArrayList<>();
 		IDs.add(ID);
 		serviceFit.getNotifyService().delNotify(IDs);
+		model.addAttribute("menuSelected1", ConfigDo.ROOMNOTIFY);
 		return "./room/notify";
 	}
 	
@@ -191,7 +199,7 @@ public class RoomController implements ConfigDo {
 		}else{
 			model.addAttribute("message", resultDo.getMessage());
 		}
-		
+		model.addAttribute("menuSelected1", ConfigDo.ROOMDISTRIBUTE);
 		return "./room/distribute";
 	}
 
@@ -201,7 +209,7 @@ public class RoomController implements ConfigDo {
 		List<String> IDs = new ArrayList<>();
 		IDs.add(ID);
 		serviceFit.getRoomService().delTeaRoom(IDs);
-		
+		model.addAttribute("menuSelected1", ConfigDo.ROOMDISTRIBUTE);
 		return "./room/distribute";
 	}
 	
@@ -214,6 +222,7 @@ public class RoomController implements ConfigDo {
 			IDs.add(teaRoom.getId() + "");
 		}
 		serviceFit.getRoomService().delTeaRoom(IDs);
+		model.addAttribute("menuSelected1", ConfigDo.ROOMDISTRIBUTE);
 		return "./room/distribute";
 	}
 
@@ -225,6 +234,7 @@ public class RoomController implements ConfigDo {
 		}else{
 			model.addAttribute("message", resultDo.getMessage());
 		}
+		model.addAttribute("menuSelected1", ConfigDo.ROOMDISTRIBUTE);
 		return "./room/chooseTeacher";
 	}
 	
@@ -242,6 +252,7 @@ public class RoomController implements ConfigDo {
 		else {
 			model.addAttribute("message", "查询失败");
 		}
+		model.addAttribute("menuSelected1", ConfigDo.ROOMROOMS);
 		return "./room/roomList";
 	}
 	
@@ -256,6 +267,7 @@ public class RoomController implements ConfigDo {
 		else {
 			model.addAttribute("message", "查询失败");
 		}
+		model.addAttribute("menuSelected1", ConfigDo.ROOMDISTRIBUTE);
 	}
 	
 	
@@ -273,7 +285,7 @@ public class RoomController implements ConfigDo {
 		tearoom.setEnd(end);
 		tearooms.add(tearoom);
 		serviceFit.getRoomService().addTeaRoom(tearooms);
-		
+		model.addAttribute("menuSelected1", ConfigDo.ROOMDISTRIBUTE);
 		return "./room/roomList";
 	}
 	

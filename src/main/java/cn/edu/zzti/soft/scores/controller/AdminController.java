@@ -73,6 +73,7 @@ public class AdminController implements ConfigDo {
 	@RequestMapping("claInfo/stuInfo/resetStuPsw")
 	public String resetStuPsw(@RequestParam("stuID") Integer stuID, @RequestParam("claID") Integer claID, @RequestParam("message") String message, @RequestParam("claName") String claName, Model model, HttpServletResponse response)
 			throws Exception {
+		model.addAttribute("menuSelected1", ConfigDo.ADMININFO);
 		model.addAttribute("claID", claID);
 		model.addAttribute("claName", claName);
 		model.addAttribute("message", message);
@@ -84,6 +85,7 @@ public class AdminController implements ConfigDo {
 	@RequestMapping("resetTeaPsw")
 	public String resetTeaPsw(@RequestParam("ID") Integer ID, @RequestParam("message") String message, Model model, HttpServletResponse response)
 			throws Exception {
+		model.addAttribute("menuSelected1", ConfigDo.ADMININFO);
 		model.addAttribute("message", message);
 		serviceFit.getLoginService().updatePsw(ID, MDUtil.MD5Tools("123456"));
 		return "redirect:./teaInfo.do";
@@ -92,6 +94,7 @@ public class AdminController implements ConfigDo {
 	// 通知
 	@RequestMapping("notify")
 	public String notify(Model model, HttpSession session) {
+		model.addAttribute("menuSelected1", ConfigDo.ADMINNOTIFY);
 		ResultDo<?> resultDo = serviceFit.getNotifyService().getNotifies();
 		List<?> notifies = null;
 		if (resultDo.isSuccess()) {
@@ -107,6 +110,7 @@ public class AdminController implements ConfigDo {
 	@RequestMapping("create")
 	public String create(@RequestParam("title") String title, @RequestParam("content") String content,
 			@RequestParam("toStudent") Boolean toStudent, Model model, HttpSession session) {
+		model.addAttribute("menuSelected1", ConfigDo.ADMINNOTIFY);
 		List<Notify> notifies = new ArrayList<>();
 		Notify notify = new Notify();
 		notify.setTitle(title);
@@ -122,6 +126,7 @@ public class AdminController implements ConfigDo {
 
 	@RequestMapping("delNotify")
 	public String delNotify(@RequestParam("ID") String ID, Model model, HttpSession session) {
+		model.addAttribute("menuSelected1", ConfigDo.ADMINNOTIFY);
 		List<String> IDs = new ArrayList<>();
 		IDs.add(ID);
 		serviceFit.getNotifyService().delNotify(IDs);
@@ -131,6 +136,7 @@ public class AdminController implements ConfigDo {
 	//
 	@RequestMapping("delClass")
 	public String delClass(@RequestParam("claID") String ID, Model model, HttpSession session) {
+		model.addAttribute("menuSelected1", ConfigDo.ADMININFO);
 		List<String> IDs = new ArrayList<>();
 		IDs.add(ID);
 		serviceFit.getAdminService().delClass(IDs);
@@ -140,6 +146,7 @@ public class AdminController implements ConfigDo {
 	// 课题 and 权限
 	@RequestMapping("projects")
 	public String projects(Model model, HttpSession session) {
+		model.addAttribute("menuSelected1", ConfigDo.ADMINPROJECTS);
 		ResultDo<?> resultDo1 = serviceFit.getAdminService().getProjects();
 		ResultDo<?> resultDo2 = serviceFit.getAdminService().getTeachers();
 		List<?> projects = null;
@@ -158,6 +165,7 @@ public class AdminController implements ConfigDo {
 
 	@RequestMapping("claInfo")
 	public String claInfo(Model model, HttpSession session) {
+		model.addAttribute("menuSelected1", ConfigDo.ADMININFO);
 		ResultDo<List<ClassAndNum>> resultDo = serviceFit.getAdminService().getClassesAndNum();
 		List<?> classes = null;
 		if (resultDo.isSuccess()) {
@@ -171,6 +179,7 @@ public class AdminController implements ConfigDo {
 
 	@RequestMapping("claInfo/stuInfo")
 	public String stuInfo(@RequestParam("claID") String claID, @RequestParam("claName") String claName, @RequestParam("message") String message, Model model, HttpSession session) {
+		model.addAttribute("menuSelected1", ConfigDo.ADMININFO);
 		model.addAttribute("claID", claID);
 		model.addAttribute("claName", claName);
 		model.addAttribute("message", message);
@@ -189,6 +198,7 @@ public class AdminController implements ConfigDo {
 
 	@RequestMapping("teaInfo")
 	public String teaInfo(@RequestParam("message") String message, Model model, HttpSession session) {
+		model.addAttribute("menuSelected1", ConfigDo.ADMININFO);
 		model.addAttribute("message", message);
 		ResultDo<?> resultDo = serviceFit.getAdminService().getAllTea();
 		List<?> teachers = null;
@@ -223,6 +233,7 @@ public class AdminController implements ConfigDo {
 	@RequestMapping("addClass")
 	public String addClass(@RequestParam("type") boolean type, @RequestParam("grade") String grade,
 			@RequestParam("classes_name") String name, Model model, HttpSession session) {
+		model.addAttribute("menuSelected1", ConfigDo.ADMININFO);
 		List<Classes> classes = new ArrayList<>();
 		Classes clas = new Classes();
 		clas.setType(type);
@@ -237,6 +248,7 @@ public class AdminController implements ConfigDo {
 	public String addStudent(@RequestParam("noid") String noid, @RequestParam("name") String name,
 			@RequestParam("claName") String claName, @RequestParam("claID") Integer claID, @RequestParam("message") String message, Model model,
 			HttpSession session) {
+		model.addAttribute("menuSelected1", ConfigDo.ADMININFO);
 		model.addAttribute("claID", claID);
 		model.addAttribute("claName", claName);
 		model.addAttribute("message", message);
@@ -255,6 +267,7 @@ public class AdminController implements ConfigDo {
 
 	@RequestMapping("claInfo/stuInfo/delStudent")
 	public String delStudent(@RequestParam("stuID") String stuID, @RequestParam("claID") Integer claID, @RequestParam("claName") String claName, @RequestParam("message") String message, Model model, HttpSession session) {
+		model.addAttribute("menuSelected1", ConfigDo.ADMININFO);
 		model.addAttribute("claID", claID);
 		model.addAttribute("claName", claName);
 		model.addAttribute("message", message);
@@ -268,6 +281,7 @@ public class AdminController implements ConfigDo {
 	@RequestMapping("addTeacher")
 	public String addTeacher(@RequestParam("noid") String noid, @RequestParam("name") String name, @RequestParam("type") String type, @RequestParam("message") String message, Model model,
 			HttpSession session) {
+		model.addAttribute("menuSelected1", ConfigDo.ADMININFO);
 		model.addAttribute("message", message);
 		
 		List<Identity> identities = new ArrayList<>();
@@ -282,6 +296,7 @@ public class AdminController implements ConfigDo {
 
 	@RequestMapping("delTeacher")
 	public String delTeacher(@RequestParam("id") String id, @RequestParam("message") String message,  Model model, HttpSession session) {
+		model.addAttribute("menuSelected1", ConfigDo.ADMININFO);
 		model.addAttribute("message", message);
 		List<String> identities = new ArrayList<>();
 		identities.add(id);
@@ -292,6 +307,7 @@ public class AdminController implements ConfigDo {
 	@RequestMapping("proDistr")
 	public String proDistr(@RequestParam("proID") Integer proID, @RequestParam("teaID") Integer teaID,
 			@RequestParam("teaName") String teaName, Model model, HttpSession session) {
+		model.addAttribute("menuSelected1", ConfigDo.ADMINPROJECTS);
 		serviceFit.getAdminService().upDistr(proID, teaID, teaName);
 		return "redirect:./projects.do";
 	}
@@ -299,24 +315,28 @@ public class AdminController implements ConfigDo {
 	@RequestMapping("proAggre")
 	public String proAggre(@RequestParam("proID") Integer proID, @RequestParam("teaID") Integer teaID,
 			@RequestParam("teaName") String teaName, Model model, HttpSession session) {
+		model.addAttribute("menuSelected1", ConfigDo.ADMINPROJECTS);
 		serviceFit.getAdminService().upAggre(proID, teaID, teaName);
 		return "redirect:./projects.do";
 	}
 
 	@RequestMapping("resetDistr")
 	public String resetDistr(@RequestParam("proID") Integer proID, Model model, HttpSession session) {
+		model.addAttribute("menuSelected1", ConfigDo.ADMINPROJECTS);
 		serviceFit.getAdminService().resetDistr(proID);
 		return "redirect:./projects.do";
 	}
 
 	@RequestMapping("resetAggre")
 	public String resetAggre(@RequestParam("proID") Integer proID, Model model, HttpSession session) {
+		model.addAttribute("menuSelected1", ConfigDo.ADMINPROJECTS);
 		serviceFit.getAdminService().resetAggre(proID);
 		return "redirect:./projects.do";
 	}
 
 	@RequestMapping("addProject")
 	public String addProject(@RequestParam("proName") String proName, Model model, HttpSession session) {
+		model.addAttribute("menuSelected1", ConfigDo.ADMINPROJECTS);
 		List<String> projects = new ArrayList<>();
 		projects.add(proName);
 		serviceFit.getAdminService().addProjects(projects);
@@ -325,7 +345,7 @@ public class AdminController implements ConfigDo {
 	
 	@RequestMapping("upLoadTea")
 	public String upLoadTea(@RequestParam("teaInfo") CommonsMultipartFile teaInfo, Model model, HttpSession session) {
-		
+		model.addAttribute("menuSelected1", ConfigDo.ADMININFO);
 		List<Identity> teachers = new ArrayList<>();
 		Set<String> noids = new HashSet<>();
 		
@@ -377,6 +397,7 @@ public class AdminController implements ConfigDo {
 	
 	@RequestMapping("claInfo/stuInfo/upLoadStu")
 	public String upLoadStu(@RequestParam("stuInfo") CommonsMultipartFile stuInfo, @RequestParam("claName") String claName, @RequestParam("claID") Integer claID, Model model, HttpSession session) {
+		model.addAttribute("menuSelected1", ConfigDo.ADMININFO);
 		model.addAttribute("claName", claName);
 		model.addAttribute("claID", claID);
 		

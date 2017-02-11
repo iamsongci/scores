@@ -25,6 +25,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import cn.edu.zzti.soft.scores.entity.Identity;
 import cn.edu.zzti.soft.scores.entity.tools.MyScore;
@@ -95,7 +96,7 @@ public class StudentController implements ConfigDo {
 		} else {
 			model.addAttribute("message", "查询失败");
 		}
-
+		model.addAttribute("menuSelected1", ConfigDo.STUDENTSCORES);
 		return "./student/myScores";
 	}
 
@@ -116,6 +117,7 @@ public class StudentController implements ConfigDo {
 		} else {
 			model.addAttribute("message", "信息修改失败");
 		}
+		model.addAttribute("menuSelected1", ConfigDo.STUDENTINFO);
 		return "redirect:./myInfo.do";
 	}
 
@@ -123,6 +125,7 @@ public class StudentController implements ConfigDo {
 	private String upProName(@RequestParam("index") String index, @RequestParam("newProName") String newProName,
 			Model model, HttpSession session) {
 		serviceFit.getStudentService().upProName(Integer.parseInt(index), newProName);
+		model.addAttribute("menuSelected1", ConfigDo.STUDENTSCORES);
 		return "redirect:./myScores.do";
 	}
 	
@@ -159,6 +162,7 @@ public class StudentController implements ConfigDo {
 		else {
 			model.addAttribute("message", "查询失败");
 		}
+		model.addAttribute("menuSelected1", ConfigDo.STUDENTSCORES);
 		
 	}
 	
@@ -200,13 +204,14 @@ public class StudentController implements ConfigDo {
 		}else{
 			model.addAttribute("message","文件为空");
 		}
+		model.addAttribute("menuSelected1", ConfigDo.STUDENTSCORES);
 		return "redirect:./myScores.do";
 		
 	}
 	
 	//文件下载
     @RequestMapping("download")    
-    public void download(@RequestParam("id")int id,HttpServletRequest request
+    public void download(@RequestParam("id")int id, Model model, HttpServletRequest request
     		, HttpServletResponse response,HttpSession session) throws IOException {  
     	ResultDo<MyScore> resultDo = serviceFit.getStudentService().getScore(id);
 		MyScore score = null;
@@ -243,6 +248,7 @@ public class StudentController implements ConfigDo {
 			  {
 			   System.out.println("系统错误，请及时与管理员联系");
 			  }
+			model.addAttribute("menuSelected1", ConfigDo.STUDENTSCORES);
     }   
 	
 	
