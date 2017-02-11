@@ -23,6 +23,7 @@ import cn.edu.zzti.soft.scores.entity.tools.NumOfStuWithTea;
 import cn.edu.zzti.soft.scores.supervisor.ConfigDo;
 import cn.edu.zzti.soft.scores.supervisor.ResultDo;
 import cn.edu.zzti.soft.scores.supervisor.ServiceFit;
+import cn.edu.zzti.soft.scores.util.MDUtil;
 import net.sf.json.JSONArray;
 
 @Controller
@@ -275,4 +276,13 @@ public class RoomController implements ConfigDo {
 		
 		return "./room/roomList";
 	}
+	
+	@RequestMapping("updatePsd")
+	public String resetStuPsw(@RequestParam("psw") String psw, Model model, HttpServletResponse response, HttpSession session)
+			throws Exception {
+		Identity identity = (Identity) session.getAttribute("user");
+		serviceFit.getLoginService().updatePsw(identity.getId(), MDUtil.MD5Tools(psw));
+		return "forward:./../logout.do";
+	}
+	
 }
