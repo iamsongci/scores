@@ -1,20 +1,16 @@
 package cn.edu.zzti.soft.scores.controller;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,7 +20,6 @@ import cn.edu.zzti.soft.scores.entity.Identity;
 import cn.edu.zzti.soft.scores.entity.Notify;
 import cn.edu.zzti.soft.scores.entity.Project;
 import cn.edu.zzti.soft.scores.entity.tools.IdentityWithScores;
-import cn.edu.zzti.soft.scores.entity.tools.MyScore;
 import cn.edu.zzti.soft.scores.entity.tools.NumOfClasses;
 import cn.edu.zzti.soft.scores.entity.tools.NumOfStuWithTea;
 import cn.edu.zzti.soft.scores.supervisor.ConfigDo;
@@ -276,12 +271,10 @@ public class TeacherController implements ConfigDo {
 		@RequestMapping("proStuScore")
 		public String proStuScore(@RequestParam("projectId") Integer pro_id,@RequestParam("classId") Integer cla_id,
 				Model model, HttpSession session){
-			ResultDo<List<Identity>> resultDoAll=serviceFit.getTeacherService().selectStuByClassId(cla_id,null);
 			ResultDo<List<IdentityWithScores>> resultDo=serviceFit.getTeacherService().proStuScore(cla_id, pro_id);
 			model.addAttribute("claId", cla_id);
 			model.addAttribute("proId", pro_id);
 			if(resultDo.isSuccess()){
-				model.addAttribute("listAll", resultDoAll.getResult());
 				model.addAttribute("list", resultDo.getResult());
 			}else{
 				model.addAttribute("message", resultDo.getMessage());
@@ -383,7 +376,27 @@ public class TeacherController implements ConfigDo {
 //		serviceFit.getTeacherService().updateRepStatus(score_id, Status, comment);
 //		return"redirect:./myStudentScore.do";
 //	}
+
+	//课题班级成绩文件的导出		
+	@RequestMapping("exportProStuScore")
+	public void exportProStuScore(@RequestParam("proId") Integer pro_id,@RequestParam("claId") Integer cla_id,
+			@RequestParam("num") Integer num,Model model, HttpSession session, HttpServletResponse response) throws Exception{
+		ResultDo<List<IdentityWithScores>> resultDo=serviceFit.getTeacherService().proStuScore(cla_id, pro_id);
+		List<IdentityWithScores> list =resultDo.getResult();
+		String name=list.get(0).getPro_name()+list.get(0).getCla_name()+"学生成绩.xls";
+		HSSFWorkbook wb =serviceFit.getTeacherService().exportProStuScore(list,num);
+        response.setContentType("application/vnd.ms-excel");  
+        response.setHeader("Content-disposition", "attachment;filename="+new String(name.getBytes("GBK"),"ISO8859_1"));  
+        OutputStream ouputStream = response.getOutputStream();  
+        wb.write(ouputStream);  
+        ouputStream.flush();  
+        ouputStream.close();
 		
-	
-	
+	}
+	//班级文件导入
+	@RequestMapping("importProStuScore")
+	public void exportProStuScore(@RequestParam("proId") Integer pro_id,
+			Model model, HttpSession session, HttpServletResponse response) throws Exception{
+		
+	}
 }

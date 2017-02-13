@@ -59,6 +59,12 @@
 		}
 	}
 </script>
+<script>  
+function exportExcel(num){  
+     location.href="./${sessionScope.pathCode}/exportProStuScore.do?claId="+${claId}+"&proId="+${proId}+"&num="+num;  
+     <!--这里不能用ajax请求，ajax请求无法弹出下载保存对话框-->  
+ }  
+</script>  
 	</head>
 
 	<body>
@@ -82,9 +88,9 @@
 					<h3>学生信息列表</h3>
 				</div>
 				<div style="position: absolute;right:120px;top:65px"> 
-        <button class="btn btn-primary" data-toggle="modal" data-target="#outScore"">导入</button></div>
+        <button class="btn btn-primary" data-toggle="modal" data-target="#importScore">导入</button></div>
 				 <div style="position: absolute;right:45px;top:65px"> 
-        <button class="btn btn-info" data-toggle="modal" data-target="#outScore"">导出</button></div>
+        <button class=" btn btn-info" onclick="exportExcel(1)" >导出</button></div>
 				<!-- end: PAGE TITLE & BREADCRUMB -->
 			</div>
 		</div>
@@ -119,7 +125,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								<c:forEach items="${listAll}" var="li" varStatus="status">
+								<c:forEach items="${list}" var="li" varStatus="status">
 									<tr>
 										<td>${ status.index + 1}</td>
 										<td>
@@ -139,35 +145,26 @@
 											</td>
 										</c:if>
 										<td>
-										      <c:forEach items="${list}" var="stu" >
-										       <c:if test="${ stu.id eq li.id}">
-										        <small>${stu.tea_name}</small>
-										       </c:if></c:forEach>
+										        <small>${li.tea_name}</small>
 										</td>
 										<td>
-										      <c:forEach items="${list}" var="stu" >
-										       <c:if test="${ stu.id eq li.id}">
-										       <c:if test="${stu.scores_status ne 2}">
+										       <c:if test="${li.scores_status ne 2}">
 														<span class="label label-warning">无</span>
 													</c:if>
-													<c:if test="${ stu.scores_status eq 2}">
-													      <c:if test="${stu.total_score < 60 }">
-													           <span class="label label-danger">${stu.total_score}</span>
+													<c:if test="${ li.scores_status eq 2}">
+													      <c:if test="${li.total_score < 60 }">
+													           <span class="label label-danger">${li.total_score}</span>
 													      </c:if>
-													       <c:if test="${stu.total_score >=60 }">
-													           <span class="label label-success">${stu.total_score}</span>
+													       <c:if test="${li.total_score >=60 }">
+													           <span class="label label-success">${li.total_score}</span>
 													      </c:if>
 														
 													</c:if>
-										       </c:if></c:forEach>
 										</td>
 										<td>
-										      <c:forEach items="${list}" var="stu" >
-										       <c:if test="${ stu.id eq li.id}">
-										       <c:if test="${ stu.scores_status eq 2}">
-														 <small><button class="btn btn-primary" data-toggle="modal" data-target="#scoreInfo" onclick="updateScore(${stu.score_id},${stu.usual_score},${stu.project_score },${stu.report_score })">修改</button></small>
+										       <c:if test="${ li.scores_status eq 2}">
+														 <small><button class="btn btn-primary" data-toggle="modal" data-target="#scoreInfo" onclick="updateScore(${li.score_id},${li.usual_score},${li.project_score },${li.report_score })">修改</button></small>
 												</c:if>
-										       </c:if></c:forEach>
 										</td>
 
 									</tr>
@@ -227,6 +224,40 @@
 						</script>
 						<button type="button" class="btn btn-default btn-primary"
 							onclick="check()">确认修改</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+	<!-- 文件上传提示框 -->
+	<div class="modal fade" id="importScore" tabindex="-1" role="dialog"
+		aria-labelledby="alterModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="alterModalLabel">学生成绩导入</h4>
+				</div>
+				<form id="form3" name="form3" method="post"
+					action="./${sessionScope.pathCode}/importProStuScore.do">
+					<div class="modal-body">
+					      <p> <h5>请在上传之前点击<font color="red">下载上传模板</font>，</p><p>我们会将没有成绩的学生信息罗列出来，您只需要填写学生最终成绩即可</p></h5>
+					       <input type="hidden" name="proId" id="proId" value="${proId }"/>
+					</div>
+					<div class="modal-footer">
+						<script type="text/javascript">
+							
+						</script>
+						<button type="button" class="btn btn-default btn-primary"
+							onclick="exportExcel(0)">下载模板</button>
+							<button type="button" class="btn btn-default btn-info"
+							onclick="check()">提交成绩</button>
 						<button type="button" class="btn btn-default" data-dismiss="modal">关闭
 						</button>
 					</div>

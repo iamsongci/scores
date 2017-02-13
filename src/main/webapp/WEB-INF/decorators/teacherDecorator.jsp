@@ -200,7 +200,7 @@
 							class="selected"></span> </a></li> --%>
 						</c:if>
 						<li id="myInfo">
-							<a href="./${sessionScope.pathCode}/myInfo.do"> <i class=" clip-settings"></i> <span class="title">个人信息</span> <span class="selected"></span>
+							<a href="./${sessionScope.pathCode}/myInfo.do"> <i class=" glyphicon glyphicon-user"></i> <span class="title">个人信息</span> <span class="selected"></span>
 							</a>
 						</li>
 					</ul>

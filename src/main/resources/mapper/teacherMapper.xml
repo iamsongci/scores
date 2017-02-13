@@ -40,11 +40,13 @@
         ON i.id=s.stu_id GROUP BY cla_id ) AS d ON c.id=d.cla_id;
         </select>
         <select id="proStuScore" resultType="IdentityWithScores">
-        SELECT id ,noid,name,sex,phone,cla_id,role,status,s.* FROM identity AS i  
-        JOIN (SELECT id AS score_id,stu_id,tea_id,tea_name,pro_id,pro_name,my_pro_name,usual_score,
-         project_score,report_score,total_score,scores_status FROM score) AS s 
-        ON i.id=s.stu_id 
-        HAVING status!=-1 AND cla_id=#{0} AND pro_id=#{1};
+        select id ,noid,name,sex,phone,cla_id,cla_name,role,status,s.* 
+        FROM identity  AS i 
+        LEFT JOIN(
+        SELECT id AS score_id,stu_id,tea_id,tea_name,pro_id,pro_name,my_pro_name,usual_score,project_score,report_score,total_score,scores_status FROM score 
+        WHERE pro_id=#{1}) AS s 
+        ON i.id=s.stu_id  
+        HAVING role="stu" AND status!=-1 AND cla_id=#{0};
         </select>
         <select id="myStudent" resultType="IdentityWithScores">
          SELECT * FROM identity AS i 

@@ -5,6 +5,11 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.stereotype.Service;
 
 import cn.edu.zzti.soft.scores.entity.Identity;
@@ -209,6 +214,50 @@ public class TeacherServiceImpl implements TeacherService {
 	public boolean updateRepStatus(int id, int report_status, String comment) {
 		// TODO Auto-generated method stub
 		return FALSE != daoFit.getStudentDao().updateReport(id, report_status, comment);
+	}
+	@Override
+	public HSSFWorkbook exportProStuScore(List<IdentityWithScores> list,Integer num) {
+		String[] excelHeader = { "学号", "姓名","总成绩"};
+		// TODO Auto-generated method stub
+		 HSSFWorkbook wb = new HSSFWorkbook();  
+	        HSSFSheet sheet = wb.createSheet("IdentityWithScores"); 
+	        HSSFRow row = sheet.createRow((int) 0);  
+	        HSSFCellStyle style = wb.createCellStyle();  
+	        style.setAlignment(HSSFCellStyle.ALIGN_CENTER);  
+	        int n=1;
+	        for (int i = 0; i < excelHeader.length; i++) {  
+	            HSSFCell cell = row.createCell(i);  
+	            cell.setCellValue(excelHeader[i]);  
+	            cell.setCellStyle(style);  
+	            sheet.autoSizeColumn(i);  
+	            sheet.setColumnWidth(i, 20 * 256);  
+	        }  
+	        for (int i = 0; i < list.size(); i++) {
+	            IdentityWithScores lws = list.get(i); 
+	            if(num==1){
+	            	
+	            	 row = sheet.createRow(i + 1);  
+	            	row.createCell(0).setCellValue(lws.getNoid());  
+		            row.createCell(1).setCellValue(lws.getName()); 
+		            if(lws.getScores_status()!=null&&lws.getScores_status()==2){
+		            	 row.createCell(2).setCellValue(lws.getTotal_score());  
+		            }else{
+		            	 row.createCell(2).setCellValue("无");  
+		            }
+	            }else{
+	            	if(lws.getTotal_score()==null){
+	            		 row = sheet.createRow(n); 
+	            		row.createCell(0).setCellValue(lws.getNoid());  
+			            row.createCell(1).setCellValue(lws.getName());
+			            n=n+1;
+			           
+	            	}
+	            }
+	            
+	           
+	        }  
+	        return wb;
+		
 	}
 	
 }

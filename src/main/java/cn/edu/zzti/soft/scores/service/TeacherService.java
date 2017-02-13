@@ -2,12 +2,9 @@ package cn.edu.zzti.soft.scores.service;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Update;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
-import cn.edu.zzti.soft.scores.entity.Identity;
-import cn.edu.zzti.soft.scores.entity.TeaRoom;
 import cn.edu.zzti.soft.scores.entity.tools.IdentityWithScores;
-import cn.edu.zzti.soft.scores.entity.tools.NumOfClasses;
 import cn.edu.zzti.soft.scores.supervisor.ResultDo;
 
 
@@ -42,4 +39,6 @@ public interface TeacherService {
 	ResultDo myMrInfo (int tea_id);
 	//修改学生评语与状态
 	boolean updateRepStatus(int id,int report_status,String comment);
+	//课题班级成绩文件的导出
+	HSSFWorkbook exportProStuScore(List<IdentityWithScores> list,Integer num);
 }
