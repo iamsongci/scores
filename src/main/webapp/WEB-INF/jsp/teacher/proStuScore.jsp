@@ -64,6 +64,20 @@ function exportExcel(num){
      location.href="./${sessionScope.pathCode}/exportProStuScore.do?claId="+${claId}+"&proId="+${proId}+"&num="+num;  
      <!--这里不能用ajax请求，ajax请求无法弹出下载保存对话框-->  
  }  
+ function sumbitScore(){
+  alert("提交");
+    $("#form3").submit();
+ }
+       function excel_button() {  
+        var excel_file = $("#excel_file").val();  
+        if (excel_file == "" || excel_file.length == 0) {  
+            alert("请选择文件路径！");  
+            return false;  
+        } else {  
+         alert("提交");  
+             $("#form3").submit();
+        }  
+    };  
 </script>  
 	</head>
 
@@ -244,11 +258,16 @@ function exportExcel(num){
 					</button>
 					<h4 class="modal-title" id="alterModalLabel">学生成绩导入</h4>
 				</div>
-				<form id="form3" name="form3" method="post"
+				<form id="form3" name="form3" method="post" enctype="multipart/form-data"
 					action="./${sessionScope.pathCode}/importProStuScore.do">
 					<div class="modal-body">
-					      <p> <h5>请在上传之前点击<font color="red">下载上传模板</font>，</p><p>我们会将没有成绩的学生信息罗列出来，您只需要填写学生最终成绩即可</p></h5>
+					     <h5> <p> 请在上传之前点击<font color="red">下载上传模板</font>，</p><p>我们会将没有成绩的学生(已分配导师)信息罗列出来，您只需填写学生最终成绩即可</p>
+					       <p>请成绩录入完毕后保存Excel表格，点击下方【选择文件】，后点击【提交成绩】即可  </p> 
+					      </h5>
+					       <input type="hidden" name="claId" id="claId" value="${claId }"/>
 					       <input type="hidden" name="proId" id="proId" value="${proId }"/>
+					       <input type="file" name="file" id="excel_file";
+					       accept="application/vnd.ms-excel" />
 					</div>
 					<div class="modal-footer">
 						<script type="text/javascript">
@@ -256,8 +275,8 @@ function exportExcel(num){
 						</script>
 						<button type="button" class="btn btn-default btn-primary"
 							onclick="exportExcel(0)">下载模板</button>
-							<button type="button" class="btn btn-default btn-info"
-							onclick="check()">提交成绩</button>
+							 <button type="button" class="btn btn-default btn-info"onclick="excel_button()"
+							>提交成绩</button> 
 						<button type="button" class="btn btn-default" data-dismiss="modal">关闭
 						</button>
 					</div>

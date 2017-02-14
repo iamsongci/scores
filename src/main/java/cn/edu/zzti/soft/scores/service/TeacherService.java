@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
+import cn.edu.zzti.soft.scores.entity.Score;
 import cn.edu.zzti.soft.scores.entity.tools.IdentityWithScores;
 import cn.edu.zzti.soft.scores.supervisor.ResultDo;
 
@@ -41,4 +42,6 @@ public interface TeacherService {
 	boolean updateRepStatus(int id,int report_status,String comment);
 	//课题班级成绩文件的导出
 	HSSFWorkbook exportProStuScore(List<IdentityWithScores> list,Integer num);
+	 //学生成绩导入
+	boolean importProStuScore (List<Score> list);
 }

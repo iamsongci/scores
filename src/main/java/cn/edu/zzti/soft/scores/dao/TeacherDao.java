@@ -46,5 +46,6 @@ public interface TeacherDao {
 	Integer putStudentScore(int tea_id);
 	//导师所在机房信息
 	List<TeaRoom> myMrInfo (int tea_id);
-
+    //学生成绩导入
+	Integer importProStuScore (List<Score> list);
 }

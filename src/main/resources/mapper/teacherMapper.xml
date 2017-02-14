@@ -73,5 +73,14 @@
 		#{stu_id},#{tea_id},#{pro_id},#{tea_name},#{pro_name}
 		)
 	  </insert>
+	  <update id="importProStuScore" parameterType="java.util.List">
+	  <foreach collection="list" item="item" index="index" separator=";" open="" close=""> 
+	   UPDATE score SET
+	   usual_score=#{item.total_score},project_score=#{item.total_score},
+	   report_score=#{item.total_score},total_score=#{item.total_score},scores_status=2 
+	   WHERE id = #{item.id}
+	   </foreach> 
+	  
+	  </update>
       </mapper>  
        

@@ -217,7 +217,7 @@ public class TeacherServiceImpl implements TeacherService {
 	}
 	@Override
 	public HSSFWorkbook exportProStuScore(List<IdentityWithScores> list,Integer num) {
-		String[] excelHeader = { "学号", "姓名","总成绩"};
+		String[] excelHeader = { "学生信息ID请勿修改","学号", "姓名","总成绩"};
 		// TODO Auto-generated method stub
 		 HSSFWorkbook wb = new HSSFWorkbook();  
 	        HSSFSheet sheet = wb.createSheet("IdentityWithScores"); 
@@ -225,13 +225,24 @@ public class TeacherServiceImpl implements TeacherService {
 	        HSSFCellStyle style = wb.createCellStyle();  
 	        style.setAlignment(HSSFCellStyle.ALIGN_CENTER);  
 	        int n=1;
-	        for (int i = 0; i < excelHeader.length; i++) {  
-	            HSSFCell cell = row.createCell(i);  
-	            cell.setCellValue(excelHeader[i]);  
-	            cell.setCellStyle(style);  
-	            sheet.autoSizeColumn(i);  
-	            sheet.setColumnWidth(i, 20 * 256);  
-	        }  
+	        if(num==1){
+	        	for (int i = 0; i <3; i++) {  
+		            HSSFCell cell = row.createCell(i);  
+		            cell.setCellValue(excelHeader[i+1]);  
+		            cell.setCellStyle(style);  
+		            sheet.autoSizeColumn(i);  
+		            sheet.setColumnWidth(i, 20 * 256);  
+		        }  
+	        }else{
+	        	for (int i = 0; i < excelHeader.length; i++) {  
+		            HSSFCell cell = row.createCell(i);  
+		            cell.setCellValue(excelHeader[i]);  
+		            cell.setCellStyle(style);  
+		            sheet.autoSizeColumn(i);  
+		            sheet.setColumnWidth(i, 20 * 256);  
+		        }  
+	        }
+	        
 	        for (int i = 0; i < list.size(); i++) {
 	            IdentityWithScores lws = list.get(i); 
 	            if(num==1){
@@ -245,10 +256,11 @@ public class TeacherServiceImpl implements TeacherService {
 		            	 row.createCell(2).setCellValue("无");  
 		            }
 	            }else{
-	            	if(lws.getTotal_score()==null){
+	            	if(lws.getTotal_score()==null&&lws.getTea_id()!=null){
 	            		 row = sheet.createRow(n); 
-	            		row.createCell(0).setCellValue(lws.getNoid());  
-			            row.createCell(1).setCellValue(lws.getName());
+	            		 row.createCell(0).setCellValue(lws.getScore_id()); 
+	            		row.createCell(1).setCellValue(lws.getNoid());  
+			            row.createCell(2).setCellValue(lws.getName());
 			            n=n+1;
 			           
 	            	}
@@ -258,6 +270,11 @@ public class TeacherServiceImpl implements TeacherService {
 	        }  
 	        return wb;
 		
+	}
+	@Override
+	public boolean importProStuScore(List<Score> list) {
+		// TODO Auto-generated method stub
+		return FALSE != daoFit.getTeacherDao().importProStuScore(list);
 	}
 	
 }

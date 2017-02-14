@@ -1,24 +1,35 @@
 package cn.edu.zzti.soft.scores.controller;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import cn.edu.zzti.soft.scores.entity.Identity;
 import cn.edu.zzti.soft.scores.entity.Notify;
 import cn.edu.zzti.soft.scores.entity.Project;
+import cn.edu.zzti.soft.scores.entity.Score;
 import cn.edu.zzti.soft.scores.entity.tools.IdentityWithScores;
 import cn.edu.zzti.soft.scores.entity.tools.NumOfClasses;
 import cn.edu.zzti.soft.scores.entity.tools.NumOfStuWithTea;
@@ -26,6 +37,8 @@ import cn.edu.zzti.soft.scores.supervisor.ConfigDo;
 import cn.edu.zzti.soft.scores.supervisor.ResultDo;
 import cn.edu.zzti.soft.scores.supervisor.ServiceFit;
 import cn.edu.zzti.soft.scores.util.MDUtil;
+
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 
 @Controller
 @RequestMapping("/tea/")
@@ -383,7 +396,12 @@ public class TeacherController implements ConfigDo {
 			@RequestParam("num") Integer num,Model model, HttpSession session, HttpServletResponse response) throws Exception{
 		ResultDo<List<IdentityWithScores>> resultDo=serviceFit.getTeacherService().proStuScore(cla_id, pro_id);
 		List<IdentityWithScores> list =resultDo.getResult();
-		String name=list.get(0).getPro_name()+list.get(0).getCla_name()+"学生成绩.xls";
+		String name="";
+		if(num==1){
+			name=list.get(0).getPro_name()+list.get(0).getCla_name()+"学生成绩.xls";
+		}else{
+			name=list.get(0).getPro_name()+list.get(0).getCla_name()+"成绩模板.xls";
+		}
 		HSSFWorkbook wb =serviceFit.getTeacherService().exportProStuScore(list,num);
         response.setContentType("application/vnd.ms-excel");  
         response.setHeader("Content-disposition", "attachment;filename="+new String(name.getBytes("GBK"),"ISO8859_1"));  
@@ -395,8 +413,71 @@ public class TeacherController implements ConfigDo {
 	}
 	//班级文件导入
 	@RequestMapping("importProStuScore")
-	public void exportProStuScore(@RequestParam("proId") Integer pro_id,
-			Model model, HttpSession session, HttpServletResponse response) throws Exception{
+	public String exportProStuScore(@RequestParam("file") MultipartFile  file,
+			@RequestParam("proId") Integer pro_id,@RequestParam("claId") Integer cla_id,
+			Model model, HttpSession session, HttpServletResponse response,HttpServletRequest request){
+		List<Score> scoList=new ArrayList<Score>();
+		InputStream is;
+		try {
+			is = file.getInputStream();
 		
+		Workbook workbook=WorkbookFactory.create(is);
+		int sheetCount =workbook.getNumberOfSheets();
+		for(int s=0;s<sheetCount;s++){
+			Sheet sheet=workbook.getSheetAt(s);
+			int rowCount=sheet.getPhysicalNumberOfRows();//获取总行数
+			for(int r=1;r<rowCount;r++){
+				Score sc=new Score();
+				Row row=sheet.getRow(r);
+				int cellCount=row.getPhysicalNumberOfCells();
+				for(int c=0;c<cellCount;c++){
+					if(row.getCell(c)!=null){
+					Cell cell=row.getCell(c);
+					cell.setCellType(Cell.CELL_TYPE_STRING);
+					switch(c){
+					case 0:{
+						Integer num=new Integer(cell.getStringCellValue());
+						System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+						System.out.println(num);
+						sc.setId(num);
+						break;
+					}
+					case 3:{
+						Integer num=new Integer(cell.getStringCellValue());
+						System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+						System.out.println(num);
+						sc.setTotal_score(num);
+						break;
+					}
+					
+					}
+				}
+				}
+				if(sc.getTotal_score()!=null){
+					if(sc.getTotal_score()>=0||sc.getTotal_score()<=100)
+					scoList.add(sc);
+
+				}
+			}
+			
+		}
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvalidFormatException e){
+			e.printStackTrace();
+		} catch (IOException e){
+			e.printStackTrace();
+		} catch (org.apache.poi.openxml4j.exceptions.InvalidFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		for(int i=0;i<scoList.size();i++){
+			System.out.println("##############");
+			System.out.println(scoList.get(i).getId()+"------"+scoList.get(i).getTotal_score());
+		}
+		serviceFit.getTeacherService().importProStuScore(scoList);
+		return "redirect:./proStuScore.do?projectId="+pro_id+"&classId="+cla_id;
 	}
+	
 }

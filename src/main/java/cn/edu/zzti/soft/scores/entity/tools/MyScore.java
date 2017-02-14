@@ -5,7 +5,7 @@ import cn.edu.zzti.soft.scores.entity.Score;
 public class MyScore extends Score {
 	private String tea_email;
 	private String tea_phone;
-
+    
 	public String getTea_email() {
 		return tea_email;
 	}
