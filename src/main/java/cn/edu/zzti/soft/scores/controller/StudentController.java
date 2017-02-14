@@ -196,7 +196,7 @@ public class StudentController implements ConfigDo {
 			) throws IOException{
 		if(!file.isEmpty()){
 			String path =request.getSession().getServletContext().getRealPath(File.separator) ;
-			String path2="studentReport\\"+tea_id+"\\"+pro_id+"\\";
+			String path2="studentReport/"+tea_id+"/"+pro_id+"/";
 			path=path+path2;
 			String adress=file.getOriginalFilename();
 			FileUtils.copyInputStreamToFile(file.getInputStream(), new File(path,adress));
@@ -218,7 +218,7 @@ public class StudentController implements ConfigDo {
 			score = (MyScore)resultDo.getResult();
 			String fileName=score.getAddress();
 			String path =request.getSession().getServletContext().getRealPath(File.separator) ;
-			String path2="studentReport\\"+score.getTea_id()+"\\"+score.getPro_id()+"\\";
+			String path2="studentReport/"+score.getTea_id()+"/"+score.getPro_id()+"/";
 			path=path+path2;
 			request.setCharacterEncoding("utf-8");
 			response.setContentType("text/html;charset=utf-8");
