@@ -116,22 +116,23 @@ public class TeacherServiceImpl implements TeacherService {
 	@Override
 	public boolean addTeaWithStu(Integer tea_id,Integer pro_id,Integer[] stuIdList,String teaName,String proName) {
 		// TODO Auto-generated method stub
+		boolean isSuccess=false;
 		if(tea_id!=null&&pro_id!=null&&stuIdList!=null&&teaName!=null&&proName!=null){
-			Score score=new Score();
+			List<Score> scList=new ArrayList<Score>();
+			
 			for(Integer stu_id:stuIdList){
-					score.setStu_id(stu_id);//此处报错，空指针异常！！！！！！！！！！！！！！
+				    Score score=new Score();
+					score.setStu_id(stu_id);
 					score.setTea_id(tea_id);
 					score.setPro_id(pro_id);
 					score.setTea_name(teaName);
 					score.setPro_name(proName);
-					if(FALSE == daoFit.getTeacherDao().addTeaWithStu(score)){
-						continue;
-					}
+					scList.add(score);
 			}
-			return true;
-		}else{
-			return false;
+			if(scList.size()!=0)
+				isSuccess= (FALSE != daoFit.getTeacherDao().addTeaWithStu(scList));
 		}
+		return isSuccess;
 	}
 	@Override
 	public ResultDo selectClaByProId(Integer pro_id) {

@@ -65,13 +65,14 @@
         <delete id="delTeaWithStu">
         DELETE FROM score WHERE id = #{0};
         </delete>
-        <insert id="addTeaWithStu">
+        <insert id="addTeaWithStu"  parameterType="java.util.List">
 		INSERT score (
 		stu_id,tea_id,pro_id,tea_name,pro_name
 		)
-		VALUES (
-		#{stu_id},#{tea_id},#{pro_id},#{tea_name},#{pro_name}
-		)
+		VALUES
+			<foreach collection="list" item="item" index="index" separator="," >  
+			(#{item.stu_id},#{item.tea_id},#{item.pro_id},#{item.tea_name},#{item.pro_name})  
+		</foreach> 
 	  </insert>
 	  <update id="importProStuScore" parameterType="java.util.List">
 	  <foreach collection="list" item="item" index="index" separator=";" open="" close=""> 

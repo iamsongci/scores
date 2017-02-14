@@ -28,7 +28,7 @@ public interface TeacherDao {
 	//查看班级学生信息
 	List<Identity> selectStuByClassId(Integer class_id,Integer pro_id);
 	//添加导师学生分配信息
-	Integer addTeaWithStu(Score score);
+	Integer addTeaWithStu(List<Score> scList);
 	//查看与该课题有关的班级
 	List<NumOfClasses> selectClaByProId (Integer pro_id);
 	//查看某班某课题的学生成绩

@@ -33,7 +33,7 @@
             <li class="active">选择学生</li>
         </ol>
         <div class="page-header">
-            <h3>学生信息列表</h3>
+            <h3>学生信息列表<h5><font color="red">请在全选或多选前，选择【显示50条】,最后在页面底部提交。</font></h5></h3>
         </div>
         <!-- end: PAGE TITLE & BREADCRUMB -->
     </div>
@@ -52,7 +52,7 @@
                     <thead>
                     <tr>
                     <th >
-                            <small>反选--><input type="checkbox" id="selectAll"/></small>
+                            <small>全选/反选--><input type="checkbox" id="selectAll"/></small>
                     </th>
                     <th >
                             <small>序号</small>
