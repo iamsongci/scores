@@ -48,10 +48,18 @@
 
                         <p>三、可在课题信息中查看当前课题的指导教师与成绩；</p>
 
-                        <p>四、请及时完成导师的任务，最终报告模板将会在报告模板中显示</p>
+                        <p>
+                        	四、请及时完成导师的任务，当导师验收过报告后，最终报告提交点击【课题信息】中
+                        	<button class="btn btn-warning">
+                        		点击提交
+                        	</button>
+                        	即可
+                        </p>
+                       <p>五、如果您在使用中遇到任何问题，请及时向宋鎏鑫、刘续东进行反馈，感我们将虚心接受您的意见与建议，谢您的使用，愿您能取得好的成绩。</p>
+                        <p>&nbsp&nbsptelephone:18538007606、15137149383 &nbspEmail:songliuxin@outlook.com、1171866049@qq.com   </p>
 
-                       
-                    </div>
+
+	                    </div>
 		<div class="col-md-12">
 			<div class="panel-body">
 
