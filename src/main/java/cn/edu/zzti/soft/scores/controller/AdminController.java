@@ -503,7 +503,7 @@ public class AdminController implements ConfigDo {
 		int i = 0;
 		try {
 			String noid = ExcelUtil.getStringCellValue(row.getCell(i));
-			if(noid.trim() == "") {
+			if(noid.trim().equals("")) {
 				return null;
 			}
 			if(noid.trim().length() != 12) {
@@ -521,6 +521,15 @@ public class AdminController implements ConfigDo {
 				throw new Exception("姓名不能为空!");
 			}
 			identity.setName(name);
+			i++;
+			String sex = ExcelUtil.getStringCellValue(row.getCell(i));
+			if(sex.trim().equals("")) {
+				return null;
+			}
+			if(!(sex.trim().equals("男") || sex.trim().equals("女"))) {
+				throw new Exception("性别: " + sex +" !  错误!");
+			}
+			identity.setSex(sex.trim().equals("男") ? false : true);
 			return identity;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -533,7 +542,7 @@ public class AdminController implements ConfigDo {
 		int i = 0;
 		try {
 			String noid = ExcelUtil.getStringCellValue(row.getCell(i));
-			if(noid.trim() == "") {
+			if(noid.trim().equals("")) {
 				return null;
 			}
 			if(noid.trim().length() != 4) {

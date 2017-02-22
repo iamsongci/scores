@@ -4,10 +4,10 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.edu.zzti.soft.scores.dao.AdminDao">
 	<insert id="addIdentity" parameterType="java.util.List">
-		INSERT identity(noid, identity.`name`, role, cla_id, cla_name) 
+		INSERT identity(noid, identity.`name`, role, cla_id, cla_name, sex) 
 		VALUES
 		<foreach collection="list" item="item" index="index" separator="," >  
-			(#{item.noid}, #{item.name}, #{item.role}, #{item.cla_id}, #{item.cla_name})  
+			(#{item.noid}, #{item.name}, #{item.role}, #{item.cla_id}, #{item.cla_name}, #{item.sex})  
 		</foreach> 
 	</insert>
 	
