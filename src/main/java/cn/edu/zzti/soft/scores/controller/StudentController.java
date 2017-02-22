@@ -102,11 +102,11 @@ public class StudentController implements ConfigDo {
 
 	// 修改个人信息
 	@RequestMapping("upMyInfo")
-	public String upMyInfo(@RequestParam("sex") boolean sex, @RequestParam("phone") String phone,
+	public String upMyInfo( @RequestParam("phone") String phone,
 			@RequestParam("email") String email, Model model, HttpSession session) {
 		Identity identity = (Identity) session.getAttribute("user");
 		if (phone != null) {
-			identity.setSex(sex);
+			identity.setSex(identity.getSex());
 			identity.setPhone(phone);
 			identity.setEmail(email);
 			if (serviceFit.getLoginService().UpdateInfoByKey(identity)) {
