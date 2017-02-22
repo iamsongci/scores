@@ -89,16 +89,13 @@
 					<div class="form-group">
 						<label class="col-sm-2 control-label" for="sex"> 性别 </label>
 						<div class="col-sm-5">
-							<select class="form-control search-select" id="sex"
-								name="sex">
-								<option value="false"
-									<c:if test="${user.sex eq false }">
-										 selected="selected"</c:if>>男</option>
-								<option value="true"
-									<c:if test="${user.sex eq true}">
-										 selected="selected"</c:if>>女</option>
-							</select>
+								<input type="text" value="<c:if test="${user.sex eq false }">男</c:if>
+						                          <c:if test="${user.sex eq true}"> 女</c:if>"
+						                          id="name" name="name" class="form-control"
+								readonly="readonly">
 						</div>
+						<span class="help-inline col-sm-2"> <i
+							class="fa fa-info-circle"></i> <font color="red">不可修改 </font></span>
 
 					</div>
 					<div class="form-group">
