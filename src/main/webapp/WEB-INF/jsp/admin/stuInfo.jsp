@@ -16,9 +16,9 @@
 			function checkStudent() {
 				var noid = $('#noid').val();
 				var name = $('#name').val();
+				var sex = $('#sex option:selected').val();
 				var claName = '${claName}';
 				var claID = '${claID}';
-
 				var students = '${students}';
 				var len = students.length;
 				students = students.substring(1, len - 1)
@@ -39,11 +39,15 @@
 					alert('请输入姓名!');
 					return false;
 				}
+				if(sex == '请选择') {
+					alert('请选择性别');
+					return false;
+				}
 
 				$.ajax({
 					type: "post",
 					url: "./${sessionScope.pathCode}/claInfo/stuInfo/addStudent.do",
-					data: "noid=" + noid + "&name=" + name + "&claName=" + claName + "&claID=" + claID + "&message=",
+					data: "noid=" + noid + "&name=" + name + "&claName=" + claName + "&claID=" + claID + "&sex=" + sex + "&message=",
 					dataType: 'html',
 					contentType: "application/x-www-form-urlencoded; charset=utf-8",
 					success: function(result) {
@@ -245,6 +249,17 @@
 								<label for="name" class="col-sm-2 control-label">姓名</label>
 								<div class="col-sm-10">
 									<input type="text" maxlength="10" class="form-control" id="name" name="name" placeholder="example: 张三">
+								</div>
+							</div>
+							
+							<div class="form-group">
+								<label for="type" class="col-sm-2 control-label">性别</label>
+								<div class="col-sm-10">
+									<select class="form-control" id="sex" name="sex">
+										<option value="请选择" >请选择</option>
+										<option value="true" >女</option>
+										<option value="false" >男</option>
+									</select>
 								</div>
 							</div>
 							

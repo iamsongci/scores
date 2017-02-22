@@ -246,7 +246,7 @@ public class AdminController implements ConfigDo {
 
 	@RequestMapping("claInfo/stuInfo/addStudent")
 	public String addStudent(@RequestParam("noid") String noid, @RequestParam("name") String name,
-			@RequestParam("claName") String claName, @RequestParam("claID") Integer claID, @RequestParam("message") String message, Model model,
+			@RequestParam("claName") String claName, @RequestParam("claID") Integer claID, @RequestParam("sex") Boolean sex, @RequestParam("message") String message, Model model,
 			HttpSession session) {
 		model.addAttribute("menuSelected1", ConfigDo.ADMININFO);
 		model.addAttribute("claID", claID);
@@ -259,6 +259,7 @@ public class AdminController implements ConfigDo {
 		identity.setCla_name(claName);
 		identity.setNoid(noid);
 		identity.setName(name);
+		identity.setSex(sex);
 		identity.setRole("stu");
 		identities.add(identity);
 		serviceFit.getAdminService().addIdentity(identities);
