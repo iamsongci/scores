@@ -191,8 +191,19 @@
 								<i class=" clip-stack-2"></i> <span class="title">机房信息维护</span> <span class="selected"></span>
 							</a>
 						</li>
+						
+						<li id="roomsnew">
+							<a href="./${sessionScope.pathCode}/roomsnew.do">
+								<i class=" clip-stack-2"></i> <span class="title">机房信息维护 new</span> <span class="selected"></span>
+							</a>
+						</li>
 						<li id="distribute">
 							<a href="./${sessionScope.pathCode}/distribute.do"> <i class=" clip-users-2"></i> <span class="title">导师机房分配</span> <span class="selected"></span>
+							</a>
+						</li>
+						
+						<li id="distributenew">
+							<a href="./${sessionScope.pathCode}/distributenew.do"> <i class=" clip-users-2"></i> <span class="title">导师机房分配 new</span> <span class="selected"></span>
 							</a>
 						</li>
 						<li id="myInfo">

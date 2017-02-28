@@ -8,6 +8,7 @@ import cn.edu.zzti.soft.scores.dao.AdminDao;
 import cn.edu.zzti.soft.scores.dao.LoginDao;
 import cn.edu.zzti.soft.scores.dao.NotifyDao;
 import cn.edu.zzti.soft.scores.dao.RoomDao;
+import cn.edu.zzti.soft.scores.dao.RoomNewDao;
 import cn.edu.zzti.soft.scores.dao.StudentDao;
 import cn.edu.zzti.soft.scores.dao.TeacherDao;
 
@@ -31,7 +32,12 @@ import cn.edu.zzti.soft.scores.dao.TeacherDao;
 	@Resource
 	private NotifyDao notifyDao;
 	
-	
+	@Resource
+	private RoomNewDao roomNewDao;
+
+	public RoomNewDao getRoomNewDao() {
+		return roomNewDao;
+	}
 
 	public NotifyDao getNotifyDao() {
 		return notifyDao;

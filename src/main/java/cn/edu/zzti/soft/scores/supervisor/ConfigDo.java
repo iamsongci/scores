@@ -46,9 +46,19 @@ public interface ConfigDo {
 	 */
 	public static final String ROOMROOMS="rooms";
 	/**
+	 * 机房管理员端-机房管理
+	 */
+	public static final String ROOMROOMSNEW="roomsnew";
+	
+	/**
 	 * 机房管理员端-分配管理
 	 */
 	public static final String ROOMDISTRIBUTE="distribute";
+	/**
+	 * 机房管理员端-分配管理
+	 */
+	public static final String ROOMDISTRIBUTENEW="distributenew";
+	
 	/**
 	 * 机房管理员端-个人信息管理
 	 */

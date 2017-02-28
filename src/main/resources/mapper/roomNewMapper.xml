@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.zzti.soft.scores.dao.RoomNewDao">
+
+	<insert id="insertRoom" parameterType="java.util.List">
+		INSERT room_new VALUES
+		<foreach collection="list" item="item" index="index" separator="," >  
+			(#{item.room_id }, #{item.num_type }, #{item.start_num }, #{item.end_num }, #{item.other_use })
+		</foreach> 
+	</insert>
+	
+	<delete id="deleteRoom" parameterType="java.util.List">
+		DELETE FROM room_new WHERE
+		<foreach collection="list" item="item" index="index" separator="or">
+			room_id = #{item }
+		</foreach>
+	</delete>
+	
+	
+	<insert id="insertTeaRoom" parameterType="java.util.List">
+		INSERT tea_room_new VALUES
+		<foreach collection="list" item="item" index="index" separator="," >  
+			(null, #{item.room_id }, #{item.identity_id }, #{item.identity_name }, #{item.seats })
+		</foreach> 
+	</insert>
+	
+	<delete id="deleteTeaRoom" parameterType="java.util.List">
+		DELETE FROM tea_room_new WHERE 
+		<foreach collection="list" item="item" index="index" separator="or">
+			id = #{item }
+		</foreach>
+	</delete>
+	
+<!-- 	
+	<insert id="addTeaRoom" parameterType="java.util.List">
+		INSERT tea_room(room_id, identity_id, identity_name, tea_room.`start`, tea_room.`end`) 
+		VALUES
+		<foreach collection="list" item="item" index="index" separator="," >  
+			(#{item.room_id}, #{item.identity_id}, #{item.identity_name}, #{item.start}, #{item.end})  
+		</foreach> 
+	</insert>
+	 -->
+	
+</mapper>
