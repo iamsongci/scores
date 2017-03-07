@@ -1,6 +1,5 @@
 package cn.edu.zzti.soft.scores.controller;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -121,6 +120,21 @@ public class TeacherController implements ConfigDo {
 		}
 		model.addAttribute("menuSelected1", ConfigDo.MYMRINFO);
 		return "./teacher/myMrInfo";
+		
+	}
+	
+	
+	@RequestMapping("myMrInfoNew")
+	public String myMrInfoNew(Model model, HttpSession session){
+		Identity identity = (Identity) session.getAttribute("user");
+		ResultDo resultDo = serviceFit.getTeacherService().listTeaRoom(identity.getId());
+		if (resultDo.isSuccess()) {
+			model.addAttribute("list", resultDo.getResult());
+		} else {
+			model.addAttribute("message", resultDo.getMessage());
+		}
+		model.addAttribute("menuSelected1", ConfigDo.MYMRINFONEW);
+		return "./teacher/myMrInfoNew";
 		
 	}
 

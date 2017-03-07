@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
 import cn.edu.zzti.soft.scores.entity.Score;
+import cn.edu.zzti.soft.scores.entity.TeaRoomNew;
 import cn.edu.zzti.soft.scores.entity.tools.IdentityWithScores;
 import cn.edu.zzti.soft.scores.supervisor.ResultDo;
 
@@ -44,4 +45,6 @@ public interface TeacherService {
 	HSSFWorkbook exportProStuScore(List<IdentityWithScores> list,Integer num);
 	 //学生成绩导入
 	boolean importProStuScore (List<Score> list);
+	
+	ResultDo<List<TeaRoomNew>> listTeaRoom(int tea_id);
 }

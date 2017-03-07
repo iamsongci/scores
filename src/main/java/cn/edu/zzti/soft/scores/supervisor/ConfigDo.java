@@ -4,7 +4,7 @@ public interface ConfigDo {
     public final String AppsName = "实践课题管理系统";
 
     public final String AdminUser = "zzti00";
-    public final String AdminPwd = "zzti00";
+    public final String AdminPwd = "zztiedu";
     public final String AdminName = "管理员";
     public final String AdminRole = "admin";
     
@@ -87,6 +87,12 @@ public interface ConfigDo {
 	 */
 	
 	public static final String  MYMRINFO="myMrInfo";
+	/**
+	 * 教师端端-机房信息
+	 */
+	
+	public static final String  MYMRINFONEW="myMrInfoNew";
+	
 	/**
 	 * 教师端端-我的学生
 	 */

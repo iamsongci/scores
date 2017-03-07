@@ -2,6 +2,7 @@ package cn.edu.zzti.soft.scores.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
@@ -9,6 +10,7 @@ import cn.edu.zzti.soft.scores.entity.Identity;
 import cn.edu.zzti.soft.scores.entity.Project;
 import cn.edu.zzti.soft.scores.entity.Score;
 import cn.edu.zzti.soft.scores.entity.TeaRoom;
+import cn.edu.zzti.soft.scores.entity.TeaRoomNew;
 import cn.edu.zzti.soft.scores.entity.tools.IdentityWithScores;
 import cn.edu.zzti.soft.scores.entity.tools.NumOfClasses;
 import cn.edu.zzti.soft.scores.entity.tools.NumOfStuWithTea;
@@ -48,4 +50,7 @@ public interface TeacherDao {
 	List<TeaRoom> myMrInfo (int tea_id);
     //学生成绩导入
 	Integer importProStuScore (List<Score> list);
+	
+	@Select("SELECT * FROM tea_room_new WHERE identity_id = #{0}")
+	List<TeaRoomNew> listTeaRoom(int tea_id);
 }

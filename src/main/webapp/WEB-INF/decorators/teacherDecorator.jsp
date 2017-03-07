@@ -169,6 +169,9 @@
 						<li id="myMrInfo">
 							<a href="./${sessionScope.pathCode}/myMrInfo.do"><i class=" clip-pencil"></i> <span class="title">机房信息</span><span class="selected"></span></a>
 						</li>
+						<li id="myMrInfoNew">
+							<a href="./${sessionScope.pathCode}/myMrInfoNew.do"><i class=" clip-pencil"></i> <span class="title">机房信息 new</span><span class="selected"></span></a>
+						</li>
 
 						<li id="myStudent">
 							<a href="javascript:void(0)"><i class="clip-picassa 	 "></i> <span class="title">我的学生</span><i class="icon-arrow"></i> <span class="selected"></span> </a>

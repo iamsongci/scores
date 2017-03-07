@@ -16,6 +16,7 @@ import cn.edu.zzti.soft.scores.entity.Identity;
 import cn.edu.zzti.soft.scores.entity.Project;
 import cn.edu.zzti.soft.scores.entity.Score;
 import cn.edu.zzti.soft.scores.entity.TeaRoom;
+import cn.edu.zzti.soft.scores.entity.TeaRoomNew;
 import cn.edu.zzti.soft.scores.entity.tools.IdentityWithScores;
 import cn.edu.zzti.soft.scores.entity.tools.NumOfClasses;
 import cn.edu.zzti.soft.scores.entity.tools.NumOfStuWithTea;
@@ -276,6 +277,20 @@ public class TeacherServiceImpl implements TeacherService {
 	public boolean importProStuScore(List<Score> list) {
 		// TODO Auto-generated method stub
 		return FALSE != daoFit.getTeacherDao().importProStuScore(list);
+	}
+	@Override
+	public ResultDo<List<TeaRoomNew>> listTeaRoom(int tea_id) {
+		// TODO Auto-generated method stub
+		ResultDo<List<TeaRoomNew>> resultDo=new ResultDo<List<TeaRoomNew>>();
+		List<TeaRoomNew> list = daoFit.getTeacherDao().listTeaRoom(tea_id);
+		if(list != null) {
+			resultDo.setResult(list);
+			resultDo.setSuccess(true);
+		}
+		else {
+			resultDo.setMessage("查询失败");
+		}
+		return resultDo;
 	}
 	
 }
