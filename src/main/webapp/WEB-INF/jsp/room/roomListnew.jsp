@@ -60,7 +60,7 @@
 												<small>其他用途: ${room.other_use}</small>
 											</c:when>
 											<c:otherwise>
-												<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#dis" onclick="enter('${room.room_id}')">查看</button
+												<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#dis" onclick="enter('${room.room_id}')">查看</button>
 											</c:otherwise>
 										</c:choose>
 									</td>
